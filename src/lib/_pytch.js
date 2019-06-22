@@ -20,6 +20,9 @@ var $builtinmodule = function (name) {
     // all green-flag handlers have completed.
     mod.run_finished_resolve_fun = null;
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
         mod.frame_idx += 1;
@@ -37,6 +40,9 @@ var $builtinmodule = function (name) {
         else
             window.requestAnimationFrame(process_frame);
     };
+
+
+    ////////////////////////////////////////////////////////////////////////////////
 
     mod.run = function() {
         mod.green_flag_elt.onclick = function(e) { mod.green_flag_state = "just-clicked"; }
