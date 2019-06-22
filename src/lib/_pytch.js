@@ -33,6 +33,12 @@ var $builtinmodule = function (name) {
                                   { mod.green_flag_handlers.push(handler_py_fun); };
 
     mod.message_handlers = {};
+    mod.when_I_receive = function(py_message, handler_py_fun) {
+        var message = Sk.ffi.remapToJs(py_message);
+        if ( ! mod.message_handlers.hasOwnProperty(message))
+            mod.message_handlers[message] = [];
+        mod.message_handlers[message].push(handler_py_fun);
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////
