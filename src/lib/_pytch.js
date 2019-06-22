@@ -73,5 +73,15 @@ var $builtinmodule = function (name) {
         return Sk.misceval.promiseToSuspension(run_finished_promise);
     };
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    mod._yield_until_next_frame = function() {
+        var susp = new Sk.misceval.Suspension();
+        susp.resume = function() { return Sk.builtin.int_(mod.frame_idx); };
+        susp.data = { type: "Pytch", subtype: "next-frame" };
+        return susp;
+    }
+
     return mod;
 };
