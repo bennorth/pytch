@@ -48,15 +48,13 @@ var $builtinmodule = function (name) {
     // Each time an 'event' happens (green flag click, message broadcast,
     // keypress, maybe others?), a 'response' occurs.  This response is captured
     // in an EventResponse object.  Such an object has a list of the threads
-    // which are running in response to the event, and a continuation which is
-    // to be invoked once all those threads have run to completion.  The threads
-    // are captured via the suspension each one returns each time it gets a
-    // chance to run.  If an actual object is returned, it is discarded, and
-    // that thread is treated as finished.
-    //
-    // TODO: Is 'continuation' the right name for this concept?
+    // which are running in response to the event, and a 'completion function'
+    // which is to be invoked once all those threads have run to completion.
+    // The threads are captured via the suspension each one returns each time it
+    // gets a chance to run.  If an actual object is returned, it is discarded,
+    // and that thread is treated as finished.
 
-    function EventResponse(handler_py_funs, continuation) {
+    function EventResponse(handler_py_funs, completion_fun) {
         // Mild fudge so that we don't have to repeat the logic of switching on
         // the different type of suspensions which we might get back from the
         // Sk.misceval.callsimOrSuspend() call.
@@ -66,7 +64,7 @@ var $builtinmodule = function (name) {
                     function() { return Sk.misceval.callsimOrSuspend(pyfun); }}
         });
 
-        this.continuation = continuation;
+        this.completion_fun = completion_fun;
     }
 
     EventResponse.prototype.run_one_frame = function() {
@@ -132,10 +130,11 @@ var $builtinmodule = function (name) {
     };
 
     mod.message_response = function(message) {
-        // We can't set the continuation until we've gone into the
+        // We can't set the completion-function until we've gone into the
         // Skulpt-generated code and back out again, because we need the parent
         // suspension.  Use 'null' as a placeholder; it will be overwritten with
-        // the correct continuation when the parent suspension is processed.
+        // the correct completion-function when the parent suspension is
+        // processed.
         //
         // TODO: Check message is a known message; some kind of warning if not.
         return new EventResponse(mod.message_handlers[message], null);
