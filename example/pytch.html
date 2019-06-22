@@ -13,6 +13,16 @@ import pytch
 def say_hello():
     print "in say_hello(): hello, world"
 
+@pytch.when_green_flag_clicked
+def keep_saying_hi():
+    i = 0
+    while True:
+        i += 1
+        if (i % 10) == 0:
+            print "hi %d" % (i / 10)
+        yr = pytch._yield_until_next_frame()
+        print "back from yield-until-next-frame; it gave %s" % yr
+
 print "run returned: %s" % (pytch.run())
 </textarea>
 <div id="green-flag" style="height: 32px; width: 48px; background-color: green; margin: 16px;"></div>
