@@ -26,6 +26,8 @@ class when_I_receive:
         return fun
 
 
+broadcast_and_wait = _pytch._broadcast_and_wait
+
 
 def run():
     for evt, fun in handlers:
