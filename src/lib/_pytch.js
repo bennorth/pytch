@@ -131,6 +131,17 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    mod.launch_green_flag_response = function() {
+        mod.live_event_responses.push(
+            new EventResponse(mod.green_flag_handlers,
+                              // TODO: What to do when all handlers finished?
+                              function(){}
+                             ));
+    };
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
         mod.frame_idx += 1;
