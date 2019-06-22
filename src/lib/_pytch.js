@@ -93,13 +93,11 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
-    // Suspended handlers
+    // Live event responses
     //
-    // Event handlers can be suspended for the following reasons:
-    //
-    //  - They have called _yield_until_next_frame()
-    //
-    // TODO: Other reasons (broadcast-and-wait).
+    // This is effectively the 'run queue', organised in such a way that we can
+    // unblock threads which are waiting on other groups of threads.  E.g., when
+    // broadcast-and-wait is called.
 
     mod.live_event_responses = [];
 
