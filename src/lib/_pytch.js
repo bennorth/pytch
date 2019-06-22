@@ -148,9 +148,12 @@ var $builtinmodule = function (name) {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
         mod.frame_idx += 1;
 
-        mod.live_event_responses.forEach(er => er.run_one_frame());
+        var new_event_responses = []
+        mod.live_event_responses.forEach(er => {
+            er.run_one_frame().forEach(response => new_event_responses.push(response));
+        });
+
         // TODO: Reap completed event responses.
-        // TODO: Handle return values, for new event responses.
 
         if (mod.green_flag_state == "just-clicked") {
             mod.launch_green_flag_response();
