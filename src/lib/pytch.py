@@ -8,6 +8,7 @@ import _pytch
 # what type of event this handler is for:
 #
 #   G --- green flag clicked
+#   M --- broadcast message
 handlers = []
 
 
