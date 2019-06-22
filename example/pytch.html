@@ -13,6 +13,17 @@ import pytch
 def say_hello():
     print "in say_hello(): hello, world"
 
+@pytch.when_I_receive("greet")
+def greet():
+    for i in range(1, 6):
+        print "in message-handler for 'greet': greeting number %d!" % i
+        yr = pytch._yield_until_next_frame()
+        print "greet(): back from yield-until-next-frame; it gave %s" % yr
+
+@pytch.when_I_receive("greet")
+def greet_just_once():
+    print "greet_just_once(): a single greeting"
+
 @pytch.when_green_flag_clicked
 def keep_saying_hi():
     i = 0
