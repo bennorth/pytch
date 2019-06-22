@@ -73,11 +73,11 @@ var $builtinmodule = function (name) {
 
         if (mod.green_flag_state == "just-clicked") {
             // Launch all green-flag handlers.
-            mod.green_flag_handlers
+            var suspensions = mod.green_flag_handlers
                 .map(h => Sk.misceval.callsimOrSuspend(h))
-                // TODO: Check which ones suspend on next-frame or
-                // broadcast-and-wait and collect the suspensions.
-                ;
+                .filter(retval => retval.$isSuspension);
+
+            mod.accumulate_suspensions(suspensions);
 
             mod.green_flag_state = "has-been-clicked";
         }
