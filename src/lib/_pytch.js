@@ -35,6 +35,22 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Event responses
+    //
+    // Each time an 'event' happens (green flag click, message broadcast,
+    // keypress, maybe others?), a 'response' occurs.  This response is captured
+    // in an EventResponse object.  Such an object has a list of the threads
+    // which are running in response to the event, and a continuation which is
+    // to be invoked once all those threads have run to completion.  The threads
+    // are captured via the suspension each one returns each time it gets a
+    // chance to run.  If an actual object is returned, it is discarded, and
+    // that thread is treated as finished.
+    //
+    // TODO: Is 'continuation' the right name for this concept?
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Suspended handlers
     //
     // Event handlers can be suspended for the following reasons:
