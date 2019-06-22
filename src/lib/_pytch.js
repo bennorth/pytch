@@ -16,6 +16,10 @@ var $builtinmodule = function (name) {
     mod.frame_idx = 0;
     mod.frame_idx_elt = document.getElementById("frame-idx");
 
+    // The 'resolve' callback which will give control back to Python once
+    // all green-flag handlers have completed.
+    mod.run_finished_resolve_fun = null;
+
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
         mod.frame_idx += 1;
@@ -28,7 +32,7 @@ var $builtinmodule = function (name) {
         var all_done = (mod.frame_idx == 60);  // TODO: Proper decision about when all done.
         if (all_done)
         {
-            // TODO: What to do when everything finished?
+            mod.run_finished_resolve_fun(Sk.builtin.str("all done"));
         }
         else
             window.requestAnimationFrame(process_frame);
@@ -37,7 +41,12 @@ var $builtinmodule = function (name) {
     mod.run = function() {
         mod.green_flag_elt.onclick = function(e) { mod.green_flag_state = "just-clicked"; }
         window.requestAnimationFrame(process_frame);
-        return Sk.builtin.str("all done");
+
+        var run_finished_promise
+            = new Promise(function(resolve, reject)
+                          { mod.run_finished_resolve_fun = resolve; });
+
+        return Sk.misceval.promiseToSuspension(run_finished_promise);
     };
 
     return mod;
