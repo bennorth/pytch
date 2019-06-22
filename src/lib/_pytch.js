@@ -56,6 +56,35 @@ var $builtinmodule = function (name) {
         this.continuation = continuation;
     }
 
+    EventResponse.prototype.run_one_frame = function() {
+        var new_suspensions = [];
+        this.handler_suspensions.forEach(susp => {
+            var susp_or_retval = susp.resume();
+            if (susp_or_retval.$isSuspension) {
+                var susp = susp_or_retval;
+                switch (susp.data.type) {
+                case "Pytch":
+                    switch (susp.data.subtype) {
+                    case "next-frame":
+                        new_suspensions.push(susp);
+                        break;
+                    default:
+                        throw "unknown Pytch suspension subtype " + susp.data.subtype;
+                    }
+                    break;
+                default:
+                    throw "cannot handle non-Pytch suspension " + susp.data.type;
+                }
+            }
+        });
+
+        this.handler_suspensions = new_suspensions;
+        // TODO: Is it my job or the scheduler's job to call the continuation if
+        // the response is all done?
+
+        // TODO: Return new event responses from broadcasts.
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
