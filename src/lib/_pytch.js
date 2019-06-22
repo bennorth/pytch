@@ -20,6 +20,11 @@ var $builtinmodule = function (name) {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
         mod.frame_idx += 1;
 
+        if (mod.green_flag_state == "just-clicked") {
+            // TODO: Launch when-green-flag-clicked handlers.
+            mod.green_flag_state = "has-been-clicked";
+        }
+
         var all_done = false;  // TODO: Proper decision about when all done.
         if (all_done)
         {
@@ -30,6 +35,7 @@ var $builtinmodule = function (name) {
     };
 
     mod.run = function() {
+        mod.green_flag_elt.onclick = function(e) { mod.green_flag_state = "just-clicked"; }
         window.requestAnimationFrame(process_frame);
         return Sk.builtin.str("all done");
     };
