@@ -22,6 +22,16 @@ var $builtinmodule = function (name) {
 
 
     ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Event handlers.
+
+    // 'When green flag clicked' handlers
+    mod.green_flag_handlers = [];
+    mod.when_green_flag_clicked = function(handler_py_fun)
+                                  { mod.green_flag_handlers.push(handler_py_fun); };
+
+
+    ////////////////////////////////////////////////////////////////////////////////
 
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
