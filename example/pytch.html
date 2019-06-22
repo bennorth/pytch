@@ -16,7 +16,7 @@ def say_hello():
 @pytch.when_green_flag_clicked
 def keep_saying_hi():
     i = 0
-    while True:
+    while i < 60:
         i += 1
         if (i % 10) == 0:
             print "hi %d" % (i / 10)
