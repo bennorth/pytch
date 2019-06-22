@@ -34,6 +34,20 @@ var $builtinmodule = function (name) {
 
 
     ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Suspended handlers
+    //
+    // Event handlers can be suspended for the following reasons:
+    //
+    //  - They have called _yield_until_next_frame()
+    //
+    // TODO: Other reasons (broadcast-and-wait).
+
+    // Handlers suspended waiting for the next frame
+    mod.next_frame_suspensions = [];
+
+
+    ////////////////////////////////////////////////////////////////////////////////
 
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
