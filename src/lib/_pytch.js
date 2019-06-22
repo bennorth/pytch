@@ -46,6 +46,24 @@ var $builtinmodule = function (name) {
     // Handlers suspended waiting for the next frame
     mod.next_frame_suspensions = [];
 
+    mod.accumulate_suspensions = function(susps) {
+        susps.forEach(s => {
+            switch (s.data.type) {
+            case "Pytch":
+                switch (s.data.subtype) {
+                case "next-frame":
+                    mod.next_frame_suspensions.push(s);
+                    break;
+                default:
+                    throw "unknown Pytch suspension subtype";
+                }
+                break;
+            default:
+                throw "cannot handle non-Pytch suspension " + s.data.type;
+            }
+        });
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
 
