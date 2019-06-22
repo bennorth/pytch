@@ -171,6 +171,10 @@ var $builtinmodule = function (name) {
         var completed_responses = mod.live_event_responses.filter(er => er.is_finished());
         completed_responses.forEach(er => er.completion_fun());
 
+        mod.live_event_responses = (mod.live_event_responses
+                                    .filter(er => ( ! er.is_finished()))
+                                    .concat(new_event_responses));
+
         if (mod.green_flag_state == "just-clicked") {
             mod.launch_green_flag_response();
             mod.green_flag_state = "has-been-clicked";
