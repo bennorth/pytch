@@ -32,6 +32,8 @@ var $builtinmodule = function (name) {
     mod.when_green_flag_clicked = function(handler_py_fun)
                                   { mod.green_flag_handlers.push(handler_py_fun); };
 
+    mod.message_handlers = {};
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
