@@ -30,6 +30,12 @@ broadcast_and_wait = _pytch._broadcast_and_wait
 
 
 def run():
+    # TODO: Inspect Sprite-derived classes, create one instance of
+    # each, pass in a list to JS layer.
+
+    # TODO: Extract collection of costumes and (asynchronously?) load
+    # them.
+
     for evt, fun in handlers:
         if evt == 'G':
             _pytch.when_green_flag_clicked(fun)
