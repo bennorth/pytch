@@ -125,8 +125,7 @@ var $builtinmodule = function (name) {
     };
 
     mod.is_everything_finished = function() {
-        return mod.next_frame_suspensions.length == 0;
-        // TODO: Check whether there are other types of suspensions still going.
+        return mod.live_event_responses.length == 0;
     }
 
 
