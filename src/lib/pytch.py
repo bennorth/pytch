@@ -16,6 +16,16 @@ def when_green_flag_clicked(fun):
     return fun
 
 
+class when_I_receive:
+    def __init__(self, message):
+        self.message = message
+
+    def __call__(self, fun):
+        handlers.append(('M%s' % self.message, fun))
+        return fun
+
+
+
 def run():
     for evt, fun in handlers:
         if evt == 'G':
