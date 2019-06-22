@@ -8,6 +8,11 @@
   <body>
 <textarea id="code" rows="24" cols="80">
 import pytch
+
+@pytch.when_green_flag_clicked
+def say_hello():
+    print "in say_hello(): hello, world"
+
 print pytch.hello_world
 print "run returned: %s" % (pytch.run())
 </textarea>
