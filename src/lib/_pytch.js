@@ -93,7 +93,8 @@ var $builtinmodule = function (name) {
             mod.green_flag_state = "has-been-clicked";
         }
 
-        var all_done = (mod.frame_idx == 60);  // TODO: Proper decision about when all done.
+        var all_done = (mod.green_flag_state == "has-been-clicked"
+                        && mod.is_everything_finished());
         if (all_done)
         {
             mod.run_finished_resolve_fun(Sk.builtin.str("all done"));
