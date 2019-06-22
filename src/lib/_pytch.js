@@ -3,8 +3,6 @@ var $builtinmodule = function (name) {
 
     var mod = {};
 
-    mod.hello_world = Sk.builtin.str("hello, world");
-
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Green flag

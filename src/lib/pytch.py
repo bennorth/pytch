@@ -1,7 +1,5 @@
 import _pytch
 
-from _pytch import hello_world
-
 
 # List of event-handlers, each represented as a 2-tuple
 # (event-descriptor, handler-function).
