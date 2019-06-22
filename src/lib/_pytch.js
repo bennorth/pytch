@@ -71,6 +71,12 @@ var $builtinmodule = function (name) {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
         mod.frame_idx += 1;
 
+        var next_frame_suspensions = (mod.next_frame_suspensions
+                                      .map(s => s.resume())
+                                      .filter(r => r.$isSuspension));
+        mod.next_frame_suspensions = [];
+        mod.accumulate_suspensions(next_frame_suspensions);
+
         if (mod.green_flag_state == "just-clicked") {
             // Launch all green-flag handlers.
             var suspensions = mod.green_flag_handlers
