@@ -25,7 +25,7 @@ var $builtinmodule = function (name) {
             mod.green_flag_state = "has-been-clicked";
         }
 
-        var all_done = false;  // TODO: Proper decision about when all done.
+        var all_done = (mod.frame_idx == 60);  // TODO: Proper decision about when all done.
         if (all_done)
         {
             // TODO: What to do when everything finished?
