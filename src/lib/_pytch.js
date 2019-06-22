@@ -131,6 +131,16 @@ var $builtinmodule = function (name) {
                              ));
     };
 
+    mod.message_response = function(message) {
+        // We can't set the continuation until we've gone into the
+        // Skulpt-generated code and back out again, because we need the parent
+        // suspension.  Use 'null' as a placeholder; it will be overwritten with
+        // the correct continuation when the parent suspension is processed.
+        //
+        // TODO: Check message is a known message; some kind of warning if not.
+        return new EventResponse(mod.message_handlers[message], null);
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
 
