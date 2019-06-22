@@ -101,28 +101,7 @@ var $builtinmodule = function (name) {
     //
     // TODO: Other reasons (broadcast-and-wait).
 
-    // Handlers suspended waiting for the next frame
-    mod.next_frame_suspensions = [];
-
     mod.live_event_responses = [];
-
-    mod.accumulate_suspensions = function(susps) {
-        susps.forEach(s => {
-            switch (s.data.type) {
-            case "Pytch":
-                switch (s.data.subtype) {
-                case "next-frame":
-                    mod.next_frame_suspensions.push(s);
-                    break;
-                default:
-                    throw "unknown Pytch suspension subtype";
-                }
-                break;
-            default:
-                throw "cannot handle non-Pytch suspension " + s.data.type;
-            }
-        });
-    };
 
     mod.is_everything_finished = function() {
         return mod.live_event_responses.length == 0;
