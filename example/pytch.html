@@ -12,6 +12,8 @@ import pytch
 @pytch.when_green_flag_clicked
 def say_hello():
     print "in say_hello(): hello, world"
+    br = pytch.broadcast_and_wait("greet")
+    print "say_hello(): back from broadcast-and-wait; it gave %s" % br
 
 @pytch.when_I_receive("greet")
 def greet():
