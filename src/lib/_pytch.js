@@ -62,6 +62,7 @@ var $builtinmodule = function (name) {
     }
 
     EventResponse.prototype.run_one_frame = function() {
+        var new_event_responses = [];
         var new_suspensions = [];
         this.handler_suspensions.forEach(susp => {
             var susp_or_retval = susp.resume();
@@ -72,6 +73,12 @@ var $builtinmodule = function (name) {
                     switch (susp.data.subtype) {
                     case "next-frame":
                         new_suspensions.push(susp);
+                        break;
+                    case "broadcast":
+                        // TODO
+                        break;
+                    case "broadcast-and-wait":
+                        // TODO
                         break;
                     default:
                         throw "unknown Pytch suspension subtype " + susp.data.subtype;
