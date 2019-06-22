@@ -1,6 +1,6 @@
 import _pytch
 
-from _pytch import hello_world, run
+from _pytch import hello_world
 
 
 # List of event-handlers, each represented as a 2-tuple
@@ -16,3 +16,12 @@ handlers = []
 def when_green_flag_clicked(fun):
     handlers.append(('G', fun))
     return fun
+
+
+def run():
+    for evt, fun in handlers:
+        if evt == 'G':
+            _pytch.when_green_flag_clicked(fun)
+        else:
+            raise RuntimeError('unknown event type')
+    return _pytch.run()
