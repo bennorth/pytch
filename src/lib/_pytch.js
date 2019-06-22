@@ -48,6 +48,14 @@ var $builtinmodule = function (name) {
     //
     // TODO: Is 'continuation' the right name for this concept?
 
+    function EventResponse(handler_py_funs, continuation) {
+        // TODO: Run each Python handler function; each one will either complete
+        // or return a Suspension.  Gather those suspensions into
+        // this.handler_suspensions.
+
+        this.continuation = continuation;
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
