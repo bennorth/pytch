@@ -70,6 +70,9 @@ var $builtinmodule = function (name) {
         this.n_waiting_threads = 0;
     }
 
+    EventResponse.prototype.is_finished = function()
+    { return this.handler_suspensions.length == 0 && this.n_waiting_threads == 0; }
+
     EventResponse.prototype.run_one_frame = function() {
         var new_event_responses = [];
         var new_suspensions = [];
