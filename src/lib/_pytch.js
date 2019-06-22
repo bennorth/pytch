@@ -67,6 +67,7 @@ var $builtinmodule = function (name) {
         });
 
         this.completion_fun = completion_fun;
+        this.n_waiting_threads = 0;
     }
 
     EventResponse.prototype.run_one_frame = function() {
