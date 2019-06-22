@@ -31,6 +31,8 @@ def run():
     for evt, fun in handlers:
         if evt == 'G':
             _pytch.when_green_flag_clicked(fun)
+        elif evt[0] == 'M':
+            _pytch.when_I_receive(evt[1:], fun)
         else:
             raise RuntimeError('unknown event type')
     return _pytch.run()
