@@ -5,5 +5,6 @@ var $builtinmodule = function (name) {
 
     mod.hello_world = Sk.builtin.str("hello, world");
 
+    mod.frame_idx = 0;
     return mod;
 };
