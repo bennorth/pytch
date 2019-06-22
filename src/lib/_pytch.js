@@ -104,6 +104,8 @@ var $builtinmodule = function (name) {
     // Handlers suspended waiting for the next frame
     mod.next_frame_suspensions = [];
 
+    mod.live_event_responses = [];
+
     mod.accumulate_suspensions = function(susps) {
         susps.forEach(s => {
             switch (s.data.type) {
