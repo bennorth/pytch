@@ -87,7 +87,16 @@ var $builtinmodule = function (name) {
                         // TODO
                         break;
                     case "broadcast-and-wait":
-                        // TODO
+                        var event_response = susp.data.response;
+
+                        var self = this;
+                        event_response.completion_fun = function() {
+                            self.handler_suspensions.push(susp);
+                            self.n_waiting_threads -= 1;
+                        };
+
+                        this.n_waiting_threads += 1;
+                        new_event_responses.push(event_response);
                         break;
                     default:
                         throw "unknown Pytch suspension subtype " + susp.data.subtype;
