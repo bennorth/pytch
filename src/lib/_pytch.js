@@ -11,6 +11,14 @@ var $builtinmodule = function (name) {
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
         mod.frame_idx += 1;
+
+        var all_done = false;  // TODO: Proper decision about when all done.
+        if (all_done)
+        {
+            // TODO: What to do when everything finished?
+        }
+        else
+            window.requestAnimationFrame(process_frame);
     };
 
     mod.run = function() {
