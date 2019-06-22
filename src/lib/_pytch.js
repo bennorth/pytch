@@ -112,8 +112,6 @@ var $builtinmodule = function (name) {
         });
 
         this.handler_suspensions = new_suspensions;
-        // TODO: Is it my job or the scheduler's job to call the continuation if
-        // the response is all done?
 
         return new_event_responses;
     }
