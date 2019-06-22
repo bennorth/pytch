@@ -23,3 +23,12 @@ def run():
         else:
             raise RuntimeError('unknown event type')
     return _pytch.run()
+
+
+################################################################################
+#
+# Wait until next frame
+
+# TODO: Inject these calls automatically
+
+_yield_until_next_frame = _pytch._yield_until_next_frame
