@@ -170,7 +170,8 @@ var $builtinmodule = function (name) {
             er.run_one_frame().forEach(response => new_event_responses.push(response));
         });
 
-        // TODO: Reap completed event responses.
+        var completed_responses = mod.live_event_responses.filter(er => er.is_finished());
+        completed_responses.forEach(er => er.completion_fun());
 
         if (mod.green_flag_state == "just-clicked") {
             mod.launch_green_flag_response();
