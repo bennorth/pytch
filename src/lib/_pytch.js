@@ -5,6 +5,10 @@ var $builtinmodule = function (name) {
 
     mod.hello_world = Sk.builtin.str("hello, world");
 
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Green flag
+
     // The green flag will go through three states.  It starts off in
     // 'not-clicked-yet'.  When processing the first frame after it has been
     // clicked it's in 'just-clicked', and for all subsequent frames it is in
@@ -23,7 +27,7 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
-    // Event handlers.
+    // Event handlers
 
     // 'When green flag clicked' handlers
     mod.green_flag_handlers = [];
