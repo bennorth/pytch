@@ -146,11 +146,9 @@ var $builtinmodule = function (name) {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
         mod.frame_idx += 1;
 
-        var next_frame_suspensions = (mod.next_frame_suspensions
-                                      .map(s => s.resume())
-                                      .filter(r => r.$isSuspension));
-        mod.next_frame_suspensions = [];
-        mod.accumulate_suspensions(next_frame_suspensions);
+        mod.live_event_responses.forEach(er => er.run_one_frame());
+        // TODO: Reap completed event responses.
+        // TODO: Handle return values, for new event responses.
 
         if (mod.green_flag_state == "just-clicked") {
             mod.launch_green_flag_response();
