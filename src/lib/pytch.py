@@ -11,3 +11,8 @@ from _pytch import hello_world, run
 #
 #   G --- green flag clicked
 handlers = []
+
+
+def when_green_flag_clicked(fun):
+    handlers.append(('G', fun))
+    return fun
