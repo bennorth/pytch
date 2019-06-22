@@ -22,6 +22,8 @@ var $builtinmodule = function (name) {
     // all green-flag handlers have completed.
     mod.run_finished_resolve_fun = null;
 
+    mod.stdout_elt = document.getElementById("skulpt-stdout");
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -145,6 +147,9 @@ var $builtinmodule = function (name) {
 
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
+        if (mod.green_flag_state != "not-clicked-yet")
+            mod.stdout_elt.innerHTML = (mod.stdout_elt.innerHTML
+                                        + "\n-------- " + mod.frame_idx + " --------------\n");
         mod.frame_idx += 1;
 
         var new_event_responses = []
