@@ -102,7 +102,7 @@ var $builtinmodule = function (name) {
         // TODO: Is it my job or the scheduler's job to call the continuation if
         // the response is all done?
 
-        // TODO: Return new event responses from broadcasts.
+        return new_event_responses;
     }
 
 
