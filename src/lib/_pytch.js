@@ -13,5 +13,10 @@ var $builtinmodule = function (name) {
         mod.frame_idx += 1;
     };
 
+    mod.run = function() {
+        window.requestAnimationFrame(process_frame);
+        return Sk.builtin.str("all done");
+    };
+
     return mod;
 };
