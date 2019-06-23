@@ -226,7 +226,10 @@ var $builtinmodule = function (name) {
                         new_suspensions.push(susp);
                         break;
                     case "broadcast":
-                        // TODO
+                        var event_response = susp.data.response;
+                        event_response.completion_fun = function() {};
+                        new_event_responses.push(event_response);
+                        new_suspensions.push(susp);
                         break;
                     case "broadcast-and-wait":
                         var event_response = susp.data.response;
