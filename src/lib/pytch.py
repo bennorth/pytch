@@ -3,7 +3,18 @@ import _pytch
 
 ################################################################################
 #
-# Sprite base class
+# Sprite and Stage base classes
+
+class Stage:
+    def __init__(self):
+        self._x = 0
+        self._y = 0
+        self._shown = True
+        self._costume = self.Backdrops.keys()[0]
+
+    # TODO: Other Stage methods.
+    # TODO: Extract behaviour in common with Sprite.
+
 
 class Sprite:
     """
