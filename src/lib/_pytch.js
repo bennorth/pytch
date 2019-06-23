@@ -97,6 +97,13 @@ var $builtinmodule = function (name) {
         e.preventDefault();
     };
 
+    mod.key_is_pressed = function(py_keyname) {
+        var keyname = Sk.ffi.remapToJs(py_keyname);
+        var is_pressed = (mod.is_key_down.hasOwnProperty(keyname)
+                          && mod.is_key_down[keyname]);
+        return is_pressed ? Sk.builtin.bool.true$ : Sk.builtin.bool.false$
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
