@@ -69,6 +69,15 @@ var $builtinmodule = function (name) {
         return [min_x, max_x, min_y, max_y];
     };
 
+    var syncd_sprite_by_name = function(name) {
+        var candidates = mod.sprite_instances.filter(s => s.sprite_class_name == name);
+        if (candidates.length != 1)
+            throw "found " + candidates.length + " candidates for " + name;
+        var sprite = candidates[0];
+        sprite.sync_render_state();
+        return sprite;
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
