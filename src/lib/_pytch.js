@@ -247,6 +247,8 @@ var $builtinmodule = function (name) {
             mod.stdout_elt.innerHTML = (mod.stdout_elt.innerHTML
                                         + "\n-------- " + mod.frame_idx + " --------------\n");
 
+        render_project();
+
         var new_event_responses = []
         mod.live_event_responses.forEach(er => {
             er.run_one_frame().forEach(response => new_event_responses.push(response));
