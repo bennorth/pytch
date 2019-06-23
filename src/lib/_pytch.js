@@ -267,6 +267,17 @@ var $builtinmodule = function (name) {
         });
     }
 
+    mod._register_sprite_costume = function(py_sprite_cls_name,
+                                            py_name, py_url,
+                                            py_centre_x, py_centre_y) {
+        return Sk.misceval.promiseToSuspension(
+            async_register_costume(Sk.ffi.remapToJs(py_sprite_cls_name),
+                                   Sk.ffi.remapToJs(py_name),
+                                   Sk.ffi.remapToJs(py_url),
+                                   Sk.ffi.remapToJs(py_centre_x),
+                                   Sk.ffi.remapToJs(py_centre_y)));
+    };
+
     mod._register_sprite_instance = function(py_sprite_cls_name, py_sprite) {
         // This 'id' isn't used for anything but lets the caller know we've
         // done something.
