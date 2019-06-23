@@ -438,5 +438,16 @@ var $builtinmodule = function (name) {
         return susp;
     }
 
+    mod._broadcast = function(py_message) {
+        var message = Sk.ffi.remapToJs(py_message);
+        var response = mod.message_response(message);
+
+        var susp = new Sk.misceval.Suspension();
+        susp.resume = function() { return Sk.builtin.str("message sent"); }
+        susp.data = { type: "Pytch", subtype: "broadcast", response: response };
+
+        return susp;
+    }
+
     return mod;
 };
