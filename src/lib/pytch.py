@@ -17,6 +17,28 @@ class Sprite:
         self._shown = False
         self._costume = '--does-not-matter--'
 
+    def go_to_xy(self, x, y):
+        self._x = x
+        self._y = y
+
+    def x_pos(self):
+        return self._x
+
+    def y_pos(self):
+        return self._y
+
+    def change_x_pos(self, dx):
+        self._x += dx
+
+    def change_y_pos(self, dy):
+        self._y += dy
+
+    def set_x_pos(self, x):
+        self._x = x
+
+    def set_y_pos(self, y):
+        self._y = y
+
 
 # Event handlers are registered in a two-phase process.  Each sort of decorator
 # adds a function attribute, which is then picked up in run() below.
