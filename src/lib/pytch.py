@@ -118,6 +118,9 @@ def register_instance_handlers(obj):
                     _pytch.when_I_receive(evt_data, bound_method)
 
 def run():
+    # Fudge: register stage first so it gets drawn first and hence 'under'
+    # all sprites.
+
     for cls in stage_classes:
         sprite = cls()
         sprite_cls_name = cls.__name__
