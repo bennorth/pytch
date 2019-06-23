@@ -49,6 +49,15 @@ var $builtinmodule = function (name) {
                                                false));
     };
 
+    PytchSprite.prototype.sync_render_state = function() {
+        // TODO: Size.
+        this.x = this.sprite_attr(PytchSprite.$_x);
+        this.y = this.sprite_attr(PytchSprite.$_y);
+        this.shown = this.sprite_attr(PytchSprite.$_shown);
+        var costume_name = this.sprite_attr(PytchSprite.$_costume);
+        this.costume = mod.sprite_costumes[this.sprite_class_name][costume_name];
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
