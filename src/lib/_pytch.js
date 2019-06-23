@@ -38,6 +38,12 @@ var $builtinmodule = function (name) {
         this.py_sprite = py_sprite;
     }
 
+    PytchSprite.prototype.sprite_attr = function(attr_name) {
+        return Sk.ffi.remapToJs(Sk.abstr.gattr(this.py_sprite,
+                                               attr_name,
+                                               false));
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
