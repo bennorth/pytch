@@ -84,6 +84,13 @@ def run():
         sprite = cls()
         sprite_cls_name = cls.__name__
         _pytch._register_sprite_instance(sprite_cls_name, sprite)
+        for costume_name, costume_info in cls.Costumes.items():
+            costume_url, costume_centre_x, costume_centre_y = costume_info
+            print _pytch._register_sprite_costume(sprite_cls_name,
+                                                  costume_name,
+                                                  costume_url,
+                                                  costume_centre_x,
+                                                  costume_centre_y)
 
         for attr_name in dir(sprite):
             sprite_attr = getattr(sprite, attr_name)
