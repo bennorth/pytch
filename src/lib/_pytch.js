@@ -239,6 +239,34 @@ var $builtinmodule = function (name) {
         return Sk.misceval.promiseToSuspension(run_finished_promise);
     };
 
+    //------------------------------------------------------------------------------
+    // async_register_costume()
+    //
+    // Asynchronously load the image referred to by 'costume_url'.  When loaded,
+    // insert a Costume object into the 'sprite_costumes' map with the image
+    // and the given 'costume_centre_x' and 'costume_centre_y' values, and resolve
+    // the promise which async_register_costume() returns with a diagnostic message.
+    var async_register_costume = function(sprite_cls_name, costume_name, costume_url,
+                                          costume_centre_x, costume_centre_y) {
+        return new Promise(function(resolve, reject) {
+            var img = new Image();
+            img.onload = function() {
+                var costumes = mod.sprite_costumes;
+
+                if ( ! costumes.hasOwnProperty(sprite_cls_name))
+                    costumes[sprite_cls_name] = {};
+
+                costumes[sprite_cls_name][costume_name]
+                    = new Costume(img, costume_centre_x, costume_centre_y);
+
+                resolve("image at '" + costume_url
+                        + "' registered as costume '" + costume_name
+                        + "' for sprite-class '" + sprite_cls_name + "'");
+            };
+            img.src = costume_url;
+        });
+    }
+
     mod._register_sprite_instance = function(py_sprite_cls_name, py_sprite) {
         // This 'id' isn't used for anything but lets the caller know we've
         // done something.
