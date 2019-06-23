@@ -104,6 +104,19 @@ def register_sprite_class(cls):
     sprite_classes.append(cls)
 
 
+def register_instance_handlers(obj):
+    for attr_name in dir(obj):
+        obj_attr = getattr(obj, attr_name)
+        if hasattr(obj_attr, 'im_func'):
+            bound_method = obj_attr
+            raw_fun = bound_method.im_func
+            if hasattr(raw_fun, '_pytch_handler_for'):
+                evt_tp, evt_data = raw_fun._pytch_handler_for
+                if evt_tp == 'green-flag':
+                    _pytch.when_green_flag_clicked(bound_method)
+                elif evt_tp == 'message':
+                    _pytch.when_I_receive(evt_data, bound_method)
+
 def run():
     for cls in sprite_classes:
         sprite = cls()
