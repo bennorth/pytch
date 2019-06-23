@@ -222,6 +222,17 @@ var $builtinmodule = function (name) {
         return Sk.misceval.promiseToSuspension(run_finished_promise);
     };
 
+    mod._register_sprite_instance = function(py_sprite_cls_name, py_sprite) {
+        // This 'id' isn't used for anything but lets the caller know we've
+        // done something.
+        var sprite_id = mod.sprite_instances.length;
+
+        var sprite_cls_name = Sk.ffi.remapToJs(py_sprite_cls_name);
+        mod.sprite_instances.push(new PytchSprite(sprite_cls_name, py_sprite));
+
+        return Sk.builtin.int_(sprite_id);
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
 
