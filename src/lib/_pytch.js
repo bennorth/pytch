@@ -231,6 +231,16 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    var render_project = function() {
+        var ctx = mod.canvas_ctx;
+
+        ctx.clearRect(-mod.stage_hwd, -mod.stage_hht,
+                      mod.stage_wd, mod.stage_ht);
+    };
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
         if (mod.green_flag_state != "not-clicked-yet")
