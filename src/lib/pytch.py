@@ -39,6 +39,9 @@ def run():
     # TODO: Inspect Sprite-derived classes, create one instance of
     # each, pass in a list to JS layer.
 
+    for cls in sprite_classes:
+        sprite = cls()
+
     # TODO: Extract collection of costumes and (asynchronously?) load
     # them.
 
