@@ -10,6 +10,9 @@ var $builtinmodule = function (name) {
     // List of sprite instances making up the draw-list
     mod.sprite_instances = [];
 
+    // Two-level map taking sprite class-name and costume-name to actual costume
+    mod.sprite_costumes = {};
+
     //------------------------------------------------------------------------------
     // Costume
     //
