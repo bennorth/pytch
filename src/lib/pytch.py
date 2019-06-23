@@ -75,6 +75,7 @@ class when_I_receive:
         return fun
 
 
+broadcast = _pytch._broadcast
 broadcast_and_wait = _pytch._broadcast_and_wait
 
 
