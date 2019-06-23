@@ -39,6 +39,12 @@ class Sprite:
     def set_y_pos(self, y):
         self._y = y
 
+    def show(self):
+        self._shown = True
+
+    def hide(self):
+        self._shown = False
+
 
 # Event handlers are registered in a two-phase process.  Each sort of decorator
 # adds a function attribute, which is then picked up in run() below.
