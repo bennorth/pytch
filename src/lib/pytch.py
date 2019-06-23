@@ -48,6 +48,10 @@ class Sprite:
     def switch_costume(self, costume_name):
         self._costume = costume_name
 
+    def set_size_percent(self, size_pct):
+        # TODO
+        pass
+
     def touching(self, other_name):
         return _pytch.bounding_boxes_overlap(self.__class__.__name__,
                                              other_name)
