@@ -77,6 +77,9 @@ var $builtinmodule = function (name) {
     mod.canvas_ctx.translate(mod.stage_hwd, mod.stage_hht);
     mod.canvas_ctx.scale(1, -1);
 
+    if ( ! mod.canvas_elt.hasAttribute("tabindex"))
+        mod.canvas_elt.setAttribute("tabindex", 0);
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
