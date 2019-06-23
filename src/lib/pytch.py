@@ -45,6 +45,9 @@ class Sprite:
     def hide(self):
         self._shown = False
 
+    def switch_costume(self, costume_name):
+        self._costume = costume_name
+
 
 # Event handlers are registered in a two-phase process.  Each sort of decorator
 # adds a function attribute, which is then picked up in run() below.
