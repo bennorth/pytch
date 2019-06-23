@@ -77,9 +77,6 @@ def register_sprite_class(cls):
 
 
 def run():
-    # TODO: Inspect Sprite-derived classes, create one instance of
-    # each, pass in a list to JS layer.
-
     for cls in sprite_classes:
         sprite = cls()
         sprite_cls_name = cls.__name__
@@ -103,9 +100,6 @@ def run():
                         _pytch.when_green_flag_clicked(bound_method)
                     elif evt_tp == 'message':
                         _pytch.when_I_receive(evt_data, bound_method)
-
-    # TODO: Extract collection of costumes and (asynchronously?) load
-    # them.
 
     return _pytch.run()
 
