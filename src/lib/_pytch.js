@@ -5,6 +5,14 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Sprites
+
+    // List of sprite instances making up the draw-list
+    mod.sprite_instances = [];
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Green flag
 
     // The green flag will go through three states.  It starts off in
