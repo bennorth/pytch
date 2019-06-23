@@ -118,6 +118,18 @@ def register_instance_handlers(obj):
                     _pytch.when_I_receive(evt_data, bound_method)
 
 def run():
+    for cls in stage_classes:
+        sprite = cls()
+        sprite_cls_name = cls.__name__
+        _pytch._register_sprite_instance(sprite_cls_name, sprite)
+        for costume_name, costume_url in cls.Backdrops.items():
+            print _pytch._register_sprite_costume(sprite_cls_name,
+                                                  costume_name,
+                                                  costume_url,
+                                                  240, 180)
+
+        register_instance_handlers(sprite)
+
     for cls in sprite_classes:
         sprite = cls()
         sprite_cls_name = cls.__name__
