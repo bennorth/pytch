@@ -90,6 +90,13 @@ broadcast = _pytch._broadcast
 broadcast_and_wait = _pytch._broadcast_and_wait
 key_is_pressed = _pytch.key_is_pressed
 
+stage_classes = []
+
+def register_stage_class(cls):
+    # There can only be one Stage.
+    assert len(stage_classes) == 0
+    stage_classes.append(cls)
+
 
 sprite_classes = []
 
