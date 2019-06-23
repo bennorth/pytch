@@ -322,9 +322,6 @@ var $builtinmodule = function (name) {
 
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
-        if (mod.green_flag_state != "not-clicked-yet")
-            mod.stdout_elt.innerHTML = (mod.stdout_elt.innerHTML
-                                        + "\n-------- " + mod.frame_idx + " --------------\n");
 
         render_project();
 
