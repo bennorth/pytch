@@ -26,9 +26,22 @@
 
       Sk.configure({ read: builtinRead, output: append_stdout });
 
-      var prog = document.getElementById("code").value;
-      var p = Sk.misceval.asyncToPromise(function() {
-          return Sk.importMainWithBody("<stdin>",false,prog,true);
+      // To be able to load the Python asynchronously, you'll need to:
+      //
+      //  - Run a local HTTP server:
+      //        python3 -m http.server 8123
+      //    will do this.
+      //
+      //  - Symlink the 'dist' files:
+      //        cd $PROJECT_ROOT/example
+      //        ln -s ../dist
+      //    will do this.
+      //
+      $("#code").load("pong.py", function() {
+          var prog = document.getElementById("code").value;
+          var p = Sk.misceval.asyncToPromise(function() {
+              return Sk.importMainWithBody("<stdin>", false, prog, true);
+          });
       });
     </script>
   </body>
