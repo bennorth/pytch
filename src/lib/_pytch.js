@@ -10,6 +10,20 @@ var $builtinmodule = function (name) {
     // List of sprite instances making up the draw-list
     mod.sprite_instances = [];
 
+    //------------------------------------------------------------------------------
+    // Costume
+    //
+    // Store information needed to render a sprite's costume onto the canvas, once
+    // we know where that sprite is.  A Costume consists of an Image object together
+    // with the coordinates in that image of the 'centre' of the costume --- this is
+    // the point in the image which is placed at the sprite's (x, y) position when
+    // rendered.
+
+    function Costume(image, centre_x, centre_y) {
+        this.image = image;
+        this.centre_x = centre_x;
+        this.centre_y = centre_y;
+    }
 
     //------------------------------------------------------------------------------
     // PytchSprite
