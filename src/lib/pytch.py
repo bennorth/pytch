@@ -82,6 +82,8 @@ def run():
 
     for cls in sprite_classes:
         sprite = cls()
+        sprite_cls_name = cls.__name__
+        _pytch._register_sprite_instance(sprite_cls_name, sprite)
 
         for attr_name in dir(sprite):
             sprite_attr = getattr(sprite, attr_name)
