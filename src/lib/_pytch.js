@@ -38,6 +38,11 @@ var $builtinmodule = function (name) {
         this.py_sprite = py_sprite;
     }
 
+    PytchSprite.$_x = Sk.builtin.str("_x");
+    PytchSprite.$_y = Sk.builtin.str("_y");
+    PytchSprite.$_costume = Sk.builtin.str("_costume");
+    PytchSprite.$_shown = Sk.builtin.str("_shown");
+
     PytchSprite.prototype.sprite_attr = function(attr_name) {
         return Sk.ffi.remapToJs(Sk.abstr.gattr(this.py_sprite,
                                                attr_name,
