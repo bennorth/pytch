@@ -43,6 +43,8 @@ class Waffler(pytch.Sprite):
             i += 1
             if (i % 10) == 0:
                 print "[%s] hi %d" % (self.tag, i / 10)
+            self.change_x_pos(3)
+            self.change_y_pos(2)
             yr = pytch._yield_until_next_frame()
             print "[%s] back from yield-until-next-frame; it gave %s" % (self.tag, yr)
 
