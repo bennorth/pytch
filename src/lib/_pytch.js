@@ -87,6 +87,16 @@ var $builtinmodule = function (name) {
 
     mod.is_key_down = {}
 
+    mod.canvas_elt.onkeydown = function(e) {
+        mod.is_key_down[e.key] = true;
+        e.preventDefault();
+    };
+
+    mod.canvas_elt.onkeyup = function(e) {
+        mod.is_key_down[e.key] = false;
+        e.preventDefault();
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
