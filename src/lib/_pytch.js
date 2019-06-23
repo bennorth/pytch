@@ -11,6 +11,17 @@ var $builtinmodule = function (name) {
     mod.sprite_instances = [];
 
 
+    //------------------------------------------------------------------------------
+    // PytchSprite
+    //
+    // Interface layer between Python sprite instance and JS object.
+
+    function PytchSprite(sprite_class_name, py_sprite) {
+        this.sprite_class_name = sprite_class_name;
+        this.py_sprite = py_sprite;
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Green flag
