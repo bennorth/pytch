@@ -29,6 +29,12 @@ class when_I_receive:
 broadcast_and_wait = _pytch._broadcast_and_wait
 
 
+sprite_classes = []
+
+def register_sprite_class(cls):
+    sprite_classes.append(cls)
+
+
 def run():
     # TODO: Inspect Sprite-derived classes, create one instance of
     # each, pass in a list to JS layer.
