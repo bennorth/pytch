@@ -13,7 +13,7 @@ handlers = []
 
 
 def when_green_flag_clicked(fun):
-    handlers.append(('G', fun))
+    fun._pytch_handler_for = ('green-flag', None)
     return fun
 
 
@@ -22,7 +22,7 @@ class when_I_receive:
         self.message = message
 
     def __call__(self, fun):
-        handlers.append(('M%s' % self.message, fun))
+        fun._pytch_handler_for = ('message', self.message)
         return fun
 
 
