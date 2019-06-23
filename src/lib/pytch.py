@@ -130,17 +130,7 @@ def run():
                                                   costume_centre_x,
                                                   costume_centre_y)
 
-        for attr_name in dir(sprite):
-            sprite_attr = getattr(sprite, attr_name)
-            if hasattr(sprite_attr, 'im_func'):
-                bound_method = sprite_attr
-                raw_fun = bound_method.im_func
-                if hasattr(raw_fun, '_pytch_handler_for'):
-                    evt_tp, evt_data = raw_fun._pytch_handler_for
-                    if evt_tp == 'green-flag':
-                        _pytch.when_green_flag_clicked(bound_method)
-                    elif evt_tp == 'message':
-                        _pytch.when_I_receive(evt_data, bound_method)
+        register_instance_handlers(sprite)
 
     return _pytch.run()
 
