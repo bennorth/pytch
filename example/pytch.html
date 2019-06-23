@@ -60,7 +60,6 @@ print "run returned: %s" % (pytch.run())
           elt.innerHTML = elt.innerHTML + text;
       }
 
-      var prog = document.getElementById("code").value;
       function builtinRead(x) {
           if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
 	      throw "File not found: '" + x + "'";
@@ -69,6 +68,7 @@ print "run returned: %s" % (pytch.run())
 
       Sk.configure({ read: builtinRead, output: append_stdout });
 
+      var prog = document.getElementById("code").value;
       var p = Sk.misceval.asyncToPromise(function() {
           return Sk.importMainWithBody("<stdin>",false,prog,true);
       });
