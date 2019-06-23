@@ -161,7 +161,6 @@ var $builtinmodule = function (name) {
         if (mod.green_flag_state != "not-clicked-yet")
             mod.stdout_elt.innerHTML = (mod.stdout_elt.innerHTML
                                         + "\n-------- " + mod.frame_idx + " --------------\n");
-        mod.frame_idx += 1;
 
         var new_event_responses = []
         mod.live_event_responses.forEach(er => {
@@ -186,6 +185,8 @@ var $builtinmodule = function (name) {
             mod.run_finished_resolve_fun(Sk.builtin.str("all done"));
         else
             window.requestAnimationFrame(process_frame);
+
+        mod.frame_idx += 1;
     };
 
 
