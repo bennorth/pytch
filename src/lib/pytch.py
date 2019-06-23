@@ -1,15 +1,8 @@
 import _pytch
 
 
-# List of event-handlers, each represented as a 2-tuple
-# (event-descriptor, handler-function).
-#
-# The 'event-descriptor' is a string, whose first character specifies
-# what type of event this handler is for:
-#
-#   G --- green flag clicked
-#   M --- broadcast message
-handlers = []
+# Event handlers are registered in a two-phase process.  Each sort of decorator
+# adds a function attribute, which is then picked up in run() below.
 
 
 def when_green_flag_clicked(fun):
