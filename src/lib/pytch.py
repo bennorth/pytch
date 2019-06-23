@@ -42,6 +42,18 @@ def run():
     for cls in sprite_classes:
         sprite = cls()
 
+        for attr_name in dir(sprite):
+            sprite_attr = getattr(sprite, attr_name)
+            if hasattr(sprite_attr, 'im_func'):
+                bound_method = sprite_attr
+                raw_fun = bound_method.im_func
+                if hasattr(raw_fun, '_pytch_handler_for'):
+                    evt_tp, evt_data = raw_fun._pytch_handler_for
+                    if evt_tp == 'green-flag':
+                        _pytch.when_green_flag_clicked(bound_method)
+                    elif evt_tp == 'message':
+                        _pytch.when_I_receive(evt_data, bound_method)
+
     # TODO: Extract collection of costumes and (asynchronously?) load
     # them.
 
