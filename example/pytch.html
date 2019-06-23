@@ -16,6 +16,8 @@ class Waffler(pytch.Sprite):
     def __init__(self):
         pytch.Sprite.__init__(self)
         self.tag = "BN"
+        self.switch_costume('ball')
+        self.show()
 
     @pytch.when_green_flag_clicked
     def say_hello(self):
