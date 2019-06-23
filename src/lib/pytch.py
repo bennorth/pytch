@@ -1,6 +1,23 @@
 import _pytch
 
 
+################################################################################
+#
+# Sprite base class
+
+class Sprite:
+    """
+    Keep track of a sprite's (x, y) coordinates, whether or not it is shown,
+    and the name of the costume it is currently wearing.
+    """
+
+    def __init__(self):
+        self._x = 0
+        self._y = 0
+        self._shown = False
+        self._costume = '--does-not-matter--'
+
+
 # Event handlers are registered in a two-phase process.  Each sort of decorator
 # adds a function attribute, which is then picked up in run() below.
 
