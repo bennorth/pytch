@@ -58,6 +58,17 @@ var $builtinmodule = function (name) {
         this.costume = mod.sprite_costumes[this.sprite_class_name][costume_name];
     };
 
+    // Requires that the render state is freshly sync'd into the JS side.
+    PytchSprite.prototype.bounding_box = function() {
+        // Annoying combination of addition and subtraction to account for the
+        // different coordinate systems of costume-centre vs stage.
+        var min_x = this.x - this.costume.centre_x;
+        var max_y = this.y + this.costume.centre_y;
+        var max_x = min_x + this.costume.image.width;
+        var min_y = max_y - this.costume.image.height;
+        return [min_x, max_x, min_y, max_y];
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
