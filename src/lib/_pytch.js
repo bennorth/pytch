@@ -41,6 +41,25 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Canvas set-up
+    //
+    // Match the Scratch stage's layout, in terms of
+    //  - its size: 480x360
+    //  - its origin: (0, 0) is the centre of the stage
+    //  - its orientation: increasing x is rightwards; increasing y is upwards
+
+    mod.stage_wd = 480;
+    mod.stage_hwd = (mod.stage_wd / 2) | 0;
+    mod.stage_ht = 360;
+    mod.stage_hht = (mod.stage_ht / 2) | 0;
+    mod.canvas_elt = document.getElementById("pytch-canvas");
+    mod.canvas_ctx = mod.canvas_elt.getContext("2d");
+    mod.canvas_ctx.translate(mod.stage_hwd, mod.stage_hht);
+    mod.canvas_ctx.scale(1, -1);
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Green flag
 
     // The green flag will go through three states.  It starts off in
