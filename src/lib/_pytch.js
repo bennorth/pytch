@@ -469,5 +469,15 @@ var $builtinmodule = function (name) {
         return susp;
     };
 
+    mod._sleep = function(py_n_seconds) {
+        var n_seconds = Sk.ffi.remapToJs(py_n_seconds);
+
+        var susp = new Sk.misceval.Suspension();
+        susp.resume = function() { return Sk.builtin.str("time passed"); }
+        susp.data = { type: "Pytch", subtype: "sleep",
+                      n_frames: (Math.round(n_seconds * FRAMES_PER_SECOND) | 0) };
+        return susp;
+    };
+
     return mod;
 };
