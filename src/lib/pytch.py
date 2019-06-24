@@ -89,6 +89,7 @@ class when_I_receive:
 broadcast = _pytch._broadcast
 broadcast_and_wait = _pytch._broadcast_and_wait
 key_is_pressed = _pytch.key_is_pressed
+wait_seconds = _pytch._sleep
 
 stage_classes = []
 
