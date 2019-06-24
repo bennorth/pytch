@@ -300,6 +300,19 @@ var $builtinmodule = function (name) {
                                                       evt_resp));
     };
 
+    SleepingThreadManager.prototype.process_frame = function() {
+        this.sleeping_threads
+            = this.sleeping_threads.filter(function(t, i) {
+                t.n_frames -= 1;
+                if (t.n_frames == 0) {
+                    t.event_response.handler_suspensions.push(t.suspension);
+                    t.event_response.n_sleeping_threads -= 1;
+                    return false;
+                }
+                return true;
+            });
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
 
