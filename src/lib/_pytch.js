@@ -374,6 +374,8 @@ var $builtinmodule = function (name) {
 
         render_project();
 
+        mod.sleeping_thread_manager.process_frame();
+
         var new_event_responses = []
         mod.live_event_responses.forEach(er => {
             er.run_one_frame().forEach(response => new_event_responses.push(response));
