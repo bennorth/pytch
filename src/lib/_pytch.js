@@ -317,6 +317,8 @@ var $builtinmodule = function (name) {
             });
     };
 
+    mod.sleeping_thread_manager = new SleepingThreadManager();
+
 
     ////////////////////////////////////////////////////////////////////////////////
 
