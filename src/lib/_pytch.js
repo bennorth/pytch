@@ -256,7 +256,7 @@ var $builtinmodule = function (name) {
         this.handler_suspensions = new_suspensions;
 
         return new_event_responses;
-    }
+    };
 
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -427,7 +427,7 @@ var $builtinmodule = function (name) {
         susp.resume = function() { return Sk.builtin.int_(mod.frame_idx); };
         susp.data = { type: "Pytch", subtype: "next-frame" };
         return susp;
-    }
+    };
 
     mod._broadcast_and_wait = function(py_message) {
         var message = Sk.ffi.remapToJs(py_message);
@@ -439,7 +439,7 @@ var $builtinmodule = function (name) {
         susp.data = { type: "Pytch", subtype: "broadcast-and-wait", response: response };
 
         return susp;
-    }
+    };
 
     mod._broadcast = function(py_message) {
         var message = Sk.ffi.remapToJs(py_message);
@@ -450,7 +450,7 @@ var $builtinmodule = function (name) {
         susp.data = { type: "Pytch", subtype: "broadcast", response: response };
 
         return susp;
-    }
+    };
 
     return mod;
 };
