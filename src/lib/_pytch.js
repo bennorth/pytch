@@ -332,7 +332,8 @@ var $builtinmodule = function (name) {
 
     mod.launch_green_flag_response = function() {
         mod.live_event_responses.push(
-            new EventResponse(mod.green_flag_handlers,
+            new EventResponse("green-flag",
+                              mod.green_flag_handlers,
                               // TODO: What to do when all handlers finished?
                               function(){}
                              ));
@@ -346,7 +347,8 @@ var $builtinmodule = function (name) {
         // processed.
         //
         // TODO: Check message is a known message; some kind of warning if not.
-        return new EventResponse(mod.message_handlers[message], null);
+        return new EventResponse("'" + message + "'",
+                                 mod.message_handlers[message], null);
     };
 
 
