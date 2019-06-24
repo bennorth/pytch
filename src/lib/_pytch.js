@@ -290,6 +290,10 @@ var $builtinmodule = function (name) {
         this.event_response = event_response;
     }
 
+    function SleepingThreadManager() {
+        this.sleeping_threads = [];
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////
 
