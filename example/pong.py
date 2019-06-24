@@ -172,7 +172,9 @@ class Ball(pytch.Sprite):
             GlobalVariables.score_1 += 1
         else:
             GlobalVariables.score_2 += 1
+        self.hide()
         pytch.broadcast_and_wait('Update_Score')
+        pytch.wait_seconds(0.75)
 
     @when_I_receive('Announce_Winner')
     def hide_while_winner_gloating(self):
