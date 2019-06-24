@@ -1,6 +1,8 @@
 var $builtinmodule = function (name) {
 "use strict";
 
+    var FRAMES_PER_SECOND = 60;
+
     var mod = {};
 
     ////////////////////////////////////////////////////////////////////////////////
