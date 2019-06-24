@@ -403,6 +403,7 @@ var $builtinmodule = function (name) {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
 
         render_project();
+        render_thread_monitor();
 
         mod.sleeping_thread_manager.process_frame();
 
