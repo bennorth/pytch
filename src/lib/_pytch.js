@@ -390,6 +390,15 @@ var $builtinmodule = function (name) {
         return tr;
     };
 
+    var render_thread_monitor = function() {
+        var old_tbody = mod.thread_monitor_elt.querySelector("tbody");
+        var new_tbody = document.createElement("tbody");
+        mod.live_event_responses.forEach(function(er) {
+            new_tbody.appendChild(tr_for_event_response(er));
+        });
+        mod.thread_monitor_elt.replaceChild(new_tbody, old_tbody);
+    };
+
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
 
