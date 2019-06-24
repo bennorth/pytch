@@ -381,6 +381,15 @@ var $builtinmodule = function (name) {
 
     mod.thread_monitor_elt = document.getElementById("thread-monitor");
 
+    var tr_for_event_response = function(evt_resp) {
+        var tr = document.createElement("tr");
+        tr.innerHTML = ("<td>" + evt_resp.label + "</td>"
+                        + "<td>" + evt_resp.handler_suspensions.length + "</td>"
+                        + "<td>" + evt_resp.n_waiting_threads + "</td></tr>"
+                        + "<td>" + evt_resp.n_sleeping_threads + "</td></tr>");
+        return tr;
+    };
+
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
 
