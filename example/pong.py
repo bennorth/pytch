@@ -61,6 +61,10 @@ class Player_1(pytch.Sprite):
                     self.set_y_pos(GlobalVariables.bat_min_y)
             pytch._yield_until_next_frame()
 
+    @when_I_receive('Update_Score')
+    def hide_at_end_of_point(self):
+        self.hide()
+
     @when_I_receive('Announce_Winner')
     def gloat_if_won(self):
         if GlobalVariables.score_1 == GlobalVariables.score_to_win:
@@ -90,6 +94,10 @@ class Player_2(pytch.Sprite):  # (7)
                 if self.y_pos() < GlobalVariables.bat_min_y:
                     self.set_y_pos(GlobalVariables.bat_min_y)
             pytch._yield_until_next_frame()
+
+    @when_I_receive('Update_Score')
+    def hide_at_end_of_point(self):
+        self.hide()
 
     @when_I_receive('Announce_Winner')
     def gloat_if_won(self):
