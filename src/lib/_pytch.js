@@ -294,6 +294,12 @@ var $builtinmodule = function (name) {
         this.sleeping_threads = [];
     }
 
+    SleepingThreadManager.prototype.sleep_thread = function(susp, evt_resp) {
+        this.sleeping_threads.push(new SleepingThread(susp.data.n_frames,
+                                                      susp,
+                                                      evt_resp));
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
 
