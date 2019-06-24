@@ -379,6 +379,8 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    mod.thread_monitor_elt = document.getElementById("thread-monitor");
+
     var process_frame = function() {
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
 
