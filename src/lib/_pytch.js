@@ -287,6 +287,10 @@ var $builtinmodule = function (name) {
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Sleep mechanism
+    //
+    // Simple-minded: Check every sleeping thread every frame.  Should be fine for
+    // a small number of sleeping threads.  For a large number we'd need a priority
+    // queue of wake times, to be compared against global frame_idx.
 
     function SleepingThread(n_frames, suspension, event_response) {
         this.n_frames = n_frames;
