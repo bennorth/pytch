@@ -279,6 +279,17 @@ var $builtinmodule = function (name) {
 
 
     ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Sleep mechanism
+
+    function SleepingThread(n_frames, suspension, event_response) {
+        this.n_frames = n_frames;
+        this.suspension = suspension;
+        this.event_response = event_response;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////
 
     mod.launch_green_flag_response = function() {
         mod.live_event_responses.push(
