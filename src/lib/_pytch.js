@@ -196,11 +196,15 @@ var $builtinmodule = function (name) {
     // The threads are captured via the suspension each one returns each time it
     // gets a chance to run.  If an actual object is returned, it is discarded,
     // and that thread is treated as finished.
+    //
+    // For diagnostic purposes, an EventResponse also has a short string 'label'.
 
-    function EventResponse(handler_py_funs, completion_fun) {
+    function EventResponse(label, handler_py_funs, completion_fun) {
         // Mild fudge so that we don't have to repeat the logic of switching on
         // the different type of suspensions which we might get back from the
         // Sk.misceval.callsimOrSuspend() call.
+
+        this.label = label;
 
         this.handler_suspensions = handler_py_funs.map(pyfun => {
             return {resume:
