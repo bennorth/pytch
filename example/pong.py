@@ -69,8 +69,7 @@ class Player_1(pytch.Sprite):
     def gloat_if_won(self):
         if GlobalVariables.score_1 == GlobalVariables.score_to_win:
             self.go_to_xy(0, 0)
-        else:
-            self.hide()
+            self.show()
 
 
 class Player_2(pytch.Sprite):  # (7)
@@ -103,8 +102,7 @@ class Player_2(pytch.Sprite):  # (7)
     def gloat_if_won(self):
         if GlobalVariables.score_2 == GlobalVariables.score_to_win:
             self.go_to_xy(0, 0)
-        else:
-            self.hide()
+            self.show()
 
 
 class Ball(pytch.Sprite):
