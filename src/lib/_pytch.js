@@ -426,9 +426,10 @@ var $builtinmodule = function (name) {
 
         var all_done = (mod.green_flag_state == "has-been-clicked"
                         && mod.is_everything_finished());
-        if (all_done)
+        if (all_done) {
+            render_thread_monitor();
             mod.run_finished_resolve_fun(Sk.builtin.str("all done"));
-        else
+        } else
             window.requestAnimationFrame(process_frame);
 
         mod.frame_idx += 1;
