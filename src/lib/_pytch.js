@@ -231,6 +231,10 @@ var $builtinmodule = function (name) {
                     case "next-frame":
                         new_suspensions.push(susp);
                         break;
+                    case "sleep":
+                        mod.sleeping_thread_manager.sleep_thread(susp, this);
+                        this.n_sleeping_threads += 1;
+                        break;
                     case "broadcast":
                         var event_response = susp.data.response;
                         event_response.completion_fun = function() {};
