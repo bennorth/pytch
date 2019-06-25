@@ -15,9 +15,9 @@ var COMP_GENEXP = 0;
 var COMP_LISTCOMP = 1;
 var COMP_SETCOMP = 2;
 var NULL = null;
-var _slice_kind = { 
+var _slice_kind = {
     Slice_kind: 1,
-    ExtSlice_kind: 2, 
+    ExtSlice_kind: 2,
     Index_kind: 3
 };
 
@@ -909,7 +909,7 @@ function astForForStmt (c, n) {
 
     return new Sk.astnodes.For(target,
         ast_for_testlist(c, CHILD(n, 3)),
-        astForSuite(c, CHILD(n, 5)),
+        astForSuite(c, CHILD(n, 5)), // TODO: add pytch threading yield to this
         seq, n.lineno, n.col_offset);
 }
 
@@ -1977,14 +1977,30 @@ function ast_for_setcomp(c, n) {
     return astForIterComp(c, n, COMP_SETCOMP);
 }
 
+/*
+  This is the AST for a function call to pytch._yield_until_next_frame(). We insert one of these at the end
+  of every loop when we are in Pytch mode
+  TODO: 
+*/
+function astForPytchYield(){
+    var attr = new Sk.astnodes.Attribute( new Sk.astnodes.Name ( new Sk.builtin.str("pytch"), Sk.astnodes.Load, 0, 0 ),
+					  new Sk.builtin.str("_yield_until_next_frame"), Sk.astnodes.Load, 0, 0);
+    var call = new Sk.astnodes.Call( attr, null, null, 0, 0 );
+    return new Sk.astnodes.Expr( call, 0, 0 );
+}
+
 function astForWhileStmt (c, n) {
     /* while_stmt: 'while' test ':' suite ['else' ':' suite] */
     REQ(n, SYM.while_stmt);
+    var body = astForSuite(c, CHILD(n,3));
+//    console.log("threading: "+Sk.pytchThreading);
+    body.push( astForPytchYield() ); // Add the 'threading' wait for a Pytch program
+
     if (NCH(n) === 4) {
-        return new Sk.astnodes.While(ast_for_expr(c, CHILD(n, 1)), astForSuite(c, CHILD(n, 3)), [], n.lineno, n.col_offset);
+        return new Sk.astnodes.While(ast_for_expr(c, CHILD(n, 1)), body, [], n.lineno, n.col_offset);
     }
     else if (NCH(n) === 7) {
-        return new Sk.astnodes.While(ast_for_expr(c, CHILD(n, 1)), astForSuite(c, CHILD(n, 3)), astForSuite(c, CHILD(n, 6)), n.lineno, n.col_offset);
+        return new Sk.astnodes.While(ast_for_expr(c, CHILD(n, 1)), body, astForSuite(c, CHILD(n, 6)), n.lineno, n.col_offset);
     }
     Sk.asserts.fail("wrong number of tokens for 'while' stmt");
 }
