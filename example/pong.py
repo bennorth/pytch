@@ -1,7 +1,6 @@
 import pytch
 from pytch import when_I_receive, when_green_flag_clicked
 
-
 class GlobalVariables:  # (1)
     score_1 = None
     score_2 = None
@@ -59,7 +58,6 @@ class Player_1(pytch.Sprite):
                 self.change_y_pos(-3)
                 if self.y_pos() < GlobalVariables.bat_min_y:
                     self.set_y_pos(GlobalVariables.bat_min_y)
-            pytch._yield_until_next_frame()
 
     @when_I_receive('Update_Score')
     def hide_at_end_of_point(self):
@@ -92,7 +90,6 @@ class Player_2(pytch.Sprite):  # (7)
                 self.change_y_pos(-3)
                 if self.y_pos() < GlobalVariables.bat_min_y:
                     self.set_y_pos(GlobalVariables.bat_min_y)
-            pytch._yield_until_next_frame()
 
     @when_I_receive('Update_Score')
     def hide_at_end_of_point(self):
@@ -131,7 +128,6 @@ class Ball(pytch.Sprite):
         self.show()
         while not pytch.key_is_pressed(' '):  # (11)
             pass
-            pytch._yield_until_next_frame()
         GlobalVariables.ball_is_in_play = 'YES'
         pytch.broadcast('Ball_In_Play')
         if GlobalVariables.serving_player == 1:
@@ -155,7 +151,6 @@ class Ball(pytch.Sprite):
             self.change_y_pos(self.y_speed)
             self.bounce_off_top_bottom()
             self.bounce_off_players()
-            pytch._yield_until_next_frame()
 
     def bounce_off_top_bottom(self):
         if self.y_pos() > GlobalVariables.ball_max_y:
