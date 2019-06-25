@@ -17,6 +17,7 @@
  * nonreadopen: Boolean - set to true to allow non-read file operations
  * fileopen: Optional function to call any time a file is opened
  * filewrite: Optional function to call when writing to a file
+ * pytchThreading: Adds a call to pytch._yield_until_next_frame() as the last statement every loop.
  *
  * Any variables that aren't set will be left alone.
  */
@@ -202,6 +203,10 @@ Sk.configure = function (options) {
         Sk.realsyspath = undefined;
         Sk.sysmodules = new Sk.builtin.dict([]);
     }
+
+    Sk.pytchThreading = options["pytchThreading"] || false;
+    Sk.asserts.assert(typeof Sk.pytchThreading === "boolean");
+
 
     Sk.misceval.softspace_ = false;
 
