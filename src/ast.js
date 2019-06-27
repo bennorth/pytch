@@ -916,9 +916,14 @@ function astForForStmt (c, n) {
         target = new Sk.astnodes.Tuple(_target, Sk.astnodes.Store, n.lineno, n.col_offset);
     }
 
+    var body = astForSuite(c, CHILD(n,5));
+    if( Sk.pytchThreading ){
+	body.push( astForPytchYield(n) ); // Add the 'threading' wait for a Pytch program
+    }
+
     return new Sk.astnodes.For(target,
         ast_for_testlist(c, CHILD(n, 3)),
-        astForSuite(c, CHILD(n, 5)), // TODO: add pytch threading yield to this
+        body,
         seq, n.lineno, n.col_offset);
 }
 
