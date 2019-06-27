@@ -1989,13 +1989,15 @@ function ast_for_setcomp(c, n) {
 /*
   This is the AST for a function call to pytch._yield_until_next_frame(). We insert one of these at the end
   of every loop when we are in Pytch mode
-  TODO: 
+  (n is the tokeniser object for the outer loop)
 */
-function astForPytchYield(){
-    var attr = new Sk.astnodes.Attribute( new Sk.astnodes.Name ( new Sk.builtin.str("pytch"), Sk.astnodes.Load, 0, 0 ),
-					  new Sk.builtin.str("_yield_until_next_frame"), Sk.astnodes.Load, 0, 0);
-    var call = new Sk.astnodes.Call( attr, null, null, 0, 0 );
-    return new Sk.astnodes.Expr( call, 0, 0 );
+function astForPytchYield(n){
+    var l = "'(automatically added yield at end of loop started on line "+n.lineno+")'";
+    var c = "'(automatically added yield at end of loop started on column "+n.col_offset+")'";
+    var attr = new Sk.astnodes.Attribute( new Sk.astnodes.Name ( new Sk.builtin.str("pytch"), Sk.astnodes.Load, l, c ),
+					  new Sk.builtin.str("_yield_until_next_frame"), Sk.astnodes.Load, l, c);
+    var call = new Sk.astnodes.Call( attr, null, null, l, c );
+    return new Sk.astnodes.Expr( call, l, c );
 }
 
 function astForWhileStmt (c, n) {
@@ -2003,7 +2005,7 @@ function astForWhileStmt (c, n) {
     REQ(n, SYM.while_stmt);
     var body = astForSuite(c, CHILD(n,3));
     if( Sk.pytchThreading ){
-	body.push( astForPytchYield() ); // Add the 'threading' wait for a Pytch program
+	body.push( astForPytchYield(n) ); // Add the 'threading' wait for a Pytch program
     }
 
     if (NCH(n) === 4) {
