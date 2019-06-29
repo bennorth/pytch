@@ -13,7 +13,7 @@ The following are the tutorials in the 'getting started' group:
 
 ## Getting started
 
-    when green-flag:
+    when green flag clicked:
         move 10 steps
         say "Hello!" for 2 seconds
 
@@ -385,8 +385,8 @@ Add 'clouds' scenery; give it:
         forever:
             set x to 250
             next costume  # Added in next step
-            repeat 100
-            change x by -5
+            repeat 100:
+                change x by -5
 
 Suggests:
 
@@ -418,7 +418,7 @@ In ball:
         forever:
             if touching "Paddle" then:
                 change "score" by 1  # Added in next step, after adding var 'score'
-                turn clockwise 180 degrees  # Pytch just 'turn' and use -ve args?
+                turn clockwise 180 degrees  # Pytch just 'turn' and use -ve args for anti-c/w?
                 move 15 steps
                 wait 0.5 seconds
 
