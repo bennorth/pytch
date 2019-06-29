@@ -17,3 +17,15 @@ The files
 
 were created by Ben North for this project and are hereby placed into
 the public domain.
+
+The image in the file
+
+    python-logo.png
+
+is the copyright of and a trademark of The Python Software Foundation.
+Its use here falls under their trademark usage policy
+
+    https://www.python.org/psf/trademarks/
+
+as this project is based on the Python language.  The PSF has not
+endorsed this project.
