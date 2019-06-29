@@ -35,5 +35,6 @@ class Player(pytch.Sprite):
 class Star(pytch.Sprite):
     @when_green_flag_clicked
     def play_game(self):
+        self.set_size(0.15)
         while True:
             self.glide_to('.random', 1.0)
