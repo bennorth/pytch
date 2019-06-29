@@ -17,7 +17,7 @@ class GlobalVariables:  # (1)
 
 class Stage(pytch.Stage):
     Backdrops = {'pong': 'pytch-images/backdrop.png'}
-
+    
     @when_green_flag_clicked  # (2)
     def run(self):
         self.set_constants()
@@ -104,7 +104,8 @@ class Player_2(pytch.Sprite):  # (7)
 
 class Ball(pytch.Sprite):
     Costumes = {'ball': ('pytch-images/ball.png', 8, 8)}
-
+    Sounds = {'bounce': ('pytch-sounds/Ping Pong Hit.mp3')}
+    
     def __init__(self):  # (8)
         pytch.Sprite.__init__(self)
         self.x_speed = None
@@ -164,9 +165,11 @@ class Ball(pytch.Sprite):
         if self.touching('Player_1'):
             self.x_speed = -1 * self.x_speed
             self.change_x_pos(4)
+            self.play_sound('bounce')
         if self.touching('Player_2'):
             self.x_speed = -1 * self.x_speed
             self.change_x_pos(-4)
+            self.play_sound('bounce')
 
     def award_point(self):
         if self.x_pos() > 225:

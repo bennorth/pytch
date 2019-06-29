@@ -15,6 +15,10 @@ var $builtinmodule = function (name) {
     // Two-level map taking sprite class-name and costume-name to actual costume
     mod.sprite_costumes = {};
 
+    
+    // Two-level map taking sprite class-name and sound-name to actual sounds
+    mod.sprite_sounds = {};
+
     //------------------------------------------------------------------------------
     // Costume
     //
@@ -30,6 +34,16 @@ var $builtinmodule = function (name) {
         this.centre_y = centre_y;
     }
 
+    //------------------------------------------------------------------------------
+    // Sound
+    //
+    // Store information about a Sound we can play.
+    // A Sound consists only an Audio object
+    function Sound(snd) {
+	this.sound = snd;
+    }
+
+    
     //------------------------------------------------------------------------------
     // PytchSprite
     //
@@ -141,6 +155,19 @@ var $builtinmodule = function (name) {
         var overlap =  (bbx1[0] < bbx2[1] && bbx2[0] < bbx1[1]
                         && bbx1[2] < bbx2[3] && bbx2[2] < bbx1[3]);
         return overlap ? Sk.builtin.bool.true$ : Sk.builtin.bool.false$
+    };
+
+ 
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Sound playback
+
+    // Async. playback:
+    mod.play_sound = function( cls, snd ){
+	var s = mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)] ;
+	s.sound.play(); // Note - returns a Promise that is resolved when the audio stops playing.
+
+	return true;
     };
 
 
@@ -488,6 +515,46 @@ var $builtinmodule = function (name) {
                                    Sk.ffi.remapToJs(py_centre_y)));
     };
 
+     //------------------------------------------------------------------------------
+    // async_register_sound()
+    //
+    // Asynchronously load the sound referred to by 'sound_url'.  When loaded,
+    // insert an Audio object into the 'sprite_sounds' map and resolve
+    // the promise which async_register_sound() returns with a diagnostic message.
+
+    var async_register_sound = function(sprite_cls_name, sound_name, sound_url) {
+        return new Promise(function(resolve, reject) {
+            var snd = new Audio(sound_url);
+	    
+            snd.addEventListener ('canplaythrough', function() {
+                var sounds = mod.sprite_sounds;
+
+                if ( ! sounds.hasOwnProperty(sprite_cls_name))
+                    sounds[sprite_cls_name] = {};
+
+                sounds[sprite_cls_name][sound_name]
+                    = new Sound(snd);
+
+                resolve("sound at '" + sound_url
+                        + "' registered with name '" + sound_name
+                        + "' for sprite-class '" + sprite_cls_name + "'");
+            }, false);
+	    snd.addEventListener('error', function failed(e){ console.log("Audio load failure"); console.log(e); } );
+	    snd.src = sound_url; snd.preload="true";
+	    snd.load();
+        });
+    }
+
+    mod._register_sprite_sound = function(py_sprite_cls_name,
+					  py_name, py_url) {
+	return Sk.misceval.promiseToSuspension(
+	    async_register_sound( Sk.ffi.remapToJs(py_sprite_cls_name),
+				  Sk.ffi.remapToJs(py_name),
+				  Sk.ffi.remapToJs(py_url)));
+	};
+						   
+    
+    
     mod._register_sprite_instance = function(py_sprite_cls_name, py_sprite) {
         // This 'id' isn't used for anything but lets the caller know we've
         // done something.

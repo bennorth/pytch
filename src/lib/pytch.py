@@ -6,6 +6,9 @@ import _pytch
 # Sprite and Stage base classes
 
 class Stage:
+
+    Sounds = {}
+    
     def __init__(self):
         self._x = 0
         self._y = 0
@@ -21,6 +24,8 @@ class Sprite:
     Keep track of a sprite's (x, y) coordinates, whether or not it is shown,
     and the name of the costume it is currently wearing.
     """
+
+    Sounds = {}
 
     def __init__(self):
         self._x = 0
@@ -67,6 +72,9 @@ class Sprite:
         return _pytch.bounding_boxes_overlap(self.__class__.__name__,
                                              other_name)
 
+    def play_sound(self, sound_name):
+        return _pytch.play_sound( self.__class__.__name__,
+                                  sound_name )
 
 # Event handlers are registered in a two-phase process.  Each sort of decorator
 # adds a function attribute, which is then picked up in run() below.
@@ -131,6 +139,11 @@ def run():
                                                   costume_name,
                                                   costume_url,
                                                   240, 180)
+        for sound_name, sound_url in cls.Sounds.items():
+            print _pytch._register_sprite_sound(sprite_cls_name,
+                                                    sound_name,
+                                                    sound_url);
+
 
         register_instance_handlers(sprite)
 
@@ -145,6 +158,11 @@ def run():
                                                   costume_url,
                                                   costume_centre_x,
                                                   costume_centre_y)
+        for sound_name, sound_url in cls.Sounds.items():
+            print _pytch._register_sprite_sound(sprite_cls_name,
+                                                    sound_name,
+                                                    sound_url);
+
 
         register_instance_handlers(sprite)
 
