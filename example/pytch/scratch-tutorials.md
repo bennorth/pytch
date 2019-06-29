@@ -730,3 +730,226 @@ Suggests:
  * Animate a sprite
 
 next.
+
+
+# Required new features
+
+To implement the above, we would need:
+
+
+## Sprite methods
+
+### Costume
+
+ - `next costume`
+
+Needs to be an order to the costumes, not just a map from name.
+Specify costumes as a list of tuples (whose first element is the name)
+rather than a map from name to the rest of the info?
+
+### Speech bubble
+
+ - `say () for () seconds`
+
+Proper solution would involve trying not to overlap speech bubbles,
+word wrapping, etc., but something simple might not be too tricky.
+Equivalent to
+
+    say('hello')
+    wait(2)
+    say(None)
+
+Do we want a distinction between `say(None)` and `say('')`?
+
+### Direction and directional movement
+
+ - `move () steps`
+ - `turn clockwise () degrees`
+ - `point in direction ()`
+
+Probably easy enough, although care needed over moving off stage.
+Scratch limits how far off-stage a sprite can go with the `move ()
+steps` block.  Coupled with hit-test difficulty for ‘when this sprite
+clicked’.
+
+### Size
+
+ - `change size by ()`
+ - `set size to ()`
+
+Easy enough; details: limits? interaction with hit-test?
+
+### Graphics effects
+
+ - `change () effect by ()` (e.g., `color`)
+ - `clear graphics effects`
+
+Could probably look at Scratch implementation for inspiration.  Might
+be quite fiddly for relatively small gain.
+
+### Movement
+
+ - `if on edge, bounce`
+ - `glide () secs to ()` (e.g., `random posn`)
+ - `glide () secs to x () y ()`
+
+Bounce behaviour would need exploring and defining but then probably
+not too tricky.
+
+Scratch behaviour while a ‘glide’ is going on is that the path is set
+and any disturbances are undone at the next frame.  E.g., having a
+‘when up arrow pressed, change y by 10’ and pressing up arrow while a
+glide is happening hops the sprite up by 10 for a frame or so only.
+Could be implemented in Python as a loop, so fairly easy.
+
+If there are two concurrent ‘glide’s going on, one ‘wins’.
+
+For ‘random posn’, cleanest to do this via named constants?
+
+    self.glide_to(pytch.Random_Position, 2.0)
+
+Although you can ‘glide to’ another sprite, so this might have to be a
+string, with a convention for non-sprite-class values like
+
+    self.glide_to('Gem', 2.0)
+    self.glide_to('.random', 1.0)
+
+### Text-to-speech extension
+
+ - `set voice to ()` (e.g., `squeak`)
+ - `speak ()`
+
+Not going to do this in v1.
+
+
+## Primitives
+
+### Events
+
+ - `when this sprite clicked`
+ - `when () key pressed`
+
+Complexity of ‘sprite clicked’ depends on whether we’ve done
+rotation/scaling of sprites.  Key-press event should be easy enough.
+
+Does raise questions about event handling model, though.  If we have
+
+    @when_key_pressed(‘k’)
+    def move_up(self):
+        pytch.wait(5.0)
+        self.change_y_pos(20)
+
+and then hit ‘k’ a few times in rapid succession, what should happen?
+How many times should the sprite move up?  Scratch prevents a second
+handler thread from starting while the first one is running.  This is
+in contrast to the behaviour for message receipt events, which cancel
+and launch new.
+
+### Sound
+
+ - `start sound ()`
+ - `play sound () until done`
+
+Both launch threads to play sound; the second then blocks the calling
+thread until the sound has finished playing.  Sound can be specified
+by name or index.  Would need to think about indexing: strongly
+leaning towards zero-based (the Python way) even though that’s a
+change from Scratch.
+
+### Looping
+
+ - `repeat ()`
+
+Use Python equivalent
+
+    for _ in range(6):
+        self.change_size_by(10)
+
+### Mouse sensing
+
+ - `mouse x`
+
+### Control
+
+ - `stop ()` (e.g., `all`)
+
+### Video sensing extension
+
+ - `when video motion > ()`
+
+Not going to do this for v1.
+
+### Variable watchers
+
+Used for a few ‘score’ variables.  Could, for v1, cheat and put these
+next to the green flag.  Only ever one in these tutorials (‘score’),
+so would be OK-ish.  Used in:
+
+ - Make a chase game
+ - Make a clicker game
+ - Make it fly
+ - Pong game
+ - Animate an adventure game
+
+So a primitive like
+
+    pytch.add_watcher(self, 'score')
+
+would probably suffice?  Has to be indirected to allow display loop to
+pull out current value of that variable.  Distinction between global
+and instance variables?  Maybe first arg means ‘scope’ or ‘namespace’?
+E.g.,
+
+    pytch.add_watcher(GlobalVariables, 'score')
+
+Would be a relatively small step from ‘paragraph next to green flag’ to
+allow placement in a div on top of the canvas, but that can be v2.
+
+### Random number generation
+
+ - `pick random`
+
+Scratch behaviour is to guess whether you want a random integer or a
+random floating-point number from the arguments.  We might decide not
+to copy this approach.  Python provides a `random` module, which is
+implemented in Skulpt, so defer to that.
+
+
+## Proposed initial priorities
+
+ - `when key pressed` event
+ - `glide` with target of ‘random position’
+ - sounds
+ - simple variable watchers (i.e., only works well for one watcher)
+
+Would enable:
+
+ - *Make a chase game*
+ - Most of *Animate a character* (not the graphics effects)
+
+By adding
+
+ - Color effect
+
+would enable rest of *Animate a character*.  By adding
+
+ - Speech bubbles
+
+would enable *Create a story*, *Animate an adventure game*, *Getting
+started*.  By adding
+
+ - Next costume
+
+would enable *Make it fly*.
+
+By adding
+
+ - If on edge, bounce
+ - Stop all
+
+would enable *Pong game*.  Would be nice to have
+
+ - `when this sprite clicked`
+
+as that would allow *Make a clicker game* (apart from color-change
+effect).
