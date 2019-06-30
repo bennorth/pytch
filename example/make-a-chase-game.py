@@ -1,5 +1,8 @@
 import pytch
 
+class Stage(pytch.Stage):
+    Backdrops = {'default': 'pytch-images/midnightblue.png'}
+
 class Player(pytch.Sprite):
     Costumes = {'python': ('pytch-images/python-logo.png', 25, 25)}
     Sounds = {'pop': 'pytch-audio/pop.mp3'}
