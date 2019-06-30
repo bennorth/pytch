@@ -477,6 +477,8 @@ var $builtinmodule = function (name) {
             mod.green_flag_state = "has-been-clicked";
         }
 
+        for (var key in mod.key_just_pressed)
+            mod.launch_keypress_responses(key);
         mod.key_just_pressed = {};
 
         var all_done = (mod.green_flag_state == "has-been-clicked"
