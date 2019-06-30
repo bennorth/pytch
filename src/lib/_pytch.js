@@ -155,6 +155,9 @@ var $builtinmodule = function (name) {
         var spr1 = sprite_from_name(py_name_1);
         var spr2 = sprite_from_name(py_name_2);
 
+        if (( ! spr1.shown) || ( ! spr2.shown))
+            return Sk.builtin.bool.false$;
+
         var bbx1 = spr1.bounding_box();
         var bbx2 = spr2.bounding_box();
         var overlap =  (bbx1[0] < bbx2[1] && bbx2[0] < bbx1[1]
