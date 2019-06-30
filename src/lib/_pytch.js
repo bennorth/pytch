@@ -77,10 +77,10 @@ var $builtinmodule = function (name) {
     PytchSprite.prototype.bounding_box = function() {
         // Annoying combination of addition and subtraction to account for the
         // different coordinate systems of costume-centre vs stage.
-        var min_x = this.x - this.costume.centre_x;
-        var max_y = this.y + this.costume.centre_y;
-        var max_x = min_x + this.costume.image.width;
-        var min_y = max_y - this.costume.image.height;
+        var min_x = this.x - this.size * this.costume.centre_x;
+        var max_y = this.y + this.size * this.costume.centre_y;
+        var max_x = min_x + this.size * this.costume.image.width;
+        var min_y = max_y - this.size * this.costume.image.height;
         return [min_x, max_x, min_y, max_y];
     };
 
