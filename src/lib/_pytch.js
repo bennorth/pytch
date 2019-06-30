@@ -121,7 +121,7 @@ var $builtinmodule = function (name) {
     //
     // Key handling
 
-    mod.is_key_down = {}
+    mod.is_key_down = {};
 
     mod.canvas_elt.onkeydown = function(e) {
         mod.is_key_down[e.key] = true;
@@ -208,7 +208,7 @@ var $builtinmodule = function (name) {
         if ( ! mod.message_handlers.hasOwnProperty(message))
             mod.message_handlers[message] = [];
         mod.message_handlers[message].push(handler_py_fun);
-    }
+    };
 
 
     ////////////////////////////////////////////////////////////////////////////////
