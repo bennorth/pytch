@@ -55,6 +55,7 @@ var $builtinmodule = function (name) {
     PytchSprite.$_x = Sk.builtin.str("_x");
     PytchSprite.$_y = Sk.builtin.str("_y");
     PytchSprite.$_costume = Sk.builtin.str("_costume");
+    PytchSprite.$_size = Sk.builtin.str("_size");
     PytchSprite.$_shown = Sk.builtin.str("_shown");
 
     PytchSprite.prototype.sprite_attr = function(attr_name) {
@@ -64,9 +65,9 @@ var $builtinmodule = function (name) {
     };
 
     PytchSprite.prototype.sync_render_state = function() {
-        // TODO: Size.
         this.x = this.sprite_attr(PytchSprite.$_x);
         this.y = this.sprite_attr(PytchSprite.$_y);
+        this.size = this.sprite_attr(PytchSprite.$_size);
         this.shown = this.sprite_attr(PytchSprite.$_shown);
         var costume_name = this.sprite_attr(PytchSprite.$_costume);
         this.costume = mod.sprite_costumes[this.sprite_class_name][costume_name];
