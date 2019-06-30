@@ -94,6 +94,15 @@ class when_I_receive:
         return fun
 
 
+class when_key_pressed:
+    def __init__(self, key):
+        self.key = key
+
+    def __call__(self, fun):
+        fun._pytch_handler_for = ('key', self.key)
+        return fun
+
+
 broadcast = _pytch._broadcast
 broadcast_and_wait = _pytch._broadcast_and_wait
 key_is_pressed = _pytch.key_is_pressed
