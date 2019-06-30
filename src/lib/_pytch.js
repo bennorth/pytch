@@ -202,6 +202,16 @@ var $builtinmodule = function (name) {
     mod.when_green_flag_clicked = function(handler_py_fun)
                                   { mod.green_flag_handlers.push(handler_py_fun); };
 
+    // Add the given 'handler_py_fun' to the array stored under 'key' in the map
+    // 'handlers_from_key'.  ('Key' here is used in the sense 'thing you look up
+    // in a map' rather than 'thing you press on a keyboard'.)
+    //
+    var push_handler_for_key = function(handlers_from_key, key, handler_py_fun) {
+        if ( ! handlers_from_key.hasOwnProperty(key))
+            handlers_from_key[key] = [];
+        handlers_from_key[key].push(handler_py_fun);
+    };
+
     mod.message_handlers = {};
     mod.when_I_receive = function(py_message, handler_py_fun) {
         var message = Sk.ffi.remapToJs(py_message);
