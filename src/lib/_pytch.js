@@ -183,6 +183,16 @@ var $builtinmodule = function (name) {
                                   py_name: py_name});
     };
 
+    mod.update_shown_variables = function() {
+        var span_htmls = mod.shown_variables.map(
+            v => ("<span class=\"shown-variable\"><span class=\"name\">"
+                  + v.name
+                  + "</span><span class=\"value\">"
+                  + Sk.ffi.remapToJs(Sk.abstr.gattr(v.scope, v.py_name))
+                  + "</span></span>"));
+        mod.variable_display_elt.innerHTML = span_htmls.join("");
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
