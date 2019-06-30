@@ -78,6 +78,9 @@ class Sprite:
             self.go_to_xy(x, y)
             _pytch._yield_until_next_frame()
 
+    def set_size(self, size):
+        self._size = size
+
     def show(self):
         self._shown = True
 
