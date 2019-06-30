@@ -458,9 +458,9 @@ var $builtinmodule = function (name) {
         if (sprite.shown) {
             // Slight dance to undo the y coordinate flip.
             ctx.save();
-            ctx.translate(sprite.x - sprite.costume.centre_x,
-                          sprite.y + sprite.costume.centre_y);
-            ctx.scale(1, -1);
+            ctx.translate(sprite.x - sprite.size * sprite.costume.centre_x,
+                          sprite.y + sprite.size * sprite.costume.centre_y);
+            ctx.scale(sprite.size, -sprite.size);
             ctx.drawImage(sprite.costume.image, 0, 0);
             ctx.restore();
         }
