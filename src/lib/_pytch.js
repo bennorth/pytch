@@ -148,12 +148,15 @@ var $builtinmodule = function (name) {
     // (Very) approximate collision detection
 
     mod.bounding_boxes_overlap = function(py_name_1, py_name_2) {
-        var bbx_from_name = function(py_name) {
-            return syncd_sprite_by_name(Sk.ffi.remapToJs(py_name)).bounding_box();
+        var sprite_from_name = function(py_name) {
+            return syncd_sprite_by_name(Sk.ffi.remapToJs(py_name));
         }
 
-        var bbx1 = bbx_from_name(py_name_1);
-        var bbx2 = bbx_from_name(py_name_2);
+        var spr1 = sprite_from_name(py_name_1);
+        var spr2 = sprite_from_name(py_name_2);
+
+        var bbx1 = spr1.bounding_box();
+        var bbx2 = spr2.bounding_box();
         var overlap =  (bbx1[0] < bbx2[1] && bbx2[0] < bbx1[1]
                         && bbx1[2] < bbx2[3] && bbx2[2] < bbx1[3]);
         return overlap ? Sk.builtin.bool.true$ : Sk.builtin.bool.false$
