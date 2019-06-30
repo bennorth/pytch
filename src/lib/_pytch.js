@@ -395,6 +395,15 @@ var $builtinmodule = function (name) {
                                  mod.message_handlers[message], null);
     };
 
+    mod.launch_keypress_responses = function(key) {
+        if (mod.keypress_handlers.hasOwnProperty(key)) {
+            mod.live_event_responses.push(
+                new EventResponse("key '" + key + "'",
+                                  mod.keypress_handlers[key],
+                                  function(){}));
+        }
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
 
