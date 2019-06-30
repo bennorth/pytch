@@ -13,15 +13,15 @@ class Player(pytch.Sprite):
         self.change_x_pos(10)
 
     @when_key_pressed('ArrowLeft')
-    def move_right(self):
+    def move_left(self):
         self.change_x_pos(-10)
 
     @when_key_pressed('ArrowUp')
-    def move_right(self):
+    def move_up(self):
         self.change_y_pos(10)
 
     @when_key_pressed('ArrowDown')
-    def move_right(self):
+    def move_down(self):
         self.change_y_pos(-10)
 
     @when_green_flag_clicked
