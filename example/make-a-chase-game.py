@@ -49,3 +49,9 @@ class Star(pytch.Sprite):
         self.set_size(0.15)
         while True:
             self.glide_to('.random', 1.0)
+
+
+pytch.register_stage_class(Stage)
+pytch.register_sprite_class(Player)
+pytch.register_sprite_class(Star)
+pytch.run()
