@@ -219,6 +219,12 @@ var $builtinmodule = function (name) {
                              handler_py_fun);
     };
 
+    mod.keypress_handlers = {};
+    mod.when_key_pressed = function(py_key, handler_py_fun) {
+        push_handler_for_key(mod.keypress_handlers,
+                             Sk.ffi.remapToJs(py_key),
+                             handler_py_fun);
+    };
 
     ////////////////////////////////////////////////////////////////////////////////
     //
