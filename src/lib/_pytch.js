@@ -166,6 +166,17 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Variable watchers
+    //
+    // Primitive first implementation just puts each watched variable into its
+    // own <span> element, all inside a <p>.  If a variable contains anything
+    // other than a number or a string, behaviour is undefined.
+
+    mod.variable_display_elt = document.getElementById("shown-variables");
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Sound playback
 
     // Async. playback:
