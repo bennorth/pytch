@@ -447,6 +447,8 @@ var $builtinmodule = function (name) {
         ctx.clearRect(-mod.stage_hwd, -mod.stage_hht,
                       mod.stage_wd, mod.stage_ht);
         mod.sprite_instances.forEach(s => render_one_sprite(ctx, s));
+
+        mod.update_shown_variables();
     };
 
     var render_one_sprite = function(ctx, sprite) {
