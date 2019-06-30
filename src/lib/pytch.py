@@ -1,4 +1,5 @@
 import _pytch
+import random
 
 
 ################################################################################
@@ -54,6 +55,15 @@ class Sprite:
 
     def set_y_pos(self, y):
         self._y = y
+
+    def glide_to(self, target, n_seconds):
+        if target == '.random':
+            # TODO: Update to use canvas size, if/when that is non-fixed.
+            target_x = random.randrange(-240, 241)
+            target_y = random.randrange(-180, 181)
+        else:
+            raise ValueError('unknown glide target')
+        self.glide_to_xy(target_x, target_y, n_seconds)
 
     def glide_to_xy(self, target_x, target_y, n_seconds):
         x0 = self.x_pos()
