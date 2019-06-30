@@ -11,23 +11,23 @@ class Player(pytch.Sprite):
         pytch.Sprite.__init__(self)
         self.score = 0
 
-    @when_key_pressed('ArrowRight')
+    @pytch.when_key_pressed('ArrowRight')
     def move_right(self):
         self.change_x_pos(10)
 
-    @when_key_pressed('ArrowLeft')
+    @pytch.when_key_pressed('ArrowLeft')
     def move_left(self):
         self.change_x_pos(-10)
 
-    @when_key_pressed('ArrowUp')
+    @pytch.when_key_pressed('ArrowUp')
     def move_up(self):
         self.change_y_pos(10)
 
-    @when_key_pressed('ArrowDown')
+    @pytch.when_key_pressed('ArrowDown')
     def move_down(self):
         self.change_y_pos(-10)
 
-    @when_green_flag_clicked
+    @pytch.when_green_flag_clicked
     def play_game(self):
         pytch.show_variable(self, 'score')
         while True:
@@ -36,7 +36,7 @@ class Player(pytch.Sprite):
                 pytch.play_sound_until_done('pop')
 
 class Star(pytch.Sprite):
-    @when_green_flag_clicked
+    @pytch.when_green_flag_clicked
     def play_game(self):
         self.set_size(0.15)
         while True:
