@@ -97,6 +97,10 @@ class Sprite:
         return _pytch.play_sound( self.__class__.__name__,
                                   sound_name )
 
+
+show_variable = _pytch.show_variable
+
+
 # Event handlers are registered in a two-phase process.  Each sort of decorator
 # adds a function attribute, which is then picked up in run() below.
 
