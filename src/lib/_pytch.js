@@ -174,6 +174,15 @@ var $builtinmodule = function (name) {
 
     mod.variable_display_elt = document.getElementById("shown-variables");
 
+    mod.shown_variables = [];
+
+    mod.show_variable = function(py_scope, py_name) {
+        // TODO: Make the object I'm pushing be a proper class?
+        mod.shown_variables.push({scope: py_scope,
+                                  name: Sk.ffi.remapToJs(py_name),
+                                  py_name: py_name});
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
