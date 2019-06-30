@@ -29,6 +29,9 @@ class Player(pytch.Sprite):
 
     @pytch.when_green_flag_clicked
     def play_game(self):
+        self.go_to_xy(100, 0)
+        self.switch_costume('python')
+        self.show()
         pytch.show_variable(self, 'score')
         while True:
             if self.touching('Star'):
@@ -40,6 +43,9 @@ class Star(pytch.Sprite):
 
     @pytch.when_green_flag_clicked
     def play_game(self):
+        self.go_to_xy(-100, 0)
+        self.switch_costume('star')
+        self.show()
         self.set_size(0.15)
         while True:
             self.glide_to('.random', 1.0)
