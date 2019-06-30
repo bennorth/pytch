@@ -214,10 +214,9 @@ var $builtinmodule = function (name) {
 
     mod.message_handlers = {};
     mod.when_I_receive = function(py_message, handler_py_fun) {
-        var message = Sk.ffi.remapToJs(py_message);
-        if ( ! mod.message_handlers.hasOwnProperty(message))
-            mod.message_handlers[message] = [];
-        mod.message_handlers[message].push(handler_py_fun);
+        push_handler_for_key(mod.message_handlers,
+                             Sk.ffi.remapToJs(py_message),
+                             handler_py_fun);
     };
 
 
