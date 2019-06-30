@@ -15,7 +15,6 @@ var $builtinmodule = function (name) {
     // Two-level map taking sprite class-name and costume-name to actual costume
     mod.sprite_costumes = {};
 
-    
     // Two-level map taking sprite class-name and sound-name to actual sounds
     mod.sprite_sounds = {};
 
@@ -43,7 +42,6 @@ var $builtinmodule = function (name) {
 	this.sound = snd;
     }
 
-    
     //------------------------------------------------------------------------------
     // PytchSprite
     //
@@ -165,7 +163,7 @@ var $builtinmodule = function (name) {
         return overlap ? Sk.builtin.bool.true$ : Sk.builtin.bool.false$
     };
 
- 
+
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Sound playback
@@ -561,7 +559,7 @@ var $builtinmodule = function (name) {
     var async_register_sound = function(sprite_cls_name, sound_name, sound_url) {
         return new Promise(function(resolve, reject) {
             var snd = new Audio(sound_url);
-	    
+
             snd.addEventListener ('canplaythrough', function() {
                 var sounds = mod.sprite_sounds;
 
@@ -588,9 +586,7 @@ var $builtinmodule = function (name) {
 				  Sk.ffi.remapToJs(py_name),
 				  Sk.ffi.remapToJs(py_url)));
 	};
-						   
-    
-    
+
     mod._register_sprite_instance = function(py_sprite_cls_name, py_sprite) {
         // This 'id' isn't used for anything but lets the caller know we've
         // done something.
