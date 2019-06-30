@@ -122,9 +122,11 @@ var $builtinmodule = function (name) {
     // Key handling
 
     mod.is_key_down = {};
+    mod.key_just_pressed = {};
 
     mod.canvas_elt.onkeydown = function(e) {
         mod.is_key_down[e.key] = true;
+        mod.key_just_pressed[e.key] = true;
         e.preventDefault();
     };
 
@@ -465,6 +467,8 @@ var $builtinmodule = function (name) {
             mod.launch_green_flag_response();
             mod.green_flag_state = "has-been-clicked";
         }
+
+        mod.key_just_pressed = {};
 
         var all_done = (mod.green_flag_state == "has-been-clicked"
                         && mod.is_everything_finished());
