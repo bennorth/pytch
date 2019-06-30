@@ -48,7 +48,7 @@
       //        ln -s ../dist
       //    will do this.
       //
-      $("#code").load("pong.py", function() {
+      $("#code").load("make-a-chase-game.py", function() {
           var prog = document.getElementById("code").value;
           var p = Sk.misceval.asyncToPromise(function() {
               return Sk.importMainWithBody("<stdin>", false, prog, true);
