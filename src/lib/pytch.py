@@ -134,6 +134,8 @@ def register_instance_handlers(obj):
                     _pytch.when_green_flag_clicked(bound_method)
                 elif evt_tp == 'message':
                     _pytch.when_I_receive(evt_data, bound_method)
+                elif evt_tp == 'key':
+                    _pytch.when_key_pressed(evt_data, bound_method)
 
 def run():
     # Fudge: register stage first so it gets drawn first and hence 'under'
