@@ -36,7 +36,10 @@ class Player(pytch.Sprite):
         while True:
             if self.touching('Star'):
                 self.score += 1
-                pytch.play_sound_until_done('pop')
+                # TODO: Replace with 'play_sound_until_done'
+                # when available.
+                self.play_sound('pop')
+                pytch.wait_seconds(1.0)
 
 class Star(pytch.Sprite):
     Costumes = {'star': ('pytch-images/star.png', 100, 95)}
