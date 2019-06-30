@@ -55,6 +55,17 @@ class Sprite:
     def set_y_pos(self, y):
         self._y = y
 
+    def glide_to_xy(self, target_x, target_y, n_seconds):
+        x0 = self.x_pos()
+        y0 = self.y_pos()
+        n_frames = int(60.0 * n_seconds)  # TODO: Do not hard-code frame rate?
+        for i in range(n_frames):
+            a = (i + 1.0) / n_frames
+            x = a * target_x + (1 - a) * x0
+            y = a * target_y + (1 - a) * y0
+            self.go_to_xy(x, y)
+            _pytch._yield_until_next_frame()
+
     def show(self):
         self._shown = True
 
