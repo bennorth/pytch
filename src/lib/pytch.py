@@ -13,6 +13,7 @@ class Stage:
     def __init__(self):
         self._x = 0
         self._y = 0
+        self._size = 1.0
         self._shown = True
         self._costume = self.Backdrops.keys()[0]
 
@@ -31,6 +32,7 @@ class Sprite:
     def __init__(self):
         self._x = 0
         self._y = 0
+        self._size = 1.0
         self._shown = False
         self._costume = '--does-not-matter--'
 
