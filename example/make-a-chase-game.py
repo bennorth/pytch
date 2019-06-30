@@ -36,6 +36,8 @@ class Player(pytch.Sprite):
                 pytch.play_sound_until_done('pop')
 
 class Star(pytch.Sprite):
+    Costumes = {'star': ('pytch-images/star.png', 100, 95)}
+
     @pytch.when_green_flag_clicked
     def play_game(self):
         self.set_size(0.15)
