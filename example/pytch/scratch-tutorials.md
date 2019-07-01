@@ -953,3 +953,10 @@ would enable *Pong game*.  Would be nice to have
 
 as that would allow *Make a clicker game* (apart from color-change
 effect).
+
+
+# Possible presentation approach
+
+Worth making literate git repos for these tutorials?  Might be a good
+use-case for the literate-git thing and a way of pushing one of the
+advantages of text-based languages.

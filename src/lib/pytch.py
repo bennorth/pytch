@@ -90,10 +90,6 @@ class Sprite:
     def switch_costume(self, costume_name):
         self._costume = costume_name
 
-    def set_size_percent(self, size_pct):
-        # TODO
-        pass
-
     def touching(self, other_name):
         return _pytch.bounding_boxes_overlap(self.__class__.__name__,
                                              other_name)
@@ -213,7 +209,8 @@ def run():
 ################################################################################
 #
 # Wait until next frame
-
-# TODO: Inject these calls automatically
+#
+# Calls to this function should be automatically injected where required, but
+# leaving this here to handle any cases we haven't thought of yet.
 
 _yield_until_next_frame = _pytch._yield_until_next_frame
