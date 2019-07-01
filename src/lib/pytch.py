@@ -209,7 +209,8 @@ def run():
 ################################################################################
 #
 # Wait until next frame
-
-# TODO: Inject these calls automatically
+#
+# Calls to this function should be automatically injected where required, but
+# leaving this here to handle any cases we haven't thought of yet.
 
 _yield_until_next_frame = _pytch._yield_until_next_frame
