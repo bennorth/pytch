@@ -54,7 +54,7 @@ Reporter blocks:
 # Sound
 
 - Play sound **sound-name** until done
-- Play** sound-name**
+- Start **sound-name**
 - Stop all sounds
 - change (**pitch**|**pan left-right**) effect by n 
 - set (**pitch**|**pan left-right**) effect to n 

@@ -38,7 +38,7 @@ class Player(pytch.Sprite):
                 self.score += 1
                 # TODO: Replace with 'play_sound_until_done'
                 # when available.
-                self.play_sound('pop')
+                self.start_sound('pop')
                 pytch.wait_seconds(1.0)
 
 class Star(pytch.Sprite):

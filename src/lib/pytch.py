@@ -94,8 +94,8 @@ class Sprite:
         return _pytch.bounding_boxes_overlap(self.__class__.__name__,
                                              other_name)
 
-    def play_sound(self, sound_name):
-        return _pytch.play_sound( self.__class__.__name__,
+    def start_sound(self, sound_name):
+        return _pytch.start_sound( self.__class__.__name__,
                                   sound_name )
 
 

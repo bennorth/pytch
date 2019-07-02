@@ -200,7 +200,7 @@ var $builtinmodule = function (name) {
     // Sound playback
 
     // Async. playback:
-    mod.play_sound = function( cls, snd ){
+    mod.start_sound = function( cls, snd ){
 	var s = mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)] ;
 	s.sound.play(); // Note - returns a Promise that is resolved when the audio stops playing.
 
