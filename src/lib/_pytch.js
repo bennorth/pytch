@@ -206,6 +206,21 @@ var $builtinmodule = function (name) {
         mod.mouse_client_posn.y = evt.clientY;
     };
 
+    mod.current_mouse_stage_posn = function() {
+        var elt_rect = mod.canvas_elt.getBoundingClientRect();
+        var canvas_x0 = elt_rect.left;
+        var canvas_y0 = elt_rect.top;
+
+        var canvas_x = mod.mouse_client_posn.x - canvas_x0;
+        var canvas_y = mod.mouse_client_posn.y - canvas_y0;
+
+        // Recover stage coords by: translating; flipping y.
+        var stage_x = canvas_x - mod.stage_hwd;
+        var stage_y = mod.stage_hht - canvas_y;
+
+        return {x: stage_x, y: stage_y};
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
