@@ -10,6 +10,6 @@ SERVER=pytch.org
 PUBLISHDIR=pytch.org/prototype
 
 scp dist/skulpt-stdlib.js dist/skulpt.min.js $SERVER:$PUBLISHDIR/dist/
-scp example/pytch-images/ example/pytch-audio/ $SERVER:$PUBLISHDIR/
+scp -r example/pytch-images/ example/pytch-audio/ $SERVER:$PUBLISHDIR/
 scp example/pytch.html $SERVER:$PUBLISHDIR/
 scp example/*.py $SERVER:$PUBLISHDIR/
