@@ -199,6 +199,13 @@ var $builtinmodule = function (name) {
     //
     // Mouse handling
 
+    mod.mouse_client_posn = { x: 0.0, y: 0.0 };
+
+    mod.on_mouse_move = function(evt) {
+        mod.mouse_client_posn.x = evt.clientX;
+        mod.mouse_client_posn.y = evt.clientY;
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
