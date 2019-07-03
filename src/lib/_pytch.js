@@ -221,6 +221,12 @@ var $builtinmodule = function (name) {
         return {x: stage_x, y: stage_y};
     };
 
+    mod.on_mouse_down = function(evt) {
+        var stage_posn = mod.current_mouse_stage_posn();
+        // TODO: Work out whether a sprite has been clicked, and launch response if so.
+        // TODO: Launch any 'when stage clicked' handlers if no sprites hit.
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
