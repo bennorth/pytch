@@ -225,6 +225,8 @@ var $builtinmodule = function (name) {
         var stage_posn = mod.current_mouse_stage_posn();
         // TODO: Work out whether a sprite has been clicked, and launch response if so.
         // TODO: Launch any 'when stage clicked' handlers if no sprites hit.
+        document.getElementById("click-report").innerHTML
+            = "click at (" + stage_posn.x + ", " + stage_posn.y + ")";
     };
 
 
