@@ -567,6 +567,8 @@ var $builtinmodule = function (name) {
 
     mod.run = function() {
         mod.green_flag_elt.onclick = function(e) { mod.green_flag_state = "just-clicked"; }
+        mod.canvas_elt.onmousemove = mod.on_mouse_move;
+        mod.canvas_elt.onmousedown = mod.on_mouse_down;
         window.requestAnimationFrame(process_frame);
 
         var run_finished_promise
