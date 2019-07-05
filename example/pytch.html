@@ -3,12 +3,23 @@
     <script src="../dist/skulpt.min.js" type="text/javascript"></script>
     <script src="../dist/skulpt-stdlib.js" type="text/javascript"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script src="//ajaxorg.github.io/ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
     <style>
       #shown-variables { background-color: #e0e0e0; padding: 8px 0px; width: 480px; }
       #shown-variables .shown-variable { padding: 4px; }
       #shown-variables .shown-variable .name { padding-right: 4px; }
       #shown-variables .shown-variable .value { padding-left: 4px; }
-    </style>
+</style>
+<style type="text/css" media="screen">
+    #editor { 
+		border: 1px solid lightgray;
+		margin: auto;
+		height: 200px;
+		width: 80%;
+	
+    }
+</style>
   </head>
 
   <body>
@@ -17,15 +28,18 @@
       <tbody></tbody>
     </table>
     <canvas id="pytch-canvas" width="480" height="360" style="background-color:green"></canvas>
-<textarea id="code" rows="24" cols="80" style="display:none">
-</textarea>
-<div id="green-flag" style="height: 32px; width: 48px; background-color: green; margin: 16px;"></div>
-<p id="click-report"></p>
+    <textarea id="code" rows="24" cols="80" style="display:none">
+    </textarea>
+<div id="green-flag" style="height: 32px; width: 48px;
+  background-color: green; margin: 16px;"></div>
 <p id="shown-variables"></p>
 <p id="frame-idx"></p>
 <pre id="skulpt-stdout"></pre>
-    <script>
-      function append_stdout(text) {
+    <button type="button" id="compile" >Compile</button>
+  <div id="editor" />
+  <script>
+  
+    function append_stdout(text) {
           var elt = document.getElementById("skulpt-stdout");
           elt.innerHTML = elt.innerHTML + text;
       }
@@ -48,13 +62,29 @@
       //        cd $PROJECT_ROOT/example
       //        ln -s ../dist
       //    will do this.
-      //
-      $("#code").load("make-a-chase-game.py", function() {
-          var prog = document.getElementById("code").value;
-          var p = Sk.misceval.asyncToPromise(function() {
-              return Sk.importMainWithBody("<stdin>", false, prog, true);
-          });
-      });
+
+    $("#code").load("make-a-chase-game.py", function() {
+      editor.setValue( document.getElementById("code").value );
+    });
+    $("#compile").click( function(){
+      var prog = editor.getValue();
+      var p = Sk.misceval.asyncToPromise(function() {
+        return Sk.importMainWithBody("<stdin>", false, prog, true);
+      })
+    });
+    
+    
+  
+//          var prog = document.getElementById("code").value;
+//          var p = Sk.misceval.asyncToPromise(function() {
+//              return Sk.importMainWithBody("<stdin>", false, prog, true);
+//          });
+//  });
+
+  var editor = ace.edit("editor");
+  editor.getSession().setUseWorker(false);
+//  editor.setTheme("ace/mode/python");
+  
     </script>
   </body>
 </html>
