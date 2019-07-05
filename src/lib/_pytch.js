@@ -5,6 +5,17 @@ var $builtinmodule = function (name) {
 
     var mod = {};
 
+    var instance_counter;
+    if(!Sk.Pytch){
+	console.log("Adding pytch to Sk");
+	Sk.Pytch = { instance: 1};
+	instance_counter = 1;
+    }else{
+	console.log("Reusing an existing Sk Pytch");
+	instance_counter = Sk.Pytch.instance + 1;
+	Sk.Pytch.instance = instance_counter;
+    }
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Sprites
@@ -525,6 +536,16 @@ var $builtinmodule = function (name) {
     };
 
     var process_frame = function() {
+
+	//  If the captured instance_counter doesn't match the global counter in Sk
+	//  then this process_frame request is from an _old_ instance, and it should
+	//  remove itself. TODO: Should this happen here, or in the Thread manager?
+	if(instance_counter != Sk.Pytch.instance){
+	    mod.run_finished_resolve_fun(Sk.builtin.str("It's over")); // Need this?
+	    // What else could be cleaned up here?
+	    return;
+	}
+	
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
 
         render_project();
