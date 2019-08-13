@@ -31,6 +31,9 @@
       #green-flag { height: 32px; width: 48px; background-color: green; float:left; margin-bottom: 2ex; }
       #stop-button { height: 32px; width: 48px; background-color: red; float:left; margin-bottom: 2ex; }
       #compile-button { margin: auto; }
+
+      #navigation-strip p { padding-top: 3ex; padding-bottom: 3ex; background-color: #28547a; }
+      #navigation-strip span.nav-item { color: white; font-size: 20px; padding-left: 2.5em; padding-right: 2.5em; }
 </style>
   </head>
 
@@ -57,6 +60,14 @@
       <pre id="skulpt-stdout"></pre>
     </div>
     <textarea id="code" rows="24" cols="80" style="display:none"></textarea>
+
+    <div id="navigation-strip">
+      <p>
+        <span class="nav-item">Help</span>
+        <span class="nav-item">About</span>
+        <span class="nav-item">Github</span>
+      </p>
+    </div>
 
   <script>
 
