@@ -15,14 +15,21 @@
     <style type="text/css" media="screen">
       #editor {
 	  border: 1px solid lightgray;
-	  margin: auto;
-	  height: 200px;
+	  margin: 0;
+	  height: 360px;
 	  width: 80%;
           font-size: 16px;
       }
 
       body { background-color: #eee; margin: 32px; font-family: 'Roboto', sans-serif; }
       h1 { text-align: center; }
+
+      #pytch-canvas { border: 1px solid lightgray; }
+      #skulpt-stdout-container { clear: both; }
+      #skulpt-stdout { padding: 2ex 1em; background-color: #e0e0e0; }
+      #compile-button { font-size: 20px; background-color: lightgreen; }
+      #green-flag { height: 32px; width: 48px; background-color: green; float:left; margin-bottom: 2ex; }
+      #compile-button { margin: auto; }
 </style>
   </head>
 
@@ -33,16 +40,21 @@
       <thead><tr><th>Event</th><th>N.live</th><th>N.waiting</th><th>N.sleeping</th></tr></thead>
       <tbody></tbody>
     </table>
-    <canvas id="pytch-canvas" width="480" height="360" style="background-color:green"></canvas>
-    <textarea id="code" rows="24" cols="80" style="display:none">
-    </textarea>
-<div id="green-flag" style="height: 32px; width: 48px;
-  background-color: green; margin: 16px;"></div>
-<p id="shown-variables"></p>
-<p id="frame-idx"></p>
-<pre id="skulpt-stdout"></pre>
-    <button type="button" id="compile" >Compile</button>
-  <div id="editor" />
+    <div id="project-display" style="float:right">
+      <canvas id="pytch-canvas" width="480" height="360" style="background-color:green;"></canvas>
+      <p id="shown-variables"></p>
+      <p id="frame-idx"></p>
+      <div id="green-flag"></div>
+    </div>
+    <div id="editor-and-controls">
+      <div id="editor" style="width: 680px;"></div>
+      <p style="text-align:center"><button type="button" id="compile-button">Compile</button></p>
+    </div>
+    <div id="skulpt-stdout-container">
+      <p>Any output from your Python will appear here:</p>
+      <pre id="skulpt-stdout"></pre>
+    </div>
+    <textarea id="code" rows="24" cols="80" style="display:none"></textarea>
   <script>
 
     function append_stdout(text) {
