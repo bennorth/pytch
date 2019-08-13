@@ -11,14 +11,13 @@
       #shown-variables .shown-variable .name { padding-right: 4px; }
       #shown-variables .shown-variable .value { padding-left: 4px; }
 </style>
-<style type="text/css" media="screen">
-    #editor { 
-		border: 1px solid lightgray;
-		margin: auto;
-		height: 200px;
-		width: 80%;
-	
-    }
+    <style type="text/css" media="screen">
+      #editor {
+	  border: 1px solid lightgray;
+	  margin: auto;
+	  height: 200px;
+	  width: 80%;
+      }
 </style>
   </head>
 
@@ -43,7 +42,7 @@
     <button type="button" id="compile" >Compile</button>
   <div id="editor" />
   <script>
-  
+
     function append_stdout(text) {
           var elt = document.getElementById("skulpt-stdout");
           elt.innerHTML = elt.innerHTML + text;
@@ -77,19 +76,19 @@
         return Sk.importMainWithBody("<stdin>", false, prog, true);
       })
     });
-    
-    
-  
+
+
+
 //          var prog = document.getElementById("code").value;
 //          var p = Sk.misceval.asyncToPromise(function() {
 //              return Sk.importMainWithBody("<stdin>", false, prog, true);
 //          });
 //  });
 
-  var editor = ace.edit("editor");
-  editor.getSession().setUseWorker(false);
+    var editor = ace.edit("editor");
+    editor.getSession().setUseWorker(false);
 //  editor.setTheme("ace/mode/python");
-  
+
     </script>
   </body>
 </html>
