@@ -98,7 +98,7 @@
     $("#code").load("make-a-chase-game.py", function() {
       editor.setValue( document.getElementById("code").value );
     });
-    $("#compile").click( function(){
+    $("#compile-button").click( function(){
       var prog = editor.getValue();
       var p = Sk.misceval.asyncToPromise(function() {
         return Sk.importMainWithBody("<stdin>", false, prog, true);
