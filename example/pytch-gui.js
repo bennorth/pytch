@@ -60,6 +60,23 @@ $(document).ready(function() {
         return JSON.parse(json_saved_projects);
     };
 
+    var find_maybe_project_by_name = function(projects, target_name) {
+        var target = null;
+
+        projects.forEach(proj => {
+            if (proj.name == target_name) {
+                if (target !== null) {
+                    // TODO: More useful error-reporting even though this is an
+                    // internal error.
+                    throw new Error("found " + target_name + " more than once");
+                }
+                target = proj;
+            }
+        });
+
+        return target;
+    };
+
     ensure_have_saved_project_data();
 
 });
