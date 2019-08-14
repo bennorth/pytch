@@ -46,6 +46,18 @@
       <thead><tr><th>Event</th><th>N.live</th><th>N.waiting</th><th>N.sleeping</th></tr></thead>
       <tbody></tbody>
     </table>
+    <div id="editor-menubar">
+      <p>
+        <span class="menu-elt" data-jq-dropdown="#jq-dropdown-examples">
+          Examples&nbsp;&#x25bc;
+        </span>
+        <span class="menu-elt greyed-out" data-jq-dropdown="#jq-dropdown-user-stored">
+          Open&nbsp;&#x25bc;
+        </span>
+        <span class="menu-elt">Save</span>
+        <input id="user-chosen-project-name" type="text" class="menu-elt project-name" value="Untitled"></input>
+        <span id="compile-button" class="menu-elt">COMPILE</span></p>
+    </div>
     <div id="project-display" style="float:right">
       <canvas id="pytch-canvas" width="480" height="360" style="background-color:green;"></canvas>
       <p id="shown-variables"></p>
