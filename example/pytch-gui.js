@@ -49,9 +49,17 @@ $(document).ready(function() {
                                     JSON.stringify(project_descriptors));
     };
 
+    var ensure_have_saved_project_data = function() {
+        var maybe_saved_projects = window.localStorage.getItem("pytch-saved-projects");
+        if (maybe_saved_projects === null)
+            persist_saved_projects([]);
+    };
+
     var saved_project_data = function() {
         var json_saved_projects = window.localStorage.getItem("pytch-saved-projects");
         return JSON.parse(json_saved_projects);
     };
+
+    ensure_have_saved_project_data();
 
 });
