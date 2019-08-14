@@ -165,7 +165,7 @@ class Ball(pytch.Sprite):
         if self.touching('Player_1'):
             self.x_speed = -1 * self.x_speed
             self.change_x_pos(4)
-            self.play_sound('bounce')
+            self.start_sound('bounce')
         if self.touching('Player_2'):
             self.x_speed = -1 * self.x_speed
             self.change_x_pos(-4)
