@@ -15,6 +15,39 @@
       #shown-variables .shown-variable .value { padding-left: 4px; }
 </style>
     <style type="text/css" media="screen">
+      #editor-menubar {
+          padding-top: 0.5ex; padding-bottom: 0.5ex;
+          margin-bottom: 1.5ex;
+          background-color: #66a;
+          color: white;
+      }
+      #editor-menubar span.menu-elt.greyed-out { color: #888; }
+      #editor-menubar span.menu-elt {
+          padding: 0.75ex 1.25em;
+          margin: 0px 0.5em;
+          background-color: #336;
+          font-size: 16px;
+          cursor: pointer;
+          user-select: none;
+      }
+      #editor-menubar span.menu-elt:first-child { margin-left: 1em; }
+      #editor-menubar span.menu-elt:last-child {
+          margin-left: 4.5ex;
+          background-color: lightgreen;
+          color: black;
+      }
+      #editor-menubar input.menu-elt.project-name {
+          background-color: #bbf;
+          border-width: none;
+          border: none;
+          font-family: Roboto;
+          font-size: 16px;
+          width: 12em;
+          padding-left: 0.5em;
+          padding-top: 0.3333ex;
+          padding-bottom: 0.3333ex;
+      }
+
       #editor {
 	  border: 1px solid lightgray;
 	  margin: 0;
