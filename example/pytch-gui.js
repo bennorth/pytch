@@ -36,4 +36,12 @@ $(document).ready(function() {
         examples_menu_contents.append(label_elt);
     });
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Work with 'Open' menu and 'Save' button
+
+    var open_menu_top_level = $("#user-storage-menu");
+    var open_menu_contents = $('#jq-dropdown-user-stored > ul');
+
 });
