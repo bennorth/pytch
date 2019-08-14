@@ -114,18 +114,27 @@ var $builtinmodule = function (name) {
     //  - its origin: (0, 0) is the centre of the stage
     //  - its orientation: increasing x is rightwards; increasing y is upwards
 
+
     mod.stage_wd = 480;
     mod.stage_hwd = (mod.stage_wd / 2) | 0;
     mod.stage_ht = 360;
     mod.stage_hht = (mod.stage_ht / 2) | 0;
     mod.canvas_elt = document.getElementById("pytch-canvas");
     mod.canvas_ctx = mod.canvas_elt.getContext("2d");
+
+
+    // Reset transformation matrix, in case this is a re-use of the canvas
+    mod.canvas_ctx.setTransform(1, 0, 0, 1, 0, 0);
+
     mod.canvas_ctx.translate(mod.stage_hwd, mod.stage_hht);
     mod.canvas_ctx.scale(1, -1);
 
     if ( ! mod.canvas_elt.hasAttribute("tabindex"))
         mod.canvas_elt.setAttribute("tabindex", 0);
-
+    // Clear the canvas
+    mod.canvas_ctx.clearRect(0, 0, mod.stage_wd, mod.stage_ht);
+    console.log("Clearing canvas");
+    
 
     ////////////////////////////////////////////////////////////////////////////////
     //
