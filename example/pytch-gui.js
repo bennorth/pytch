@@ -102,7 +102,6 @@ $(document).ready(function() {
 
         open_menu_contents.empty();
         saved_projects.forEach(project_descriptor => {
-            console.log("trying", project_descriptor);
             var name = project_descriptor.name;
             var label_elt = $("<label></label>");
             label_elt.attr("data-pytch-label", name);
@@ -111,7 +110,6 @@ $(document).ready(function() {
             li_elt.append(label_elt);
             $(li_elt).click(load_saved_project);
             open_menu_contents.append(li_elt);
-            console.log("appended", li_elt, "to", open_menu_contents);
         });
 
         if (saved_projects.length == 0)
@@ -124,10 +122,7 @@ $(document).ready(function() {
     // to last loaded/saved.
 
     var save_project = function() {
-        console.log("save_project()");
-
         var project_name = $("#user-chosen-project-name").val();
-        console.log("saving as", project_name);
 
         var saved_projects = saved_project_data();
         var maybe_existing_project
