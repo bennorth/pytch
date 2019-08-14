@@ -114,7 +114,6 @@ class Ball(pytch.Sprite):
 
     @when_green_flag_clicked
     def set_constants(self):
-        self.set_size_percent(35)  # (9)
         GlobalVariables.ball_min_y = -171
         GlobalVariables.ball_max_y = 138
 
@@ -195,7 +194,6 @@ class Score_1(pytch.Sprite):
     def set_position_and_size(self):
         self.go_to_xy(-220, 162)
         self.hide()
-        self.set_size_percent(35)
 
     @when_I_receive('Update_Score')
     def show_correct_digit(self):
@@ -210,7 +208,6 @@ class Score_2(pytch.Sprite):
     def set_position_and_size(self):
         self.go_to_xy(220, 162)
         self.hide()
-        self.set_size_percent(35)
 
     @when_I_receive('Update_Score')
     def show_correct_digit(self):
