@@ -92,6 +92,31 @@ $(document).ready(function() {
         }
     };
 
+    var refresh_open_menu_contents = function() {
+        var saved_projects = saved_project_data();
+
+        open_menu_contents.empty();
+        saved_projects.forEach(project_descriptor => {
+            console.log("trying", project_descriptor);
+            var name = project_descriptor.name;
+            var label_elt = $("<label></label>");
+            label_elt.attr("data-pytch-label", name);
+            label_elt.text(name);
+            var li_elt = $("<li></li>");
+            li_elt.append(label_elt);
+            $(li_elt).click(load_saved_project);
+            open_menu_contents.append(li_elt);
+            console.log("appended", li_elt, "to", open_menu_contents);
+        });
+
+        if (saved_projects.length == 0)
+            open_menu_top_level.addClass("greyed-out");
+        else
+            open_menu_top_level.removeClass("greyed-out");
+    };
+
     ensure_have_saved_project_data();
+    refresh_open_menu_contents();
+
 
 });
