@@ -77,6 +77,21 @@ $(document).ready(function() {
         return target;
     };
 
+    var load_saved_project_by_name = function(target_name) {
+        var maybe_project = find_maybe_project_by_name(saved_project_data(),
+                                                       target_name);
+        if (maybe_project === null) {
+            // TODO: More useful error-reporting even though this is an
+            // internal error.
+            console.log("Couldn't find project " + target_name);
+        } else {
+            menubar.jqDropdown("hide");
+            var editor = ace.edit("editor");
+            $("#user-chosen-project-name").val(target_name);
+            editor.setValue(maybe_project.code_text);
+        }
+    };
+
     ensure_have_saved_project_data();
 
 });
