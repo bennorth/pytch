@@ -4,7 +4,7 @@ $(document).ready(function() {
     //
     // Populate 'Examples' menu
 
-    var examples_menu = $("#editor-menubar");
+    var menubar = $("#editor-menubar");
 
     var examples = [
         {label: 'Pong', url: 'pong.py'},
@@ -13,7 +13,7 @@ $(document).ready(function() {
     ];
 
     var load_example = function(evt) {
-        examples_menu.jqDropdown("hide");
+        menubar.jqDropdown("hide");
 
         var editor = ace.edit("editor");
         var code_url = evt.target.dataset.pytchUrl;
