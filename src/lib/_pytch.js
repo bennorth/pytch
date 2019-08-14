@@ -272,6 +272,7 @@ var $builtinmodule = function (name) {
     // clicked it's in 'just-clicked', and for all subsequent frames it is in
     // 'has-been-clicked'.  Only one pass through this set of transitions is
     // possible.
+    // TODO: with the introduction of 'stop-button' we can now cycle back to 'not-clicked-yet'. Is that a problem?
     mod.green_flag_elt = document.getElementById("green-flag");
     mod.green_flag_state = "not-clicked-yet";
 
@@ -284,7 +285,16 @@ var $builtinmodule = function (name) {
 
     mod.stdout_elt = document.getElementById("skulpt-stdout");
 
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Stop button
 
+    // The stop button halts a running program by shutting down all it's live
+    // threads. 
+
+    mod.stop_button_elt = document.getElementById("stop-button");
+    
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Event handlers
@@ -330,6 +340,9 @@ var $builtinmodule = function (name) {
     // The threads are captured via the suspension each one returns each time it
     // gets a chance to run.  If an actual object is returned, it is discarded,
     // and that thread is treated as finished.
+    //
+    // A thread can be stopped externally by calling the 'stop' method. In this case
+    // the completion function will be run immediately.
     //
     // For diagnostic purposes, an EventResponse also has a short string 'label'.
 
@@ -403,10 +416,21 @@ var $builtinmodule = function (name) {
 
         this.handler_suspensions = new_suspensions;
 
+
         return new_event_responses;
     };
 
 
+    // Halt this thread.
+    // TODO: this is pretty brutal - should we be doing something with the handler_suspensions
+    // or is it OK to just discard them like this? By definition this thread is dead...
+    EventResponse.prototype.stop = function(){
+	this.handler_suspensions = [];
+	this.n_waiting_threads = 0;
+	this.n_sleeping_threads = 0;
+    }
+
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Live event responses
@@ -599,6 +623,13 @@ var $builtinmodule = function (name) {
 
     mod.run = function() {
         mod.green_flag_elt.onclick = function(e) { mod.green_flag_state = "just-clicked"; }
+	mod.stop_button_elt.onclick = function(e){
+	    mod.green_flag_state = "not-clicked-yet";
+	    mod.live_event_responses.forEach( thread => {
+		thread.stop();
+		console.log("Stopping a thread...");
+	    } );
+	};
         mod.canvas_elt.onmousemove = mod.on_mouse_move;
         mod.canvas_elt.onmousedown = mod.on_mouse_down;
         window.requestAnimationFrame(process_frame);

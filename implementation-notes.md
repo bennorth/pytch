@@ -64,10 +64,16 @@ there was one), and start a new one. There are three parts:
  via Sk.Pytch.instance_counter
  
 (2) Resetting the canvas
- Not currently done and it's a problem.
+The canvas setup now tries to reset a default state and clear the canvas.
 
 (3) Cancelling any pytch threads that are running (this crosses over
 with the 'red button' action of stopping a running program).
 
  Handled in process_frame() as noted above.
+ 
+ TODO:
+ 
+ A flag in Sk.Pytch that indicates that all threads should die? 
+ Having some metadata attached to threads indicating which script they
+ are from might be helpful in implementing 'stop this script' behaviour?
  
