@@ -12,7 +12,7 @@ $(document).ready(function() {
         {label: 'Space Invaders', url: 'space-invaders.py'},  // Doesn't exist yet.
     ];
 
-    function load_example(evt) {
+    var load_example = function(evt) {
         examples_menu.jqDropdown("hide");
 
         var editor = ace.edit("editor");
