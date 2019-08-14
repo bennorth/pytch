@@ -120,8 +120,35 @@ $(document).ready(function() {
             open_menu_top_level.removeClass("greyed-out");
     };
 
+    // TODO: Prompt for confirmation of overwriting if different name
+    // to last loaded/saved.
+
+    var save_project = function() {
+        console.log("save_project()");
+
+        var project_name = $("#user-chosen-project-name").val();
+        console.log("saving as", project_name);
+
+        var saved_projects = saved_project_data();
+        var maybe_existing_project
+            = find_maybe_project_by_name(saved_projects, project_name);
+
+        var project_code_text = ace.edit("editor").getValue();
+
+        if (maybe_existing_project !== null) {
+            maybe_existing_project.code_text = project_code_text;
+        } else {
+            saved_projects.push({name: project_name,
+                                 code_text: project_code_text});
+        }
+
+        persist_saved_projects(saved_projects);
+        refresh_open_menu_contents();
+    };
+
     ensure_have_saved_project_data();
     refresh_open_menu_contents();
 
+    $("#save-to-storage-button").click(save_project);
 
 });
