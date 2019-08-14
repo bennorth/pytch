@@ -44,4 +44,14 @@ $(document).ready(function() {
     var open_menu_top_level = $("#user-storage-menu");
     var open_menu_contents = $('#jq-dropdown-user-stored > ul');
 
+    var persist_saved_projects = function(project_descriptors) {
+        window.localStorage.setItem("pytch-saved-projects",
+                                    JSON.stringify(project_descriptors));
+    };
+
+    var saved_project_data = function() {
+        var json_saved_projects = window.localStorage.getItem("pytch-saved-projects");
+        return JSON.parse(json_saved_projects);
+    };
+
 });
