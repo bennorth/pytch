@@ -125,6 +125,7 @@ $(document).ready(function() {
         var project_name = $("#user-chosen-project-name").val();
 
         var saved_projects = saved_project_data();
+
         var maybe_existing_project
             = find_maybe_project_by_name(saved_projects, project_name);
 
