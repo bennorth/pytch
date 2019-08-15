@@ -4,11 +4,12 @@ $(document).ready(function() {
     //
     // Editor interaction
 
+    var ace_editor = ace.edit("editor");
+
     var set_project_name_and_code = function(name) {  // Curried
-        var editor = ace.edit("editor");
         return function(code_text) {
             $("#user-chosen-project-name").val(name);
-            editor.setValue(code_text);
+            ace_editor.setValue(code_text);
         };
     };
 
@@ -136,7 +137,7 @@ $(document).ready(function() {
         var maybe_existing_project
             = find_maybe_project_by_name(saved_projects, project_name);
 
-        var project_code_text = ace.edit("editor").getValue();
+        var project_code_text = ace_editor.getValue();
 
         if (maybe_existing_project !== null) {
             maybe_existing_project.code_text = project_code_text;
@@ -173,16 +174,15 @@ $(document).ready(function() {
     Sk.configure({ read: builtinRead, output: append_stdout });
 
     $("#compile-button").click(function() {
-        var prog = editor.getValue();
+        var prog = ace_editor.getValue();
         var p = Sk.misceval.asyncToPromise(function() {
             return Sk.importMainWithBody("<stdin>", false, prog, true);
         });
     });
 
-    var editor = ace.edit("editor");
-    editor.getSession().setUseWorker(false);
-    editor.session.setMode("ace/mode/python");
-    editor.setValue("#\n# Write your Pytch code here, or\n# try one of the examples!\n#\n");
-    editor.clearSelection();
+    ace_editor.getSession().setUseWorker(false);
+    ace_editor.session.setMode("ace/mode/python");
+    ace_editor.setValue("#\n# Write your Pytch code here, or\n# try one of the examples!\n#\n");
+    ace_editor.clearSelection();
 
 });
