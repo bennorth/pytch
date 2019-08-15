@@ -118,18 +118,18 @@
       </p>
     </div>
 
-  <script>
+    <!--
+        To be able to load the Python asynchronously, you'll need to:
 
-      // To be able to load the Python asynchronously, you'll need to:
-      //
-      //  - Run a local HTTP server:
-      //        python3 -m http.server 8123
-      //    will do this.
-      //
-      //  - Symlink the 'dist' files:
-      //        cd $PROJECT_ROOT/example
-      //        ln -s ../dist
-      //    will do this.
+        - Run a local HTTP server:
+              python3 -m http.server 8123
+          will do this.
+
+        - Symlink the 'dist' files:
+              cd $PROJECT_ROOT/example
+              ln -s ../dist
+          will do this.
+      -->
 
 
 //          var prog = document.getElementById("code").value;
@@ -137,9 +137,6 @@
 //              return Sk.importMainWithBody("<stdin>", false, prog, true);
 //          });
 //  });
-
-
-    </script>
 
   <div id="jq-dropdown-examples" class="jq-dropdown jq-dropdown-tip">
     <ul class="jq-dropdown-menu"><!-- will be filled in on load by JS --></ul>
