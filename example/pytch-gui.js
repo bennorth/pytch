@@ -165,10 +165,6 @@ $(document).ready(function() {
 
     Sk.configure({ read: builtinRead, output: append_stdout });
 
-    $("#code").load("make-a-chase-game.py", function() {
-        editor.setValue( document.getElementById("code").value );
-    });
-
     $("#compile-button").click(function() {
         var prog = editor.getValue();
         var p = Sk.misceval.asyncToPromise(function() {
@@ -179,5 +175,7 @@ $(document).ready(function() {
     var editor = ace.edit("editor");
     editor.getSession().setUseWorker(false);
     editor.session.setMode("ace/mode/python");
+    editor.setValue("#\n# Write your Pytch code here, or\n# try one of the examples!\n#\n");
+    editor.clearSelection();
 
 });
