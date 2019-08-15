@@ -15,7 +15,7 @@ var $builtinmodule = function (name) {
 	instance_counter = Sk.Pytch.instance + 1;
 	Sk.Pytch.instance = instance_counter;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Sprites
@@ -134,7 +134,7 @@ var $builtinmodule = function (name) {
     // Clear the canvas
     mod.canvas_ctx.clearRect(0, 0, mod.stage_wd, mod.stage_ht);
     console.log("Clearing canvas");
-    
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -291,12 +291,12 @@ var $builtinmodule = function (name) {
     //
     // Stop button
 
-    // The stop button halts a running program by shutting down all it's live
-    // threads. 
+    // The stop button halts a running program by shutting down all its live
+    // threads.
 
     mod.stop_button_elt = document.getElementById("stop-button");
-    
-    
+
+
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Event handlers
@@ -432,7 +432,7 @@ var $builtinmodule = function (name) {
 	this.n_sleeping_threads = 0;
     }
 
-    
+
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Live event responses
@@ -580,7 +580,7 @@ var $builtinmodule = function (name) {
 	    // What else could be cleaned up here?
 	    return;
 	}
-	
+
         mod.frame_idx_elt.innerHTML = mod.frame_idx;
 
         render_project();
@@ -625,7 +625,7 @@ var $builtinmodule = function (name) {
 
     mod.run = function() {
         mod.green_flag_elt.onclick = function(e) { mod.green_flag_state = "just-clicked"; }
-	mod.stop_button_elt.onclick = function(e){
+	mod.stop_button_elt.onclick = function(e) {
 	    mod.green_flag_state = "not-clicked-yet";
 	    mod.live_event_responses.forEach( thread => {
 		thread.stop();
