@@ -2,6 +2,19 @@ $(document).ready(function() {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Editor interaction
+
+    var set_project_name_and_code = function(name) {  // Curried
+        var editor = ace.edit("editor");
+        return function(code_text) {
+            $("#user-chosen-project-name").val(name);
+            editor.setValue(code_text);
+        };
+    };
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Populate 'Examples' menu
 
     var menubar = $("#editor-menubar");
