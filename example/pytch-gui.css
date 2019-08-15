@@ -1,59 +1,78 @@
-      #shown-variables { background-color: #e0e0e0; padding: 8px 0px; width: 480px; }
-      #shown-variables .shown-variable { padding: 4px; }
-      #shown-variables .shown-variable .name { padding-right: 4px; }
-      #shown-variables .shown-variable .value { padding-left: 4px; }
+#shown-variables { background-color: #e0e0e0; padding: 8px 0px; width: 480px; }
+#shown-variables .shown-variable { padding: 4px; }
+#shown-variables .shown-variable .name { padding-right: 4px; }
+#shown-variables .shown-variable .value { padding-left: 4px; }
 
-      #editor-menubar {
-          padding-top: 0.5ex; padding-bottom: 0.5ex;
-          margin-bottom: 1.5ex;
-          background-color: #66a;
-          color: white;
-      }
-      #editor-menubar span.menu-elt.greyed-out { color: #888; }
-      #editor-menubar span.menu-elt {
-          padding: 0.75ex 1.25em;
-          margin: 0px 0.5em;
-          background-color: #336;
-          font-size: 16px;
-          cursor: pointer;
-          user-select: none;
-      }
-      #editor-menubar span.menu-elt:first-child { margin-left: 1em; }
-      #editor-menubar span.menu-elt:last-child {
-          margin-left: 4.5ex;
-          background-color: lightgreen;
-          color: black;
-      }
-      #editor-menubar input.menu-elt.project-name {
-          background-color: #bbf;
-          border-width: none;
-          border: none;
-          font-family: Roboto;
-          font-size: 16px;
-          width: 12em;
-          padding-left: 0.5em;
-          padding-top: 0.3333ex;
-          padding-bottom: 0.3333ex;
-      }
+#editor-menubar {
+    padding-top: 0.5ex; padding-bottom: 0.5ex;
+    margin-bottom: 1.5ex;
+    background-color: #66a;
+    color: white;
+}
 
-      #editor {
-	  border: 1px solid lightgray;
-	  margin: 0;
-	  height: 360px;
-	  width: 80%;
-          font-size: 16px;
-      }
+#editor-menubar span.menu-elt.greyed-out { color: #888; }
 
-      body { background-color: #eee; margin: 32px; font-family: 'Roboto', sans-serif; }
-      h1 { text-align: center; }
+#editor-menubar span.menu-elt {
+    padding: 0.75ex 1.25em;
+    margin: 0px 0.5em;
+    background-color: #336;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+}
 
-      #pytch-canvas { border: 1px solid lightgray; }
-      #skulpt-stdout-container { clear: both; }
-      #skulpt-stdout { padding: 2ex 1em; background-color: #e0e0e0; }
-      #green-flag, #stop-button { height: 32px; width: 48px; float: left; margin-bottom: 2ex; }
-      #green-flag { background-color: green; }
-      #stop-button { background-color: red; margin-left: 1em; }
-      #compile-button { margin: auto; }
+#editor-menubar span.menu-elt:first-child { margin-left: 1em; }
 
-      #navigation-strip p { padding-top: 3ex; padding-bottom: 3ex; background-color: #336; }
-      #navigation-strip span.nav-item { color: white; font-size: 20px; padding-left: 2.5em; padding-right: 2.5em; }
+#editor-menubar span.menu-elt:last-child {
+    margin-left: 4.5ex;
+    background-color: lightgreen;
+    color: black;
+}
+
+#editor-menubar input.menu-elt.project-name {
+    background-color: #bbf;
+    border-width: none;
+    border: none;
+    font-family: Roboto;
+    font-size: 16px;
+    width: 12em;
+    padding-left: 0.5em;
+    padding-top: 0.3333ex;
+    padding-bottom: 0.3333ex;
+}
+
+#editor {
+    border: 1px solid lightgray;
+    margin: 0;
+    height: 360px;
+    width: 80%;
+    font-size: 16px;
+}
+
+body { background-color: #eee; margin: 32px; font-family: 'Roboto', sans-serif; }
+
+h1 { text-align: center; }
+
+#pytch-canvas { border: 1px solid lightgray; }
+
+#skulpt-stdout-container { clear: both; }
+#skulpt-stdout { padding: 2ex 1em; background-color: #e0e0e0; }
+
+#green-flag, #stop-button { height: 32px; width: 48px; float: left; margin-bottom: 2ex; }
+#green-flag { background-color: green; }
+#stop-button { background-color: red; margin-left: 1em; }
+
+#compile-button { margin: auto; }
+
+#navigation-strip p {
+    padding-top: 3ex;
+    padding-bottom: 3ex;
+    background-color: #336;
+}
+
+#navigation-strip span.nav-item {
+    color: white;
+    font-size: 20px;
+    padding-left: 2.5em;
+    padding-right: 2.5em;
+}
