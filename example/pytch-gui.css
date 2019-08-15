@@ -62,8 +62,6 @@ h1 { text-align: center; }
 #green-flag { background-color: green; }
 #stop-button { background-color: red; margin-left: 1em; }
 
-#compile-button { margin: auto; }
-
 #navigation-strip p {
     padding-top: 3ex;
     padding-bottom: 3ex;
