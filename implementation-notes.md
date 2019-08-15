@@ -77,3 +77,28 @@ with the 'red button' action of stopping a running program).
  Having some metadata attached to threads indicating which script they
  are from might be helpful in implementing 'stop this script' behaviour?
  
+# Auto-registering stage and sprites
+
+Can we do away with the explicit calls to
+'register-{stage,sprite}-class' using Python reflection?
+
+This seems to work in Trinket:
+
+class Stage():
+    pass
+  
+class X(Stage):
+    pass
+  
+
+gs = globals()
+for x in gs:
+  if( issubclass(gs[x], Stage)):
+    print(x, " is a Stage object")
+
+(it identifies Stage as a Stage object too, but we can special case that)
+
+This relies on the Sprite instances being global, of course. If
+somebody gets fancy then this won't catch them.
+
+Can we use metaclasses instead?
