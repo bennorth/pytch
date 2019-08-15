@@ -10,6 +10,8 @@ $(document).ready(function() {
         return function(code_text) {
             $("#user-chosen-project-name").val(name);
             ace_editor.setValue(code_text);
+            ace_editor.clearSelection();
+            ace_editor.moveCursorTo(0, 0);
         };
     };
 
