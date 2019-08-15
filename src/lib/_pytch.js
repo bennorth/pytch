@@ -344,7 +344,8 @@ var $builtinmodule = function (name) {
     // and that thread is treated as finished.
     //
     // A thread can be stopped externally by calling the 'stop' method. In this case
-    // the completion function will be run immediately.
+    // the completion function will not be run. The stop_flag is used to signal to the
+    // thread that the frame update routine should abort early.
     //
     // For diagnostic purposes, an EventResponse also has a short string 'label'.
 
@@ -363,6 +364,7 @@ var $builtinmodule = function (name) {
         this.completion_fun = completion_fun;
         this.n_waiting_threads = 0;
         this.n_sleeping_threads = 0;
+	this.stop_flag = false;
     }
 
     EventResponse.prototype.is_finished = function() {
@@ -372,6 +374,7 @@ var $builtinmodule = function (name) {
     };
 
     EventResponse.prototype.run_one_frame = function() {
+	if( this.stop_flag ) { return []; }
         var new_event_responses = [];
         var new_suspensions = [];
         this.handler_suspensions.forEach(susp => {
@@ -430,6 +433,8 @@ var $builtinmodule = function (name) {
 	this.handler_suspensions = [];
 	this.n_waiting_threads = 0;
 	this.n_sleeping_threads = 0;
+	this.completion_fun = function(){return;} 
+	this.stop_flag = true;
     }
 
 
@@ -629,8 +634,8 @@ var $builtinmodule = function (name) {
 	    mod.green_flag_state = "not-clicked-yet";
 	    mod.live_event_responses.forEach( thread => {
 		thread.stop();
-		console.log("Stopping a thread...");
 	    } );
+	    mod.sleeping_thread_manager.sleeping_threads = []; // sleeping threads should also stop rather than being woken
 	};
         mod.canvas_elt.onmousemove = mod.on_mouse_move;
         mod.canvas_elt.onmousedown = mod.on_mouse_down;
