@@ -147,4 +147,37 @@ $(document).ready(function() {
 
     $("#save-to-storage-button").click(save_project);
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Top level Skulpt interaction
+
+    function append_stdout(text) {
+        var elt = document.getElementById("skulpt-stdout");
+        elt.innerHTML = elt.innerHTML + text;
+    }
+
+    function builtinRead(x) {
+        if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+	    throw "File not found: '" + x + "'";
+        return Sk.builtinFiles["files"][x];
+    }
+
+    Sk.configure({ read: builtinRead, output: append_stdout });
+
+    $("#code").load("make-a-chase-game.py", function() {
+        editor.setValue( document.getElementById("code").value );
+    });
+
+    $("#compile-button").click(function() {
+        var prog = editor.getValue();
+        var p = Sk.misceval.asyncToPromise(function() {
+            return Sk.importMainWithBody("<stdin>", false, prog, true);
+        });
+    });
+
+    var editor = ace.edit("editor");
+    editor.getSession().setUseWorker(false);
+    editor.session.setMode("ace/mode/python");
+
 });
