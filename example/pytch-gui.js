@@ -28,13 +28,9 @@ $(document).ready(function() {
     var load_example = function(evt) {
         menubar.jqDropdown("hide");
 
-        var editor = ace.edit("editor");
         var code_url = evt.target.dataset.pytchUrl;
         var project_name = evt.target.dataset.pytchLabel;
-        $.ajax(code_url).then(code_text => {
-            $("#user-chosen-project-name").val("My " + project_name);
-            editor.setValue(code_text);
-        });
+        $.ajax(code_url).then(set_project_name_and_code("My " + project_name));
     };
 
     var examples_menu_contents = $('#jq-dropdown-examples > ul');
@@ -99,9 +95,7 @@ $(document).ready(function() {
             console.log("Couldn't find project " + target_name);
         } else {
             menubar.jqDropdown("hide");
-            var editor = ace.edit("editor");
-            $("#user-chosen-project-name").val(target_name);
-            editor.setValue(maybe_project.code_text);
+            set_project_name_and_code(target_name)(maybe_project.code_text);
         }
     };
 
