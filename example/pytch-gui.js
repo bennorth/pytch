@@ -233,6 +233,7 @@ $(document).ready(function() {
 
     Sk.configure({ read: builtinRead,
                    output: append_stdout,
+                   pytch_exception: report_uncaught_exception,
                  });
 
     $("#compile-button").click(function() {
