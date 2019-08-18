@@ -18,6 +18,23 @@ $(document).ready(function() {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Stdout / stderr tabs
+
+    var make_tab_current = function(evt) {
+        var tab_id = "tab-" + evt.target.dataset.tab;
+
+        $("ul.tabs li").removeClass("current");
+        $("div.tab-content").removeClass("current");
+
+        $(evt.target).addClass("current");
+        $("#" + tab_id).addClass("current");
+    };
+
+    $("ul.tabs li").click(make_tab_current);
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Populate 'Examples' menu
 
     var menubar = $("#editor-menubar");
