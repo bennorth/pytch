@@ -55,7 +55,12 @@ h1 { text-align: center; }
 
 #pytch-canvas { border: 1px solid lightgray; }
 
-#green-flag, #stop-button { height: 32px; width: 48px; float: left; margin-bottom: 2ex; }
+#green-flag, #stop-button {
+    height: 32px;
+    width: 48px;
+    float: left;
+    margin-bottom: 2ex;
+}
 #green-flag { background-color: green; }
 #stop-button { background-color: red; margin-left: 1em; }
 
