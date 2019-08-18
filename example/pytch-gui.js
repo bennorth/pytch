@@ -213,7 +213,9 @@ $(document).ready(function() {
         return Sk.builtinFiles["files"][x];
     }
 
-    Sk.configure({ read: builtinRead, output: append_stdout });
+    Sk.configure({ read: builtinRead,
+                   output: append_stdout,
+                 });
 
     $("#compile-button").click(function() {
         var prog = ace_editor.getValue();
