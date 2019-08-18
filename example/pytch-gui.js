@@ -20,17 +20,20 @@ $(document).ready(function() {
     //
     // Stdout / stderr tabs
 
-    var make_tab_current = function(evt) {
+    var make_tab_current_via_evt = function(evt) {
         var tab_id = "tab-" + evt.target.dataset.tab;
+        make_tab_current(evt.target.id, tab_id);
+    }
 
+    var make_tab_current = function(tab_header_id, tab_content_id) {
         $("ul.tabs li").removeClass("current");
         $("div.tab-content").removeClass("current");
 
-        $(evt.target).addClass("current");
-        $("#" + tab_id).addClass("current");
+        $("#" + tab_header_id).addClass("current");
+        $("#" + tab_content_id).addClass("current");
     };
 
-    $("ul.tabs li").click(make_tab_current);
+    $("ul.tabs li").click(make_tab_current_via_evt);
 
     var stdout_content_is_placeholder = true;
 
