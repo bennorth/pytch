@@ -72,6 +72,12 @@ $(document).ready(function() {
             elt.innerHTML = elt.innerHTML + text;
     };
 
+    var report_uncaught_exception = function(e) {
+        var msg = Sk.builtin.str(e).v;
+        append_stderr(msg);
+        make_tab_current("stderr-heading", "tab-stderr");
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
