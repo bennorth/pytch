@@ -55,9 +55,6 @@ h1 { text-align: center; }
 
 #pytch-canvas { border: 1px solid lightgray; }
 
-#skulpt-stdout-container { clear: both; }
-#skulpt-stdout { padding: 2ex 1em; background-color: #e0e0e0; }
-
 #green-flag, #stop-button { height: 32px; width: 48px; float: left; margin-bottom: 2ex; }
 #green-flag { background-color: green; }
 #stop-button { background-color: red; margin-left: 1em; }
@@ -74,3 +71,6 @@ h1 { text-align: center; }
     padding-left: 2.5em;
     padding-right: 2.5em;
 }
+
+#skulpt-out-err-container { clear: both; }
+#skulpt-stdout { padding: 2ex 1em; background-color: #e0e0e0; }
