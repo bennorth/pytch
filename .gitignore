@@ -22,3 +22,9 @@ src/internalpython.js
 Pipfile
 package-lock.json
 *~
+
+# Pytch-specific build artifacts etc.
+example/dist
+doc/pytch/help.html
+doc/pytch/about.html
+doc/pytch/github-markdown.css
