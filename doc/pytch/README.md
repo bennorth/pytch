@@ -110,7 +110,7 @@ On the roadmap is:
  * `@when_this_sprite_clicked()`
 
 
-# Skeleton Pytch script
+## Skeleton Pytch script
 
 We are working on reducing the amount of boilerplate required, but
 currently there is still a small amount.
