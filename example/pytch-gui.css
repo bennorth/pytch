@@ -66,6 +66,7 @@ h1 { background-color: #336; color: white; text-align: center; margin: 0ex 2em 1
 #stop-button { background-color: red; margin-left: 1em; }
 
 #navigation-strip p {
+    margin-top: 8ex;
     padding-top: 3ex;
     padding-bottom: 3ex;
     background-color: #336;
