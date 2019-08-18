@@ -4,11 +4,16 @@
 
 ### Costumes
 
-Need three things:
+Need four things:
 
+ * a name for the costume, to be used in `switch_costume()` calls;
  * URL for graphics; currently PNG;
  * x-coordinate of the 'centre' of the sprite;
  * y-coordinate of the 'centre' of the sprite.
+
+See examples for how your script provides these pieces of information
+to Pytch.  We have supplied a few sample costumes with this initial
+version; we intend to expand the collection in the future.
 
 ## Equivalents to Scratch blocks
 
