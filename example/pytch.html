@@ -46,8 +46,14 @@
     </div>
 
     <div id="skulpt-out-err-container">
-      <p>Any output from your Python will appear here:</p>
-      <pre id="skulpt-stdout"></pre>
+      <ul class="tabs">
+        <li class="tab-link stdout current" data-tab="stdout">Output</li>
+        <li class="tab-link stderr" data-tab="stderr">Errors</li>
+      </ul>
+      <div id="tab-stdout" class="tab-content current">
+        <pre id="stdout-content"></pre></div>
+      <div id="tab-stderr" class="tab-content">
+        <pre id="stderr-content"></pre></div>
     </div>
 
     <textarea id="code" rows="24" cols="80" style="display:none"></textarea>
