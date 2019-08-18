@@ -32,6 +32,25 @@ $(document).ready(function() {
 
     $("ul.tabs li").click(make_tab_current);
 
+    var stdout_content_is_placeholder = true;
+
+    var reset_stdout_panel = function() {
+        document.getElementById("stdout-content").innerHTML
+            = "<span class=\"info\">Any output from your script will appear here.</span>";
+        stdout_content_is_placeholder = true;
+    };
+
+    var stderr_content_is_placeholder = true;
+
+    var reset_stderr_panel = function() {
+        document.getElementById("stderr-content").innerHTML
+            = "<span class=\"info\">Any errors from your script will appear here.</span>";
+        stderr_content_is_placeholder = true;
+    };
+
+    reset_stdout_panel();
+    reset_stderr_panel();
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
