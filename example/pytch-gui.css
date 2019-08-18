@@ -104,6 +104,9 @@ h1 { text-align: center; }
 #skulpt-out-err-container div.tab-content {
     display: none;
     padding: 10px 15px;
+    height: 60ex;
+    overflow-x: auto;
+    overflow-y: auto;
 }
 #skulpt-out-err-container div.tab-content.current { display: inherit; }
 #skulpt-out-err-container div.tab-content span.info { font-style: italic; }
