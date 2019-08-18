@@ -83,7 +83,7 @@ blocks in three ways:
    whether the key with name `key_name` is currently pressed
  * `pytch.show_variable(owner, name)` makes the variable within `owner`
    (e.g., a Sprite) called `name` be visible
-   
+
 
 ## Scratch 'hat' blocks
 
