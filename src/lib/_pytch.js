@@ -427,6 +427,8 @@ var $builtinmodule = function (name) {
             }
         });
 
+        exceptions.forEach(Sk.pytch_exception);
+
         this.handler_suspensions = new_suspensions;
 
 
