@@ -130,3 +130,18 @@ pytch.run()
 ```
 
 to launch the project!
+
+
+## Multitasking
+
+All scripts under hat blocks generally run to completion when that
+script is triggered, before the screen is updated.  The exceptions
+are:
+
+ * when an ‘and wait’ call is made, e.g., `broadcast_and_wait()`;
+ * during a `while` loop: one iteration of the loop runs per display
+   frame.
+
+One consequence of this is that if you have a very complex piece of
+processing inside an event handler, your project might appear to have
+crashed.  Try to keep things simple!
