@@ -221,6 +221,10 @@ $(document).ready(function() {
                  });
 
     $("#compile-button").click(function() {
+        reset_stdout_panel();
+        reset_stderr_panel();
+        make_tab_current("stdout-heading", "tab-stdout");
+
         var prog = ace_editor.getValue();
         var p = Sk.misceval.asyncToPromise(function() {
             return Sk.importMainWithBody("<stdin>", false, prog, true);
