@@ -377,9 +377,16 @@ var $builtinmodule = function (name) {
 	if( this.stop_flag ) { return []; }
         var new_event_responses = [];
         var new_suspensions = [];
+        var exceptions = [];
         this.handler_suspensions.forEach(susp =>
         {
-            var susp_or_retval = susp.resume();
+            var susp_or_retval = { '$isSuspension': false };
+            try {
+                susp_or_retval = susp.resume();
+            } catch (e) {
+                exceptions.push(e);
+            }
+
             if (susp_or_retval.$isSuspension) {
                 var susp = susp_or_retval;
                 switch (susp.data.type) {
