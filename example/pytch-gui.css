@@ -101,6 +101,9 @@ h1 { text-align: center; }
 
 #tab-stdout { background-color: #88c; }
 #tab-stderr { background-color: #f44; }
-#skulpt-out-err-container div.tab-content { display: none; padding: 10px 15px; }
+#skulpt-out-err-container div.tab-content {
+    display: none;
+    padding: 10px 15px;
+}
 #skulpt-out-err-container div.tab-content.current { display: inherit; }
 #skulpt-out-err-container div.tab-content span.info { font-style: italic; }
