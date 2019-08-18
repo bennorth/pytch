@@ -15,6 +15,17 @@ See examples for how your script provides these pieces of information
 to Pytch.  We have supplied a few sample costumes with this initial
 version; we intend to expand the collection in the future.
 
+### Sounds
+
+Likewise, your script provides Pytch with these pieces of information
+about a sound to be used in your project:
+
+ * a name, to be used in a `start_sound()` block;
+ * a URL for the sound file.
+
+See the examples for how this works.
+
+
 ## Equivalents to Scratch blocks
 
 Apart from 'hat' blocks, Pytch provides equivalents to (some) Scratch
