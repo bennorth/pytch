@@ -244,6 +244,8 @@ $(document).ready(function() {
         var p = Sk.misceval.asyncToPromise(function() {
             return Sk.importMainWithBody("<stdin>", false, prog, true);
         });
+
+        return p.catch(report_uncaught_exception);
     });
 
     ace_editor.getSession().setUseWorker(false);
