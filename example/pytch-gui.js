@@ -51,6 +51,15 @@ $(document).ready(function() {
     reset_stdout_panel();
     reset_stderr_panel();
 
+    var append_stdout = function(text) {
+        var elt = document.getElementById("stdout-content");
+        if (stdout_content_is_placeholder) {
+            elt.innerHTML = text;
+            stdout_content_is_placeholder = false;
+        } else
+            elt.innerHTML = elt.innerHTML + text;
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -197,11 +206,6 @@ $(document).ready(function() {
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Top level Skulpt interaction
-
-    function append_stdout(text) {
-        var elt = document.getElementById("skulpt-stdout");
-        elt.innerHTML = elt.innerHTML + text;
-    }
 
     function builtinRead(x) {
         if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
