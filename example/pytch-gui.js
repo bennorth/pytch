@@ -63,6 +63,15 @@ $(document).ready(function() {
             elt.innerHTML = elt.innerHTML + text;
     };
 
+    var append_stderr = function(text) {
+        var elt = document.getElementById("stderr-content");
+        if (stderr_content_is_placeholder) {
+            elt.innerHTML = text;
+            stderr_content_is_placeholder = false;
+        } else
+            elt.innerHTML = elt.innerHTML + text;
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
