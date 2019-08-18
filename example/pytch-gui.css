@@ -72,10 +72,23 @@ h1 { background-color: #336; color: white; text-align: center; margin: 0ex 2em 1
 }
 
 #navigation-strip span.nav-item {
-    color: white;
-    font-size: 20px;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+
+#navigation-strip span.nav-item:first-child {
     padding-left: 2.5em;
-    padding-right: 2.5em;
+}
+
+#navigation-strip span.nav-item a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 0.75ex 1.0em;
+}
+
+#navigation-strip span.nav-item a:hover {
+    background-color: #66a;
 }
 
 #skulpt-out-err-container { clear: both; }
