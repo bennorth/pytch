@@ -74,7 +74,7 @@ $(document).ready(function() {
 
     var report_uncaught_exception = function(e) {
         var msg = Sk.builtin.str(e).v;
-        append_stderr(msg);
+        append_stderr(msg + "\n");
         make_tab_current("stderr-heading", "tab-stderr");
     };
 
