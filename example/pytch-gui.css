@@ -27,6 +27,9 @@
     margin-left: 4.5ex;
     background-color: lightgreen;
     color: black;
+    display: inline-block;
+    text-align: center;
+    width: 6em;
 }
 
 #editor-menubar input.menu-elt.project-name {
