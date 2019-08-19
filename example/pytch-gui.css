@@ -49,6 +49,24 @@
     font-size: 16px;
 }
 
+#code-change-indicator {
+    width: 680px;
+    background-color: #ff8;
+    padding: 0.5ex 0em;
+    margin-top: 1.5ex;
+    border: 1px solid #222;
+}
+
+#code-change-indicator p {
+    text-align: center;
+}
+
+#code-change-indicator p span.button {
+    background-color: lightgreen;
+    padding: 4px;
+    margin: 0em 0.25em;
+}
+
 body { background-color: #eee; margin: 32px; font-family: 'Roboto', sans-serif; }
 
 h1 { background-color: #336; color: white; text-align: center; margin: 0ex 2em 1ex; padding: 0.5ex 0em; }
