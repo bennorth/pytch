@@ -243,6 +243,7 @@ $(document).ready(function() {
                  });
 
     $("#compile-button").click(function() {
+        hide_code_changed_indicator();
         reset_stdout_panel();
         reset_stderr_panel();
         make_tab_current("stdout-heading", "tab-stdout");
