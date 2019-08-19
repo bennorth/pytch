@@ -255,7 +255,7 @@ $(document).ready(function() {
 
     var compile_user_code = function() {
         compile_immediate_feedback();
-        compile_do_real_work();
+        window.setTimeout(compile_do_real_work, 0);
     };
 
     $("#compile-button").click(compile_user_code);
