@@ -242,11 +242,13 @@ $(document).ready(function() {
         reset_stdout_panel();
         reset_stderr_panel();
         make_tab_current("stdout-heading", "tab-stdout");
+        $("#compile-button").html("<i>Compiling...</i>");
     };
 
     var compile_do_real_work = function() {
         var prog = ace_editor.getValue();
         var p = Sk.misceval.asyncToPromise(function() {
+            $("#compile-button").html("COMPILE");
             return Sk.importMainWithBody("<stdin>", false, prog, true);
         });
 
