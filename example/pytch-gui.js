@@ -237,11 +237,6 @@ $(document).ready(function() {
         return Sk.builtinFiles["files"][x];
     }
 
-    Sk.configure({ read: builtinRead,
-                   output: append_stdout,
-                   pytch_exception: report_uncaught_exception,
-                 });
-
     var compile_user_code = function() {
         hide_code_changed_indicator();
         reset_stdout_panel();
@@ -257,6 +252,11 @@ $(document).ready(function() {
     };
 
     $("#compile-button").click(compile_user_code);
+
+    Sk.configure({ read: builtinRead,
+                   output: append_stdout,
+                   pytch_exception: report_uncaught_exception,
+                 });
 
     ace_editor.getSession().setUseWorker(false);
     ace_editor.session.setMode("ace/mode/python");
