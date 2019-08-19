@@ -15,6 +15,12 @@ $(document).ready(function() {
         };
     };
 
+    var show_code_changed_indicator = function(evt)
+    { $("#code-change-indicator").show(); };
+
+    var hide_code_changed_indicator = function(evt)
+    { $("#code-change-indicator").hide(); };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
