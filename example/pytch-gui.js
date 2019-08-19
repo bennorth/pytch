@@ -242,7 +242,7 @@ $(document).ready(function() {
                    pytch_exception: report_uncaught_exception,
                  });
 
-    $("#compile-button").click(function() {
+    var compile_user_code = function() {
         hide_code_changed_indicator();
         reset_stdout_panel();
         reset_stderr_panel();
@@ -254,7 +254,9 @@ $(document).ready(function() {
         });
 
         return p.catch(report_uncaught_exception);
-    });
+    };
+
+    $("#compile-button").click(compile_user_code);
 
     ace_editor.getSession().setUseWorker(false);
     ace_editor.session.setMode("ace/mode/python");
