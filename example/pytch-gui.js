@@ -237,18 +237,25 @@ $(document).ready(function() {
         return Sk.builtinFiles["files"][x];
     }
 
-    var compile_user_code = function() {
+    var compile_immediate_feedback = function() {
         hide_code_changed_indicator();
         reset_stdout_panel();
         reset_stderr_panel();
         make_tab_current("stdout-heading", "tab-stdout");
+    };
 
+    var compile_do_real_work = function() {
         var prog = ace_editor.getValue();
         var p = Sk.misceval.asyncToPromise(function() {
             return Sk.importMainWithBody("<stdin>", false, prog, true);
         });
 
         return p.catch(report_uncaught_exception);
+    };
+
+    var compile_user_code = function() {
+        compile_immediate_feedback();
+        compile_do_real_work();
     };
 
     $("#compile-button").click(compile_user_code);
