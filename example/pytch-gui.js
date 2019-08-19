@@ -259,5 +259,6 @@ $(document).ready(function() {
     ace_editor.session.setMode("ace/mode/python");
     ace_editor.setValue("#\n# Write your Pytch code here, or\n# try one of the examples!\n#\n");
     ace_editor.clearSelection();
+    ace_editor.on("change", show_code_changed_indicator);
 
 });
