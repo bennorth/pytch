@@ -1,30 +1,130 @@
-# Pytch
+# Pytch: Help
+
+
+## Editing and compiling
+
+You write and edit your Python program in the left panel.  Unlike
+Scratch, where changes take effect straight away, in Python you must
+_compile_ your program first.  In Pytch, this is done with the
+_COMPILE_ button in the menu-bar at the top.  Compiling can take
+several seconds for a complicated program.  If there are errors in
+your program, a description of the problem will appear in the ‘Errors’
+tab underneath the editor.
+
+
+## Running and stopping
+
+Once your program compiles successfully, you can click on the stage
+and then use your program.  Many projects will need the user to click
+the _green flag_ (currently a rectangle), but not always.  To stop all
+running scripts, hit the _red stop button_.  The green flag and stop
+button are both below the stage.
+
 
 
 ## Sprites
 
-### Costumes
+Each sprite in your project has its own Python `class`, which must be
+derived from the `pytch.Sprite` class.  For example,
 
-Need four things:
+```python
+class Star(pytch.Sprite):
+    # Code for Star goes here
+```
 
- * a name for the costume, to be used in `switch_costume()` calls;
+
+## Stage
+
+Your project must have a `class` for the stage, which must be derived
+from the `pytch.Stage` class.  For example,
+
+```python
+class Stage(pytch.Stage):
+    # Code for your stage goes here
+```
+
+
+## Scripts
+
+The Pytch equivalent of a script for a sprite is a _method_ on that
+sprite.  For example,
+
+```python
+    @pytch.when_key_pressed('ArrowUp')
+    def move_up(self):
+        self.change_y_pos(10)
+
+```
+
+Here we see that a _method decorator_ does the job of a Scratch _hat
+block_, and the method call `self.change_y_pos(10)` does the job of
+the _change&nbsp;y&nbsp;by_ Scratch block.
+
+
+## Costumes
+
+Your sprite must have at least one costume.  These are given in a
+_class attribute_ called `Costumes`, for example
+
+```python
+class Player(pytch.Sprite):
+    Costumes = {'python': ('pytch-images/python-logo.png', 25, 25)}
+    # ... other code for Player ...
+```
+
+The `Costumes` attribute is a Python dictionary.  Each key is the name
+of that costume, to be used in `switch_costume()` calls.  The value is
+a tuple of three things:
+
  * URL for graphics; currently PNG;
  * x-coordinate of the 'centre' of the sprite;
  * y-coordinate of the 'centre' of the sprite.
 
-See examples for how your script provides these pieces of information
+See examples for how your program provides these pieces of information
 to Pytch.  We have supplied a few sample costumes with this initial
 version; we intend to expand the collection in the future.
 
-### Sounds
+### Sample costumes
 
-Likewise, your script provides Pytch with these pieces of information
-about a sound to be used in your project:
+LIST GOES HERE.
 
- * a name, to be used in a `start_sound()` block;
- * a URL for the sound file.
+
+## Stage backdrops
+
+Your `Stage`-derived class must have an attribute `Backdrops` of the
+same form as a Sprite’s `Costumes` attribute, for example
+
+```python
+class Stage(pytch.Stage):
+    Backdrops = {'pong': 'pytch-images/backdrop.png'}
+    # ... other code for Stage ...
+```
+
+The current implementation only supports one backdrop, so its name
+(‘`pong`’ in the above example) is not used.
+
+
+## Sounds
+
+If you want to use sounds, your sprite must have a class attribute
+called `Sounds`, for example
+
+```python
+class Player(pytch.Sprite):
+    Sounds = {'pop': 'pytch-audio/pop.mp3'}
+    # ... other code for Player ...
+```
+
+The `Sounds` attribute is a Python dictionary.  Each key is the name
+of that sound, to be used in a `start_sound()` block.  The value is a
+URL for the sound file.  We have provided a handful of example sounds
+for this initial version.
 
 See the examples for how this works.
+
+### Sample sounds
+
+LIST GOES HERE.
 
 
 ## Equivalents to Scratch blocks
@@ -63,6 +163,9 @@ blocks in three ways:
    in the background
 
 ### Methods on the stage
+
+In future we hope to implement the various Stage-only blocks from
+Scratch, for example `next_backdrop()`.
 
 ### Functions within the `pytch` module
 
@@ -110,10 +213,17 @@ On the roadmap is:
  * `@when_this_sprite_clicked()`
 
 
-## Skeleton Pytch script
+## Final last pieces of a Pytch program
 
 We are working on reducing the amount of boilerplate required, but
 currently there is still a small amount.
+
+You must _import_ the Pytch module at the top of your program, by
+writing
+
+```python
+import pytch
+```
 
 After defining all your Sprite-derived classes, and your Stage-derived
 class, you must register them all with code along the lines of
@@ -124,13 +234,20 @@ pytch.register_sprite_class(Player)
 pytch.register_sprite_class(Star)
 ```
 
-and then the last line of your Python script should be
+and then the last line of your Python program should be
 
 ```python
 pytch.run()
 ```
 
 to launch the project!
+
+
+## Errors
+
+If there is an error in your Python program, this will be shown in the
+red-backed ‘Errors’ tab.  Currently the error messages are given in
+their raw form; providing more useful messages is on the roadmap.
 
 
 ## Multitasking
@@ -140,8 +257,8 @@ script is triggered, before the screen is updated.  The exceptions
 are:
 
  * when an ‘and wait’ call is made, e.g., `broadcast_and_wait()`;
- * during a `while` loop: one iteration of the loop runs per display
-   frame.
+ * during a `while` or `for` loop: one iteration of the loop runs per
+   display frame.
 
 One consequence of this is that if you have a very complex piece of
 processing inside an event handler, your project might appear to have
