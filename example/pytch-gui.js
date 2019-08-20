@@ -180,9 +180,10 @@ $(document).ready(function() {
         var saved_projects = saved_project_data();
 
         open_menu_contents.empty();
-        saved_projects.forEach(project_descriptor => {
+        saved_projects.forEach((project_descriptor, entry_idx) => {
             var name = project_descriptor.name;
             var label_elt = $("<label></label>");
+            label_elt.attr("id", "open-menu-elt-" + entry_idx);
             label_elt.attr("data-pytch-label", name);
             label_elt.text(name);
             var li_elt = $("<li></li>");
