@@ -57,6 +57,9 @@
   color: inherit;
   cursor: pointer;
 }
+.jq-dropdown .jq-dropdown-menu label.cued-for-delete {
+    background-color: #c11;
+}
 .jq-dropdown .jq-dropdown-menu .jq-dropdown-divider {
   font-size: 1px;
   border-top: solid 1px #e5e5e5;

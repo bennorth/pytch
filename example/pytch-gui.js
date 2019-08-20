@@ -184,6 +184,12 @@ $(document).ready(function() {
         return entry;
     };
 
+    var highlight_to_be_saved_project = function(evt)
+    { open_entry_from_evt(evt).addClass("cued-for-delete"); };
+
+    var unhighlight_to_be_saved_project = function(evt)
+    { open_entry_from_evt(evt).removeClass("cued-for-delete"); };
+
     var refresh_open_menu_contents = function() {
         var saved_projects = saved_project_data();
 
