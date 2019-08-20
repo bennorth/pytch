@@ -146,3 +146,9 @@ are:
 One consequence of this is that if you have a very complex piece of
 processing inside an event handler, your project might appear to have
 crashed.  Try to keep things simple!
+
+
+## Privacy
+
+No project code ever leaves your browser.  Everything you create is
+stored locally.
