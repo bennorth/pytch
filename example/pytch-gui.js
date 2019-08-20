@@ -190,6 +190,21 @@ $(document).ready(function() {
     var unhighlight_to_be_saved_project = function(evt)
     { open_entry_from_evt(evt).removeClass("cued-for-delete"); };
 
+    var delete_saved_project = function(evt) {
+        menubar.jqDropdown("hide");
+        evt.stopPropagation();
+
+        var entry_elt = open_entry_from_evt(evt)[0];
+        var project_name = entry_elt.dataset.pytchLabel;
+
+        var kept_projects
+            = (saved_project_data()
+               .filter(project => (project.name !== project_name)));
+
+        persist_saved_projects(kept_projects);
+        refresh_open_menu_contents();
+    };
+
     var refresh_open_menu_contents = function() {
         var saved_projects = saved_project_data();
 
@@ -206,6 +221,7 @@ $(document).ready(function() {
             delete_elt.attr("data-pytch-entry-idx", entry_idx);
             $(delete_elt).hover(highlight_to_be_saved_project,
                                 unhighlight_to_be_saved_project);
+            $(delete_elt).click(delete_saved_project);
             li_elt.append(delete_elt);
             $(li_elt).click(load_saved_project);
             open_menu_contents.append(li_elt);
