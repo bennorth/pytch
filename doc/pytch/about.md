@@ -40,8 +40,9 @@ concentrate on becoming familiar with Python's syntax.
 
 ## Status
 
-The implementation is at the prototype stage; we would very much
-welcome feedback!
+The implementation is at the prototype stage.  We would very much
+welcome feedback from people with experience of both Scratch and
+Python, particularly those involved in education!
 
 
 ## Author information
