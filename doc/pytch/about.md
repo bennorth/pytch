@@ -44,6 +44,10 @@ The implementation is at the prototype stage.  We would very much
 welcome feedback from people with experience of both Scratch and
 Python, particularly those involved in education!
 
+Email:
+
+ * [`info@pytch.org`](mailto:info@pytch.org)
+
 
 ## Author information
 
