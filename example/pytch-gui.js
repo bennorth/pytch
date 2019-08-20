@@ -176,6 +176,14 @@ $(document).ready(function() {
         load_saved_project_by_name(project_name);
     };
 
+    var open_entry_from_evt = function(evt) {
+        var entry_idx = evt.target.dataset.pytchEntryIdx;
+        var entry = $("#open-menu-elt-" + entry_idx);
+        if (entry.length !== 1)
+            throw Error("expecting exactly one entry; got " + entry.length);
+        return entry;
+    };
+
     var refresh_open_menu_contents = function() {
         var saved_projects = saved_project_data();
 
