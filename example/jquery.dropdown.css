@@ -63,3 +63,12 @@
   padding: 0;
   margin: 5px 0;
 }
+.jq-dropdown .jq-dropdown-menu li span.delete-button {
+    font-size: 90%;
+    padding: 3px;
+    background-color: #c11;
+    margin-left: 4px;
+    margin-right: 4px;
+    float: right;
+    cursor: pointer;
+}
