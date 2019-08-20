@@ -204,6 +204,8 @@ $(document).ready(function() {
             li_elt.append(label_elt);
             var delete_elt = $("<span class=\"delete-button\">DELETE</span>");
             delete_elt.attr("data-pytch-entry-idx", entry_idx);
+            $(delete_elt).hover(highlight_to_be_saved_project,
+                                unhighlight_to_be_saved_project);
             li_elt.append(delete_elt);
             $(li_elt).click(load_saved_project);
             open_menu_contents.append(li_elt);
