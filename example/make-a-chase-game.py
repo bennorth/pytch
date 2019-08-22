@@ -5,7 +5,7 @@ class Stage(pytch.Stage):
 
 class Player(pytch.Sprite):
     Costumes = {'python': ('pytch-images/python-logo.png', 25, 25)}
-    Sounds = {'pop': 'pytch-audio/pop.mp3'}
+    Sounds = {'pop': 'pytch-sounds/pop.mp3'}
 
     def __init__(self):
         pytch.Sprite.__init__(self)

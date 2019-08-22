@@ -74,7 +74,7 @@ body { background-color: #eee; margin: 32px; font-family: 'Roboto', sans-serif; 
 
 h1 { background-color: #336; color: white; text-align: center; margin: 0ex 2em 1ex; padding: 0.5ex 0em; }
 
-#pytch-canvas { border: 1px solid lightgray; }
+#pytch-canvas { border: 1px solid lightgray; background: white; }
 
 #green-flag, #stop-button {
     height: 32px;

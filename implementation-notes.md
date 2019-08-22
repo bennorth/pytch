@@ -102,3 +102,19 @@ This relies on the Sprite instances being global, of course. If
 somebody gets fancy then this won't catch them.
 
 Can we use metaclasses instead?
+
+--- 
+
+We need a credits file. For now:
+balloon:
+https://www.publicdomainpictures.net/en/view-image.php?image=77932&picture=balloon-purple-clip-art
+
+
+--- 
+
+Collision detection (and many other things) could come for free:
+https://github.com/CreateJS/EaselJS/
+
+--- 
+variable output should be cleared on green flag?
+

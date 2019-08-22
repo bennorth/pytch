@@ -94,6 +94,9 @@ class Sprite:
         return _pytch.bounding_boxes_overlap(self.__class__.__name__,
                                              other_name)
 
+    def touching_mouse(self):
+        return _pytch.mouse_touching_sprite(self.__class__.__name__)
+    
     def start_sound(self, sound_name):
         return _pytch.start_sound( self.__class__.__name__,
                                   sound_name )
@@ -127,6 +130,10 @@ class when_key_pressed:
     def __call__(self, fun):
         fun._pytch_handler_for = ('key', self.key)
         return fun
+
+def when_this_sprite_clicked(fun):
+    fun._pytch_handler_for = ('click', None)
+    return fun
 
 
 broadcast = _pytch._broadcast
@@ -162,6 +169,8 @@ def register_instance_handlers(obj):
                     _pytch.when_I_receive(evt_data, bound_method)
                 elif evt_tp == 'key':
                     _pytch.when_key_pressed(evt_data, bound_method)
+                elif evt_tp == 'click':
+                    _pytch.when_this_sprite_clicked(obj.touching_mouse, bound_method)
 
 def run():
     # Fudge: register stage first so it gets drawn first and hence 'under'

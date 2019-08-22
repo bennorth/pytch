@@ -95,6 +95,19 @@ var $builtinmodule = function (name) {
         return [min_x, max_x, min_y, max_y];
     };
 
+    // Checks that a point is within the bounding box (used for click detection)
+    // TODO: should become 'point on costume' that checks a pixel mask
+    PytchSprite.prototype.point_in_sprite = function(x, y){
+	var bb = this.bounding_box();
+	return( ((x >= bb[0]) && (x <= bb[1])) && ((y >= bb[2]) && (y <= bb[3])) );
+    }
+
+    mod.mouse_touching_sprite = function(py_name){
+        var sprite = syncd_sprite_by_name(Sk.ffi.remapToJs(py_name));
+	var stage_posn = mod.current_mouse_stage_posn();
+	return sprite.point_in_sprite( stage_posn.x, stage_posn.y );
+    }
+
     var syncd_sprite_by_name = function(name) {
         var candidates = mod.sprite_instances.filter(s => s.sprite_class_name == name);
         if (candidates.length != 1)
@@ -184,7 +197,7 @@ var $builtinmodule = function (name) {
         return overlap ? Sk.builtin.bool.true$ : Sk.builtin.bool.false$
     };
 
-
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Variable watchers
@@ -249,6 +262,20 @@ var $builtinmodule = function (name) {
 	if(click_reporter){
 	    click_reporter.innerHTML = "click at (" + stage_posn.x + ", " + stage_posn.y + ")";
 	}
+	// Check each sprite handler to see if it's involved in the click.
+	var sprite_responses = [];
+	mod.sprite_clicked_handlers.forEach( eh => {
+	    if( Sk.misceval.callsim(eh[0]) ){
+		
+		// launch handler
+		mod.live_event_responses.push(
+		    new EventResponse("sprite-clicked",
+				      [eh[1]],  // TODO - does this need to be an array?
+				      function(){}
+				     ));
+	    }
+	} );
+	
     };
 
 
@@ -330,12 +357,28 @@ var $builtinmodule = function (name) {
                              handler_py_fun);
     };
 
+
+    // 'when clicked' handlers for sprites
+	// Each item is a short array with the sprite's 'mouse touching' function,
+	// and the handler function that should be run if it is.
+    mod.sprite_clicked_handlers = [];
+    mod.when_this_sprite_clicked = function(mousetest, handler_py_fun) {
+	mod.sprite_clicked_handlers.push( [mousetest, handler_py_fun] );
+    }
+
+    // 'when clicked' handlers for the stage
+    mod.stage_clicked_handlers = [];
+    mod.when_stage_clicked = function(sprite, handler_py_fun) {
+	mod.stage_clicked_handlers.push( handler_py_fun );
+    }
+
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Event responses
     //
     // Each time an 'event' happens (green flag click, message broadcast,
-    // keypress, maybe others?), a 'response' occurs.  This response is captured
+    // keypress, mouse clicked, maybe others?), a 'response' occurs.
+    // This response is captured
     // in an EventResponse object.  Such an object has a list of the threads
     // which are running in response to the event, and a 'completion function'
     // which is to be invoked once all those threads have run to completion.
