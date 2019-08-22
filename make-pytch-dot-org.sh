@@ -18,7 +18,7 @@ cp example/pytch-images/*.png $DIST_DIR/pytch-images
 mkdir $DIST_DIR/pytch-sounds
 cp example/pytch-sounds/*.mp3 $DIST_DIR/pytch-sounds
 
-cp example/make-a-chase-game.py example/pong.py $DIST_DIR
+cp example/make-a-chase-game.py example/pong.py example/balloon-pop.py $DIST_DIR
 
 mkdir $DIST_DIR/pytch-doc
 ( cd doc/pytch && ./make-doc-pages.sh )

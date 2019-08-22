@@ -263,11 +263,11 @@ var $builtinmodule = function (name) {
 	    click_reporter.innerHTML = "click at (" + stage_posn.x + ", " + stage_posn.y + ")";
 	}
 	// Check each sprite handler to see if it's involved in the click.
-	var sprite_responses = [];
+	var sprite_responded = false;
 	mod.sprite_clicked_handlers.forEach( eh => {
 	    if( Sk.misceval.callsim(eh[0]) ){
-		
 		// launch handler
+		sprite_responded = true;
 		mod.live_event_responses.push(
 		    new EventResponse("sprite-clicked",
 				      [eh[1]],  // TODO - does this need to be an array?
@@ -275,6 +275,13 @@ var $builtinmodule = function (name) {
 				     ));
 	    }
 	} );
+
+	// If no sprite caught the event then the stage gets a chance to respond
+	if( !sprite_responded ){
+	    mod.live_event_responses.push(
+		new EventResponse("sprite-clicked", mod.stage_clicked_handlers,
+				  function(){} ));
+	}
 	
     };
 
@@ -593,7 +600,7 @@ var $builtinmodule = function (name) {
 
     var render_one_sprite = function(ctx, sprite) {
         sprite.sync_render_state();
-
+	console.log(sprite.shown);
         if (sprite.shown) {
             // Slight dance to undo the y coordinate flip.
             ctx.save();
