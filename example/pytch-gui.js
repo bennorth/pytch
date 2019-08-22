@@ -94,7 +94,7 @@ $(document).ready(function() {
     var examples = [
         {label: 'Pong', url: 'pong.py'},
         {label: 'Chase Game', url: 'make-a-chase-game.py'},
-        {label: 'Balloon Pop', url: 'balloon-pop.py'},  // Doesn't exist yet.
+        {label: 'Balloon Pop', url: 'balloon-pop.py'},
     ];
 
     var load_example = function(evt) {
