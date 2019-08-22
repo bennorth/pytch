@@ -207,10 +207,8 @@ The available decorators are:
    called whenever the green flag is clicked by the user
  * `@when_key_pressed(key_name_as_string)` causes the decorated method
    to be called whenever the user presses the given key
-
-On the roadmap is:
-
- * `@when_this_sprite_clicked()`
+ * `@when_this_sprite_clicked()` causes the decorated method to be
+   called whenever the user clicks / taps on the sprite
 
 
 ## Final last pieces of a Pytch program
