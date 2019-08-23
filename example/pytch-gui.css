@@ -93,16 +93,17 @@ h1 { background-color: #336; color: white; text-align: center; margin: 0ex 2em 1
     background-color: #336;
 }
 
-#navigation-strip span.nav-item {
+span.nav-item {
     padding-left: 1.5em;
     padding-right: 1.5em;
+    float: right;
 }
 
 #navigation-strip span.nav-item:first-child {
     padding-left: 2.5em;
 }
 
-#navigation-strip span.nav-item a {
+span.nav-item a {
     color: white;
     text-decoration: none;
     font-size: 20px;
