@@ -212,6 +212,7 @@ var $builtinmodule = function (name) {
 
     mod.show_variable = function(py_scope, py_name) {
         // TODO: Make the object I'm pushing be a proper class?
+	// TODO: don't add a variable twice! (shown_variables should be a set)
         mod.shown_variables.push({scope: py_scope,
                                   name: Sk.ffi.remapToJs(py_name),
                                   py_name: py_name});
@@ -666,6 +667,7 @@ var $builtinmodule = function (name) {
                                     .concat(new_event_responses));
 
         if (mod.green_flag_state == "just-clicked") {
+	    mod.shown_variables = []; // reset list of watched variables on green flag.
             mod.launch_green_flag_response();
             mod.green_flag_state = "has-been-clicked";
         }
