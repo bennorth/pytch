@@ -1,6 +1,8 @@
 import pytch
 import random
 
+# Click the balloons to pop them and score points
+
 class Stage(pytch.Stage):
     Backdrops = {'default': 'pytch-images/midnightblue.png'}
 
