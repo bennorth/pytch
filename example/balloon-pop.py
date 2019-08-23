@@ -14,6 +14,7 @@ class Balloon(pytch.Sprite):
 
     @pytch.when_green_flag_clicked
     def play_game(self):
+        self.score = 0
         self.go_to_xy(random.randint(-300,300), random.randint(-200,200))
         self.switch_costume('balloon')
         self.show()
@@ -27,6 +28,7 @@ class Balloon(pytch.Sprite):
     def pop(self):
         self.start_sound("pop")
         self.hide()
+        self.score = self.score + 1
 
 
 pytch.register_stage_class(Stage)
