@@ -86,7 +86,16 @@ version; we intend to expand the collection in the future.
 
 ### Sample costumes
 
-LIST GOES HERE.
+For this initial release, these costumes are available:
+
+ * `pytch-images/balloon.png` &mdash; a balloon with string
+ * `pytch-images/ball.png` &mdash; a small ball
+ * `pytch-images/player-1.png` &mdash; the _Pong_ paddle used for
+   player 1 in the demo
+ * `pytch-images/player-2.png` &mdash; the _Pong_ paddle used for
+   player 2 in the demo
+ * `pytch-images/python-logo.png` &mdash; the Python logo
+ * `pytch-images/star.png` &mdash; a small yellow star
 
 
 ## Stage backdrops
@@ -100,8 +109,17 @@ class Stage(pytch.Stage):
     # ... other code for Stage ...
 ```
 
+The image should 480 pixels wide and 360 high.
+
 The current implementation only supports one backdrop, so its name
 (‘`pong`’ in the above example) is not used.
+
+### Sample backdrops
+
+For this initial release, these backdrops are available:
+
+ * `pytch-images/backdrop.png`
+ * `pytch-images/midnightblue.png`
 
 
 ## Sounds
@@ -124,7 +142,10 @@ See the examples for how this works.
 
 ### Sample sounds
 
-LIST GOES HERE.
+For this initial release, these sounds are available:
+
+ * `pytch-sounds/Ping Pong Hit.mp3`
+ * `pytch-sounds/pop.mp3`
 
 
 ## Equivalents to Scratch blocks
