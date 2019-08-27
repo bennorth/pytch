@@ -45,6 +45,17 @@ welcome feedback from people with experience of both Scratch and
 Python, particularly those involved in education!
 
 
+## Acknowledgements
+
+We rely heavily on the following two excellent projects:
+
+ * [Scratch](https://scratch.mit.edu/) &mdash; MIT’s graphical
+   programming environment, whose ideas are the motivation behind
+   Pytch
+ * [Skulpt](https://skulpt.org/) &mdash; an in-browser implementation
+   of the Python language, on which we have built Pytch
+
+
 ## Email
 
  * [`info@pytch.org`](mailto:info@pytch.org)
