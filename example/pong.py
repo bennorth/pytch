@@ -1,7 +1,7 @@
 import pytch
 from pytch import when_I_receive, when_green_flag_clicked
 
-class GlobalVariables:  # (1)
+class GlobalVariables:
     score_1 = None
     score_2 = None
     score_to_win = None
@@ -13,12 +13,10 @@ class GlobalVariables:  # (1)
     serving_player = None
 
 
-# TODO: Tidy up stage/sprite distinction / commonalities.
-
 class Stage(pytch.Stage):
     Backdrops = {'pong': 'pytch-images/backdrop.png'}
     
-    @when_green_flag_clicked  # (2)
+    @when_green_flag_clicked
     def run(self):
         self.set_constants()
         self.play_one_game()
@@ -32,8 +30,8 @@ class Stage(pytch.Stage):
     def play_one_game(self):
         GlobalVariables.score_1 = 0
         GlobalVariables.score_2 = 0
-        pytch.broadcast_and_wait('Update_Score')  # (3)
-        while not ((GlobalVariables.score_1 == GlobalVariables.score_to_win)  # (4)
+        pytch.broadcast_and_wait('Update_Score')
+        while not ((GlobalVariables.score_1 == GlobalVariables.score_to_win)
                    or (GlobalVariables.score_2 == GlobalVariables.score_to_win)):
             pytch.broadcast_and_wait('Play_One_Point')
         pytch.broadcast_and_wait('Announce_Winner')
@@ -51,9 +49,9 @@ class Player_1(pytch.Sprite):
     def move_as_per_keypresses(self):
         while not GlobalVariables.ball_is_in_play == 'NO':
             if pytch.key_is_pressed('q'):
-                self.change_y_pos(3)  # (5)
+                self.change_y_pos(3)
                 if self.y_pos() > GlobalVariables.bat_max_y:
-                    self.set_y_pos(GlobalVariables.bat_max_y)  # (6)
+                    self.set_y_pos(GlobalVariables.bat_max_y)
             if pytch.key_is_pressed('a'):
                 self.change_y_pos(-3)
                 if self.y_pos() < GlobalVariables.bat_min_y:
@@ -70,7 +68,7 @@ class Player_1(pytch.Sprite):
             self.show()
 
 
-class Player_2(pytch.Sprite):  # (7)
+class Player_2(pytch.Sprite):
     Costumes = {'bat': ('pytch-images/player-2.png', 7, 39)}
 
     @when_I_receive('Play_One_Point')
@@ -106,7 +104,7 @@ class Ball(pytch.Sprite):
     Costumes = {'ball': ('pytch-images/ball.png', 8, 8)}
     Sounds = {'bounce': ('pytch-sounds/Ping Pong Hit.mp3')}
     
-    def __init__(self):  # (8)
+    def __init__(self):
         pytch.Sprite.__init__(self)
         self.x_speed = None
         self.y_speed = None
@@ -121,12 +119,12 @@ class Ball(pytch.Sprite):
     def play_point(self):
         self.decide_who_serves()
         if GlobalVariables.serving_player == 1:
-            # 201 is a multiple of 3; likewise -201 below  (10)
+            # 201 is a multiple of 3; likewise -201 below
             self.go_to_xy(-201, 0)
         else:
             self.go_to_xy(201, 0)
         self.show()
-        while not pytch.key_is_pressed(' '):  # (11)
+        while not pytch.key_is_pressed(' '):
             pass
         GlobalVariables.ball_is_in_play = 'YES'
         pytch.broadcast('Ball_In_Play')
@@ -197,7 +195,7 @@ class Score_1(pytch.Sprite):
 
     @when_I_receive('Update_Score')
     def show_correct_digit(self):
-        self.switch_costume('Glow-%d' % GlobalVariables.score_1)  # (12)
+        self.switch_costume('Glow-%d' % GlobalVariables.score_1)
         self.show()
 
 
