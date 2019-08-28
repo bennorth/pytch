@@ -6,6 +6,10 @@ rm -rf $DIST_DIR
 mkdir $DIST_DIR
 
 cp example/pytch.html $DIST_DIR
+
+# Might be nice to have a different index page some day, but not today!
+cp example/pytch.html $DIST_DIR/index.html
+
 cp example/jquery.dropdown.css example/jquery.dropdown.js $DIST_DIR
 cp example/pytch-gui.css example/pytch-gui.js $DIST_DIR
 
