@@ -22,7 +22,7 @@ Blocks:
 * play <instrument> for <beats>
   * Snare Drum
   * Something else
-* Play sound until done (for syncing)
+* Play sound until done (for syncing of voice and animation)
 
 ## Lost in Space
 
