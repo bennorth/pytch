@@ -114,6 +114,10 @@ span.nav-item a {
     background-color: #66a;
 }
 
+#editor-menubar span.nav-item a:hover {
+    background-color: #336;
+}
+
 #skulpt-out-err-container { clear: both; }
 
 #skulpt-out-err-container ul.tabs {
