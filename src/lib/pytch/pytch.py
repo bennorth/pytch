@@ -1,4 +1,4 @@
-import _pytch
+import builtins as _pytch
 import random
 
 
