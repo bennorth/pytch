@@ -7,11 +7,9 @@ var $builtinmodule = function (name) {
 
     var instance_counter;
     if(!Sk.Pytch){
-	console.log("Adding pytch to Sk");
 	Sk.Pytch = { instance: 1};
 	instance_counter = 1;
     }else{
-	console.log("Reusing an existing Sk Pytch");
 	instance_counter = Sk.Pytch.instance + 1;
 	Sk.Pytch.instance = instance_counter;
     }
@@ -146,7 +144,6 @@ var $builtinmodule = function (name) {
         mod.canvas_elt.setAttribute("tabindex", 0);
     // Clear the canvas
     mod.canvas_ctx.clearRect(0, 0, mod.stage_wd, mod.stage_ht);
-    console.log("Clearing canvas");
 
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -771,7 +768,6 @@ var $builtinmodule = function (name) {
 	    fetch(sound_url)
 	        .then( function(response) {return response.blob()})
 		.then( function(blob) {
-		    console.log(blob);
 		    audioDataBlob = URL.createObjectURL(blob);
 		    var snd = new Audio(audioDataBlob); // Force a request for the blob
 
