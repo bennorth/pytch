@@ -99,6 +99,10 @@ span.nav-item {
     float: right;
 }
 
+span.nav-item.at-left {
+    float: none;
+}
+
 #navigation-strip span.nav-item:first-child {
     padding-left: 2.5em;
 }
