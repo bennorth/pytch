@@ -293,12 +293,22 @@ var $builtinmodule = function (name) {
 
     // Async. playback:
     mod.start_sound = function( cls, snd ){
-	var s = mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)] ;
-	s.sound.play(); // Note - returns a Promise that is resolved when the audio stops playing.
+	var s = mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)];
+	var s = new Audio( s.sound );
+	s.play();
 
 	return true;
     };
 
+    mod.play_sound_until_finished = function( cls, snd ){
+	var p = new Promise(
+	    function(resolve, reject){
+		var s = mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)] ;
+		s.onerror = reject;
+		s.onended = resolve; // TODO: but what if two blocks are playing the same sound?
+	    });
+    }
+    
 
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -601,7 +611,6 @@ var $builtinmodule = function (name) {
 
     var render_one_sprite = function(ctx, sprite) {
         sprite.sync_render_state();
-	console.log(sprite.shown);
         if (sprite.shown) {
             // Slight dance to undo the y coordinate flip.
             ctx.save();
@@ -758,25 +767,37 @@ var $builtinmodule = function (name) {
 
     var async_register_sound = function(sprite_cls_name, sound_name, sound_url) {
         return new Promise(function(resolve, reject) {
-            var snd = new Audio(sound_url);
+	    var audioDataBlob;
+	    fetch(sound_url)
+	        .then( function(response) {return response.blob()})
+		.then( function(blob) {
+		    console.log(blob);
+		    audioDataBlob = URL.createObjectURL(blob);
+		    var snd = new Audio(audioDataBlob); // Force a request for the blob
 
-            snd.addEventListener ('canplaythrough', function() {
-                var sounds = mod.sprite_sounds;
+		    //snd.src = sound_url; snd.preload="true";
 
-                if ( ! sounds.hasOwnProperty(sprite_cls_name))
-                    sounds[sprite_cls_name] = {};
+		    snd.addEventListener('error', function failed(e){ console.log("Audio load failure"); console.log(e); } );
 
-                sounds[sprite_cls_name][sound_name]
-                    = new Sound(snd);
+		    snd.addEventListener ('canplaythrough', function() {
+			var sounds = mod.sprite_sounds;
+			if ( ! sounds.hasOwnProperty(sprite_cls_name))
+			    sounds[sprite_cls_name] = {};
+			
+			sounds[sprite_cls_name][sound_name]
+			    = new Sound(audioDataBlob);
+			
+			resolve("sound at '" + sound_url
+				+ "' registered with name '" + sound_name
+				+ "' for sprite-class '" + sprite_cls_name + "'");
+		    }, false);
 
-                resolve("sound at '" + sound_url
-                        + "' registered with name '" + sound_name
-                        + "' for sprite-class '" + sprite_cls_name + "'");
-            }, false);
-	    snd.addEventListener('error', function failed(e){ console.log("Audio load failure"); console.log(e); } );
-	    snd.src = sound_url; snd.preload="true";
-	    snd.load();
-        });
+		    
+		    snd.load();
+		} )
+	} );
+	    
+
     }
 
     mod._register_sprite_sound = function(py_sprite_cls_name,
