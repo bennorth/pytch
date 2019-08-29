@@ -101,6 +101,10 @@ class Sprite:
         return _pytch.start_sound( self.__class__.__name__,
                                   sound_name )
 
+    def play_sound_until_finished(self, sound_name):
+        return _pytch.play_sound_until_finished(self.__class__.__name__,
+                                                    sound_name)
+
 
 show_variable = _pytch.show_variable
 

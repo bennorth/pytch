@@ -298,12 +298,15 @@ var $builtinmodule = function (name) {
     };
 
     mod.play_sound_until_finished = function( cls, snd ){
-	var p = new Promise(
-	    function(resolve, reject){
-		var s = mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)] ;
-		s.onerror = reject;
-		s.onended = resolve; // TODO: but what if two blocks are playing the same sound?
-	    });
+	var s = new Audio( mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)].sound ) ;
+	var susp = new Sk.misceval.Suspension();
+	susp.resume = function(){ return Sk.builtin.str("Audio finished playing"); }
+	susp.data = { type: "Pytch", subtype: "audiowait",
+		      finishedwaiting: false };
+	s.onended = function(){ susp.data.finishedwaiting = true; }; 
+	s.play();
+	
+	return susp;
     }
     
 
@@ -422,13 +425,15 @@ var $builtinmodule = function (name) {
         this.completion_fun = completion_fun;
         this.n_waiting_threads = 0;
         this.n_sleeping_threads = 0;
+	this.n_audiowaiting_threads = 0;
 	this.stop_flag = false;
     }
 
     EventResponse.prototype.is_finished = function() {
         return (this.handler_suspensions.length == 0
                 && this.n_waiting_threads == 0
-                && this.n_sleeping_threads == 0);
+                && this.n_sleeping_threads == 0
+		&& this.n_audiowaiting_threads == 0);
     };
 
     EventResponse.prototype.run_one_frame = function() {
@@ -457,6 +462,10 @@ var $builtinmodule = function (name) {
                         mod.sleeping_thread_manager.sleep_thread(susp, this);
                         this.n_sleeping_threads += 1;
                         break;
+                    case "audiowait":
+			mod.audiowaiting_thread_manager.wait_thread(susp, this);
+			this.n_audiowaiting_threads += 1;
+			break;
                     case "broadcast":
                         var event_response = susp.data.response;
                         event_response.completion_fun = function() {};
@@ -501,6 +510,7 @@ var $builtinmodule = function (name) {
 	this.handler_suspensions = [];
 	this.n_waiting_threads = 0;
 	this.n_sleeping_threads = 0;
+	this.n_audiowaiting_threads = 0;
 	this.completion_fun = function(){return;} 
 	this.stop_flag = true;
     }
@@ -560,7 +570,39 @@ var $builtinmodule = function (name) {
 
     mod.sleeping_thread_manager = new SleepingThreadManager();
 
+     ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Audio wait mechanism
+    //
+    // Derived from sleep mechanism, but we are not waiting for a number of frames
+    // instead we are waiting for the audio onended envent to flip a flag in the suspension data
+     
+    function AudioWaitingThread(suspension, event_response){
+	this.suspension = suspension;
+	this.event_response = event_response;
+    }
 
+    function AudioWaitingThreadManager() {
+	this.audiowaiting_threads = [];
+    }
+
+    AudioWaitingThreadManager.prototype.wait_thread = function( susp, evt_resp) {
+	this.audiowaiting_threads.push(new AudioWaitingThread(susp, evt_resp));
+    }
+
+    AudioWaitingThreadManager.prototype.process_frame = function() {
+	this.audiowaiting_threads = this.audiowaiting_threads.filter(function(t, i) {
+	    if( t.suspension.data.finishedwaiting ){
+		t.event_response.handler_suspensions.push(t.suspension);
+                t.event_response.n_audiowaiting_threads -= 1;
+		return false;
+	    }
+	    return true;
+	});
+    }
+
+    mod.audiowaiting_thread_manager = new AudioWaitingThreadManager();
+    
     ////////////////////////////////////////////////////////////////////////////////
 
     mod.launch_green_flag_response = function() {
@@ -629,6 +671,7 @@ var $builtinmodule = function (name) {
         tr.innerHTML = ("<td>" + evt_resp.label + "</td>"
                         + "<td>" + evt_resp.handler_suspensions.length + "</td>"
                         + "<td>" + evt_resp.n_waiting_threads + "</td></tr>"
+                        + "<td>" + evt_resp.n_audiowaiting_threads + "</td></tr>"
                         + "<td>" + evt_resp.n_sleeping_threads + "</td></tr>");
         return tr;
     };
@@ -659,6 +702,7 @@ var $builtinmodule = function (name) {
         render_thread_monitor();
 
         mod.sleeping_thread_manager.process_frame();
+	mod.audiowaiting_thread_manager.process_frame();
 
         var new_event_responses = []
         mod.live_event_responses.forEach(er => {
@@ -704,6 +748,7 @@ var $builtinmodule = function (name) {
 		thread.stop();
 	    } );
 	    mod.sleeping_thread_manager.sleeping_threads = []; // sleeping threads should also stop rather than being woken
+	    mod.audiowaiting_thread_manager.audiowaiting_threads = []; // threads waiting for audio to finish should also stop
 	};
         mod.canvas_elt.onmousemove = mod.on_mouse_move;
         mod.canvas_elt.onmousedown = mod.on_mouse_down;
