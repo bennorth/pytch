@@ -147,6 +147,14 @@ For this initial release, these sounds are available:
  * `pytch-sounds/Ping Pong Hit.mp3`
  * `pytch-sounds/pop.mp3`
 
+### Music
+
+Pytch supports music blocks using the soundfont-player library. Like
+Scratch there can be one instrument selected at any time, and one
+tempo (in bpm) that determines how long notes play for. When a new
+instrument is selected the soundfont is loaded from the internet (the
+next statement of the function won't run until this has
+completed). Soundfonts are cached for a particular run of the program.
 
 ## Equivalents to Scratch blocks
 
@@ -208,6 +216,18 @@ Scratch, for example `next_backdrop()`.
    whether the key with name `key_name` is currently pressed
  * `pytch.show_variable(owner, name)` makes the variable within `owner`
    (e.g., a Sprite) called `name` be visible
+ * `pytch.set_instrument_to()` lets you change the instrument for the
+   music blocks. The argument is a string which is the name of a
+   soundfont to be loaded (here:
+   https://github.com/danigb/soundfont-player/blob/master/instruments.json
+   are all the names you can use).
+ * `pytch.play_note_for` lets you play a note for a given number of
+   beats. The first argument is either a string with the name (in
+   Scientific Note Notation) of a note (e.g. 'C4' or 'A2'), or an
+   integer (Midi note number).
+ * `pytch.set_tempo_to()` sets the tempo (in bpm) to a number. The
+   default is 60.
+ * `pytch_change_tempo_by()` adds the argument to the tempo.
 
 
 ## Scratch 'hat' blocks

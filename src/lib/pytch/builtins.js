@@ -51,6 +51,45 @@ var $builtinmodule = function (name) {
 	this.sound = snd;
     }
 
+    // Load soundfont instruments for later use.
+    // These load asynchronously when selected and are cached in '_instruments'
+    // as they become available. 
+    // TODO: decide if this 'audiowaiting' sleep approach is the right one to adopt?
+    mod._instruments = {};
+    var ac = new AudioContext();
+
+    mod._current_instrument = ''; // Expected to be initialised on the Python side by a call to set_instrument_to
+    mod._tempo = 60; // Default to 60 bpm
+    
+    mod.set_instrument_to = function( py_instrument_name ){
+	
+	var instrument_name = Sk.ffi.remapToJs( py_instrument_name );
+	return Sk.misceval.promiseToSuspension( Soundfont.instrument( ac, instrument_name ).then( function( instr ){
+		mod._instruments[instrument_name] = instr;
+		mod._current_instrument = instrument_name;
+	    console.log("Loading completed");
+	    console.log(mod._instruments);
+	} ) );
+    }
+
+    // play a note on the current instrument for
+    // TODO: should this block? Scratch does...
+    mod.play_note_for = function( py_note, py_beats ){
+	var beats = Sk.ffi.remapToJs(py_beats);
+	var duration_in_seconds = (60/mod._tempo) * beats;
+	mod._instruments[ Sk.ffi.remapToJs( mod._current_instrument ) ].play( Sk.ffi.remapToJs( py_note, ac.currentTime, {duration: duration_in_seconds} ) );
+    }
+
+    mod.set_tempo_to = function( py_bpm) {
+	mod._tempo = Sk.ffi.remapToJs( py_bpm );
+    };
+
+    mod.change_tempo_by = function( py_bpm ){
+	mod._tempo += Sk.ffi.remapToJs( py_bpm );
+    };
+
+
+
     //------------------------------------------------------------------------------
     // PytchSprite
     //
@@ -290,9 +329,10 @@ var $builtinmodule = function (name) {
 
     // Async. playback:
     mod.start_sound = function( cls, snd ){
-	var s = mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)];
-	var s = new Audio( s.sound );
-	s.play();
+	mod.instruments['acoustic_grand_piano'].play('C4', 0);
+//	var s = mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)];
+//	var s = new Audio( s.sound );
+//	s.play();
 
 	return true;
     };

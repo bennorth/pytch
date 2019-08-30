@@ -11,6 +11,7 @@ cp example/pytch.html $DIST_DIR
 cp example/pytch.html $DIST_DIR/index.html
 
 cp example/jquery.dropdown.css example/jquery.dropdown.js $DIST_DIR
+cp example/soundfont-player.min.js $DIST_DIR
 cp example/pytch-gui.css example/pytch-gui.js $DIST_DIR
 
 mkdir $DIST_DIR/dist

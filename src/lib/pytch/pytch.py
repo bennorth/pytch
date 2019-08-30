@@ -1,6 +1,16 @@
 import builtins as _pytch
 import random
 
+################################################################################
+#
+# Music subsystem has to be initialised, which requires a soundFont to be loaded
+
+set_instrument_to = _pytch.set_instrument_to
+play_note_for = _pytch.play_note_for
+set_tempo_to = _pytch.set_tempo_to
+change_tempo_by = _pytch.change_tempo_by
+
+set_instrument_to('acoustic_grand_piano')
 
 ################################################################################
 #
