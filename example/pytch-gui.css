@@ -99,6 +99,10 @@ span.nav-item {
     float: right;
 }
 
+span.nav-item.at-left {
+    float: none;
+}
+
 #navigation-strip span.nav-item:first-child {
     padding-left: 2.5em;
 }
@@ -111,7 +115,13 @@ span.nav-item a {
 }
 
 #navigation-strip span.nav-item a:hover {
+    text-decoration: none;
     background-color: #66a;
+}
+
+#editor-menubar span.nav-item a:hover {
+    text-decoration: none;
+    background-color: #336;
 }
 
 #skulpt-out-err-container { clear: both; }
