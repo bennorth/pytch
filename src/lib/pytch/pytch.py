@@ -1,6 +1,17 @@
-import _pytch
+import builtins as _pytch
 import random
 
+################################################################################
+#
+# Music subsystem has to be initialised, which requires a soundFont to be loaded
+
+set_instrument_to = _pytch.set_instrument_to
+play_note_for = _pytch.play_note_for
+set_tempo_to = _pytch.set_tempo_to
+change_tempo_by = _pytch.change_tempo_by
+
+# Load the first, default, instrument.
+_pytch._initial_set_instrument_to('acoustic_grand_piano')
 
 ################################################################################
 #
@@ -100,6 +111,10 @@ class Sprite:
     def start_sound(self, sound_name):
         return _pytch.start_sound( self.__class__.__name__,
                                   sound_name )
+
+    def play_sound_until_finished(self, sound_name):
+        return _pytch.play_sound_until_finished(self.__class__.__name__,
+                                                    sound_name)
 
 
 show_variable = _pytch.show_variable

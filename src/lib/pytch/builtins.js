@@ -7,11 +7,9 @@ var $builtinmodule = function (name) {
 
     var instance_counter;
     if(!Sk.Pytch){
-	console.log("Adding pytch to Sk");
 	Sk.Pytch = { instance: 1};
 	instance_counter = 1;
     }else{
-	console.log("Reusing an existing Sk Pytch");
 	instance_counter = Sk.Pytch.instance + 1;
 	Sk.Pytch.instance = instance_counter;
     }
@@ -52,6 +50,71 @@ var $builtinmodule = function (name) {
     function Sound(snd) {
 	this.sound = snd;
     }
+
+    // Load soundfont instruments for later use.
+    // These load asynchronously when selected and are cached in '_instruments'
+    // as they become available. 
+    // TODO: decide if this 'audiowaiting' sleep approach is the right one to adopt?
+    mod._instruments = {};
+    var ac = new AudioContext();
+
+    mod._current_instrument = ''; // Expected to be initialised
+                                  // on the Python side by a call to set_instrument_to
+    mod._tempo = 60; // Default to 60 bpm
+    
+    // Set an instrument - this delays using a non-Pytch suspension
+    // so it's intended to be used to load the first (default) instrument
+    // before mod.run() is called, hence the name.
+    mod._initial_set_instrument_to = function( py_instrument_name ){
+	
+	var instrument_name = Sk.ffi.remapToJs( py_instrument_name );
+	return Sk.misceval.promiseToSuspension( Soundfont.instrument( ac, instrument_name ).then( function( instr ){
+		mod._instruments[instrument_name] = instr;
+		mod._current_instrument = instrument_name;
+	} ) );
+    };
+
+    // Load an instrument. this creates an audiowait suspension that will
+    // block until the instrument is fully loaded.
+    mod.set_instrument_to = function( py_instrument_name ){
+	var instrument_name = Sk.ffi.remapToJs( py_instrument_name );
+	
+	var susp = new Sk.misceval.Suspension();
+	susp.resume = function(){ return Sk.builtin.str("Instrument finished loading"); }
+	susp.data = { type: "Pytch", subtype: "audiowait",
+		      finishedwaiting: false };
+	
+	var p = Sk.misceval.promiseToSuspension(
+	    Soundfont.instrument( ac, instrument_name ).then( function( instr ){
+		mod._instruments[instrument_name] = instr;
+		mod._current_instrument = instrument_name;
+		susp.data.finishedwaiting = true;
+	    } )
+	);
+	
+	return susp;
+
+    };
+
+    // play a note on the current instrument for
+    mod.play_note_for = function( py_note, py_beats ){
+	var beats = Sk.ffi.remapToJs(py_beats);
+	var duration_in_seconds = (60/mod._tempo) * beats;
+	mod._instruments[ Sk.ffi.remapToJs( mod._current_instrument ) ].play( Sk.ffi.remapToJs( py_note, ac.currentTime, {duration: duration_in_seconds} ) );
+	// TODO: parameterise the function so that you can choose not to sleep? That would allow us to play chords.
+	//       An optional 'block' argument in the .py code, that defaults to true, would do the trick.
+	return mod._sleep( Sk.ffi.remapToPy(duration_in_seconds) );
+    }
+
+    mod.set_tempo_to = function( py_bpm) {
+	mod._tempo = Sk.ffi.remapToJs( py_bpm );
+    };
+
+    mod.change_tempo_by = function( py_bpm ){
+	mod._tempo += Sk.ffi.remapToJs( py_bpm );
+    };
+
+
 
     //------------------------------------------------------------------------------
     // PytchSprite
@@ -146,7 +209,6 @@ var $builtinmodule = function (name) {
         mod.canvas_elt.setAttribute("tabindex", 0);
     // Clear the canvas
     mod.canvas_ctx.clearRect(0, 0, mod.stage_wd, mod.stage_ht);
-    console.log("Clearing canvas");
 
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -293,12 +355,26 @@ var $builtinmodule = function (name) {
 
     // Async. playback:
     mod.start_sound = function( cls, snd ){
-	var s = mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)] ;
-	s.sound.play(); // Note - returns a Promise that is resolved when the audio stops playing.
+	mod.instruments['acoustic_grand_piano'].play('C4', 0);
+//	var s = mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)];
+//	var s = new Audio( s.sound );
+//	s.play();
 
 	return true;
     };
 
+    mod.play_sound_until_finished = function( cls, snd ){
+	var s = new Audio( mod.sprite_sounds[Sk.ffi.remapToJs(cls)][Sk.ffi.remapToJs(snd)].sound ) ;
+	var susp = new Sk.misceval.Suspension();
+	susp.resume = function(){ return Sk.builtin.str("Audio finished playing"); }
+	susp.data = { type: "Pytch", subtype: "audiowait",
+		      finishedwaiting: false };
+	s.onended = function(){ susp.data.finishedwaiting = true; }; 
+	s.play();
+	
+	return susp;
+    }
+    
 
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -415,13 +491,15 @@ var $builtinmodule = function (name) {
         this.completion_fun = completion_fun;
         this.n_waiting_threads = 0;
         this.n_sleeping_threads = 0;
+	this.n_audiowaiting_threads = 0;
 	this.stop_flag = false;
     }
 
     EventResponse.prototype.is_finished = function() {
         return (this.handler_suspensions.length == 0
                 && this.n_waiting_threads == 0
-                && this.n_sleeping_threads == 0);
+                && this.n_sleeping_threads == 0
+		&& this.n_audiowaiting_threads == 0);
     };
 
     EventResponse.prototype.run_one_frame = function() {
@@ -450,6 +528,10 @@ var $builtinmodule = function (name) {
                         mod.sleeping_thread_manager.sleep_thread(susp, this);
                         this.n_sleeping_threads += 1;
                         break;
+                    case "audiowait":
+			mod.audiowaiting_thread_manager.wait_thread(susp, this);
+			this.n_audiowaiting_threads += 1;
+			break;
                     case "broadcast":
                         var event_response = susp.data.response;
                         event_response.completion_fun = function() {};
@@ -494,6 +576,7 @@ var $builtinmodule = function (name) {
 	this.handler_suspensions = [];
 	this.n_waiting_threads = 0;
 	this.n_sleeping_threads = 0;
+	this.n_audiowaiting_threads = 0;
 	this.completion_fun = function(){return;} 
 	this.stop_flag = true;
     }
@@ -553,7 +636,39 @@ var $builtinmodule = function (name) {
 
     mod.sleeping_thread_manager = new SleepingThreadManager();
 
+     ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Audio wait mechanism
+    //
+    // Derived from sleep mechanism, but we are not waiting for a number of frames
+    // instead we are waiting for the audio onended envent to flip a flag in the suspension data
+     
+    function AudioWaitingThread(suspension, event_response){
+	this.suspension = suspension;
+	this.event_response = event_response;
+    }
 
+    function AudioWaitingThreadManager() {
+	this.audiowaiting_threads = [];
+    }
+
+    AudioWaitingThreadManager.prototype.wait_thread = function( susp, evt_resp) {
+	this.audiowaiting_threads.push(new AudioWaitingThread(susp, evt_resp));
+    }
+
+    AudioWaitingThreadManager.prototype.process_frame = function() {
+	this.audiowaiting_threads = this.audiowaiting_threads.filter(function(t, i) {
+	    if( t.suspension.data.finishedwaiting ){
+		t.event_response.handler_suspensions.push(t.suspension);
+                t.event_response.n_audiowaiting_threads -= 1;
+		return false;
+	    }
+	    return true;
+	});
+    }
+
+    mod.audiowaiting_thread_manager = new AudioWaitingThreadManager();
+    
     ////////////////////////////////////////////////////////////////////////////////
 
     mod.launch_green_flag_response = function() {
@@ -601,7 +716,6 @@ var $builtinmodule = function (name) {
 
     var render_one_sprite = function(ctx, sprite) {
         sprite.sync_render_state();
-	console.log(sprite.shown);
         if (sprite.shown) {
             // Slight dance to undo the y coordinate flip.
             ctx.save();
@@ -623,6 +737,7 @@ var $builtinmodule = function (name) {
         tr.innerHTML = ("<td>" + evt_resp.label + "</td>"
                         + "<td>" + evt_resp.handler_suspensions.length + "</td>"
                         + "<td>" + evt_resp.n_waiting_threads + "</td></tr>"
+                        + "<td>" + evt_resp.n_audiowaiting_threads + "</td></tr>"
                         + "<td>" + evt_resp.n_sleeping_threads + "</td></tr>");
         return tr;
     };
@@ -653,6 +768,7 @@ var $builtinmodule = function (name) {
         render_thread_monitor();
 
         mod.sleeping_thread_manager.process_frame();
+	mod.audiowaiting_thread_manager.process_frame();
 
         var new_event_responses = []
         mod.live_event_responses.forEach(er => {
@@ -698,6 +814,7 @@ var $builtinmodule = function (name) {
 		thread.stop();
 	    } );
 	    mod.sleeping_thread_manager.sleeping_threads = []; // sleeping threads should also stop rather than being woken
+	    mod.audiowaiting_thread_manager.audiowaiting_threads = []; // threads waiting for audio to finish should also stop
 	};
         mod.canvas_elt.onmousemove = mod.on_mouse_move;
         mod.canvas_elt.onmousedown = mod.on_mouse_down;
@@ -758,25 +875,36 @@ var $builtinmodule = function (name) {
 
     var async_register_sound = function(sprite_cls_name, sound_name, sound_url) {
         return new Promise(function(resolve, reject) {
-            var snd = new Audio(sound_url);
+	    var audioDataBlob;
+	    fetch(sound_url)
+	        .then( function(response) {return response.blob()})
+		.then( function(blob) {
+		    audioDataBlob = URL.createObjectURL(blob);
+		    var snd = new Audio(audioDataBlob); // Force a request for the blob
 
-            snd.addEventListener ('canplaythrough', function() {
-                var sounds = mod.sprite_sounds;
+		    //snd.src = sound_url; snd.preload="true";
 
-                if ( ! sounds.hasOwnProperty(sprite_cls_name))
-                    sounds[sprite_cls_name] = {};
+		    snd.addEventListener('error', function failed(e){ console.log("Audio load failure"); console.log(e); } );
 
-                sounds[sprite_cls_name][sound_name]
-                    = new Sound(snd);
+		    snd.addEventListener ('canplaythrough', function() {
+			var sounds = mod.sprite_sounds;
+			if ( ! sounds.hasOwnProperty(sprite_cls_name))
+			    sounds[sprite_cls_name] = {};
+			
+			sounds[sprite_cls_name][sound_name]
+			    = new Sound(audioDataBlob);
+			
+			resolve("sound at '" + sound_url
+				+ "' registered with name '" + sound_name
+				+ "' for sprite-class '" + sprite_cls_name + "'");
+		    }, false);
 
-                resolve("sound at '" + sound_url
-                        + "' registered with name '" + sound_name
-                        + "' for sprite-class '" + sprite_cls_name + "'");
-            }, false);
-	    snd.addEventListener('error', function failed(e){ console.log("Audio load failure"); console.log(e); } );
-	    snd.src = sound_url; snd.preload="true";
-	    snd.load();
-        });
+		    
+		    snd.load();
+		} )
+	} );
+	    
+
     }
 
     mod._register_sprite_sound = function(py_sprite_cls_name,
