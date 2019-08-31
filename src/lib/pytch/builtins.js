@@ -97,11 +97,13 @@ var $builtinmodule = function (name) {
     };
 
     // play a note on the current instrument for
-    // TODO: should this block? Scratch does...
     mod.play_note_for = function( py_note, py_beats ){
 	var beats = Sk.ffi.remapToJs(py_beats);
 	var duration_in_seconds = (60/mod._tempo) * beats;
 	mod._instruments[ Sk.ffi.remapToJs( mod._current_instrument ) ].play( Sk.ffi.remapToJs( py_note, ac.currentTime, {duration: duration_in_seconds} ) );
+	// TODO: parameterise the function so that you can choose not to sleep? That would allow us to play chords.
+	//       An optional 'block' argument in the .py code, that defaults to true, would do the trick.
+	return mod._sleep( Sk.ffi.remapToPy(duration_in_seconds) );
     }
 
     mod.set_tempo_to = function( py_bpm) {
