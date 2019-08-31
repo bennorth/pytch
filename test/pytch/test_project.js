@@ -15,4 +15,9 @@ describe("pytch.project module", function() {
         var import_result = import_from_local_file("py/project/create_Project.py");
         assert.ok(import_result.$d.project);
     });
+
+    it("can go-live an empty Project", () => {
+        var import_result = import_from_local_file("py/project/launch_empty_Project.py");
+        assert.ok(import_result.$isSuspension);
+    });
 });
