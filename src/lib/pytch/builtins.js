@@ -58,19 +58,43 @@ var $builtinmodule = function (name) {
     mod._instruments = {};
     var ac = new AudioContext();
 
-    mod._current_instrument = ''; // Expected to be initialised on the Python side by a call to set_instrument_to
+    mod._current_instrument = ''; // Expected to be initialised
+                                  // on the Python side by a call to set_instrument_to
     mod._tempo = 60; // Default to 60 bpm
     
-    mod.set_instrument_to = function( py_instrument_name ){
+    // Set an instrument - this delays using a non-Pytch suspension
+    // so it's intended to be used to load the first (default) instrument
+    // before mod.run() is called, hence the name.
+    mod._initial_set_instrument_to = function( py_instrument_name ){
 	
 	var instrument_name = Sk.ffi.remapToJs( py_instrument_name );
 	return Sk.misceval.promiseToSuspension( Soundfont.instrument( ac, instrument_name ).then( function( instr ){
 		mod._instruments[instrument_name] = instr;
 		mod._current_instrument = instrument_name;
-	    console.log("Loading completed");
-	    console.log(mod._instruments);
 	} ) );
-    }
+    };
+
+    // Load an instrument. this creates an audiowait suspension that will
+    // block until the instrument is fully loaded.
+    mod.set_instrument_to = function( py_instrument_name ){
+	var instrument_name = Sk.ffi.remapToJs( py_instrument_name );
+	
+	var susp = new Sk.misceval.Suspension();
+	susp.resume = function(){ return Sk.builtin.str("Instrument finished loading"); }
+	susp.data = { type: "Pytch", subtype: "audiowait",
+		      finishedwaiting: false };
+	
+	var p = Sk.misceval.promiseToSuspension(
+	    Soundfont.instrument( ac, instrument_name ).then( function( instr ){
+		mod._instruments[instrument_name] = instr;
+		mod._current_instrument = instrument_name;
+		susp.data.finishedwaiting = true;
+	    } )
+	);
+	
+	return susp;
+
+    };
 
     // play a note on the current instrument for
     // TODO: should this block? Scratch does...

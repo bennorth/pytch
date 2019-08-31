@@ -10,7 +10,8 @@ play_note_for = _pytch.play_note_for
 set_tempo_to = _pytch.set_tempo_to
 change_tempo_by = _pytch.change_tempo_by
 
-set_instrument_to('acoustic_grand_piano')
+# Load the first, default, instrument.
+_pytch._initial_set_instrument_to('acoustic_grand_piano')
 
 ################################################################################
 #
