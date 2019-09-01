@@ -193,6 +193,14 @@ var $builtinmodule = function (name) {
         return this.handlers.message[js_message] || [];
     };
 
+    Project.prototype.broadcast_handler_thread_group = function(js_message) {
+        var threads = [];
+        this.handlers_for_message(js_message).forEach(event_handler => {
+            event_handler.launch_threads().forEach(th => threads.push(th));
+        });
+        return new ThreadGroup(this, threads);
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
