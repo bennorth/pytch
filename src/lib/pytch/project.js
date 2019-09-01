@@ -117,6 +117,14 @@ var $builtinmodule = function (name) {
         };
     };
 
+    Project.prototype.on_green_flag_clicked = function() {
+        var threads = [];
+        this.handlers.green_flag.forEach(event_handler => {
+            event_handler.launch_threads().forEach(th => threads.push(th));
+        });
+        this.thread_groups.push(new ThreadGroup(threads));
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
