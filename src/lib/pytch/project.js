@@ -42,6 +42,11 @@ var $builtinmodule = function (name) {
         const s_im_func = Sk.builtin.str("im_func");
         const s_handler_attr = Sk.builtin.str("_pytch_handler_for");
 
+        const hasattr = function(obj, attr) {
+            var py_result = Sk.builtin.hasattr(obj, attr);
+            return (py_result === Sk.builtin.bool.true$);
+        };
+
         $loc.go_live = new Sk.builtin.func((self) => {
             Sk.pytch_current_live_project = self.js_project;
 
