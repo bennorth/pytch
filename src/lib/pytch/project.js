@@ -79,6 +79,7 @@ var $builtinmodule = function (name) {
         this.handlers = {
             green_flag: [],
         };
+        this.thread_groups = [];
     };
 
     Project.prototype.sprite_by_class_name = function(cls_name) {
