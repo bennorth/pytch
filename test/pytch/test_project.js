@@ -89,10 +89,11 @@ describe("pytch.project module", function() {
         assert.strictEqual(js_getattr(sender, "n_events"), 1);
         assert.strictEqual(js_getattr(receiver, "n_events"), 0);
 
-        // Next pass through does give the receiver thread a go.
+        // Next pass through does give the receiver thread a go.  The
+        // sender continues to run.
         //
         project.one_frame();
-        assert.strictEqual(js_getattr(sender, "n_events"), 1);
+        assert.strictEqual(js_getattr(sender, "n_events"), 2);
         assert.strictEqual(js_getattr(receiver, "n_events"), 1);
     });
 });

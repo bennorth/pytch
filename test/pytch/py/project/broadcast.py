@@ -12,6 +12,7 @@ class Sender(Sprite):
     def send_message(self):
         self.n_events += 1
         _broadcast('something-happened')
+        self.n_events += 1
 
 
 class Receiver(Sprite):
