@@ -5,8 +5,12 @@ from pytch.syscalls import _broadcast
 
 
 class Sender(Sprite):
+    def __init__(self):
+        self.n_events = 0
+
     @when_green_flag_clicked
     def send_message(self):
+        self.n_events += 1
         _broadcast('something-happened')
 
 
