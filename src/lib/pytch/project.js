@@ -69,6 +69,10 @@ var $builtinmodule = function (name) {
         this.runnable_threads = threads;
     };
 
+    ThreadGroup.prototype.is_all_finished = function() {
+        return this.runnable_threads.length == 0;
+    };
+
     ThreadGroup.prototype.one_frame = function() {
         this.runnable_threads.forEach(thread => {
             var susp_or_retval = thread.skulpt_susp.resume();
