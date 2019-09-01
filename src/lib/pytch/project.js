@@ -201,11 +201,9 @@ var $builtinmodule = function (name) {
     };
 
     Project.prototype.on_green_flag_clicked = function() {
-        var threads = [];
-        this.handlers.green_flag.forEach(event_handler => {
-            event_handler.launch_threads().forEach(th => threads.push(th));
-        });
-        this.thread_groups.push(new ThreadGroup(this, threads));
+        var handlers = this.handlers.green_flag;
+        var thread_group = this.thread_group_from_handlers(handlers);
+        this.thread_groups.push(thread_group);
     };
 
     Project.prototype.handlers_for_message = function(js_message) {
@@ -213,12 +211,9 @@ var $builtinmodule = function (name) {
     };
 
     Project.prototype.broadcast_handler_thread_group = function(js_message) {
-        var threads = [];
-        this.handlers_for_message(js_message).forEach(event_handler => {
-            event_handler.launch_threads().forEach(th => threads.push(th));
-        });
-        return new ThreadGroup(this, threads);
-    };
+        var handlers = this.handlers_for_message(js_message);
+        return this.thread_group_from_handlers(handlers);
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////
