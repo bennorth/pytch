@@ -86,7 +86,8 @@ var $builtinmodule = function (name) {
 
                 switch (susp.data.subtype) {
                 case "next-frame":
-                    // TODO
+                    thread.skulpt_susp = susp;
+                    new_runnable_threads.push(thread);
                     break;
                 default:
                     throw Error("unknown Pytch suspension subtype "
