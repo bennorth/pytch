@@ -44,5 +44,9 @@ describe("pytch.project module", function() {
         project.one_frame();
 
         assert.strictEqual(js_getattr(flag_click_counter, "n_clicks"), 1);
+
+        project.one_frame();
+
+        assert.strictEqual(js_getattr(flag_click_counter, "n_clicks"), 2);
     });
 });
