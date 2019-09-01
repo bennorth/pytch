@@ -56,6 +56,8 @@ var $builtinmodule = function (name) {
         this.skulpt_susp = {
             resume: () => Sk.misceval.callsimOrSuspend(py_callable, py_arg)
         };
+        this.state = Thread.State.RUNNING;
+        this.sleeping_on = null;
     };
 
     Thread.State = {
