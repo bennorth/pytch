@@ -65,7 +65,8 @@ var $builtinmodule = function (name) {
     // response to the same event, such as green-flag or a message
     // being broadcast.
     //
-    const ThreadGroup = function(threads) {
+    const ThreadGroup = function(project, threads) {
+        this.project = project;
         this.runnable_threads = threads;
     };
 
@@ -185,7 +186,7 @@ var $builtinmodule = function (name) {
         this.handlers.green_flag.forEach(event_handler => {
             event_handler.launch_threads().forEach(th => threads.push(th));
         });
-        this.thread_groups.push(new ThreadGroup(threads));
+        this.thread_groups.push(new ThreadGroup(this, threads));
     };
 
 
