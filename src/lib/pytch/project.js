@@ -108,7 +108,13 @@ var $builtinmodule = function (name) {
             .forEach(thread => {
             var susp_or_retval = thread.skulpt_susp.resume();
 
-            if (susp_or_retval.$isSuspension) {
+            if ( ! susp_or_retval.$isSuspension)  {
+                // Python-land code ran to completion; thread is done but
+                // not yet dealt with.
+                thread.state = Thread.State.ZOMBIE;
+            } else {
+                // Python-land code invoked a syscall.
+
                 var susp = susp_or_retval;
                 if (susp.data.type !== "Pytch")
                     throw Error("cannot handle non-Pytch suspensions");
