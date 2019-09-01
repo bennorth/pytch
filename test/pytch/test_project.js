@@ -59,4 +59,15 @@ describe("pytch.project module", function() {
         assert.strictEqual(msg_handler.py_func,
                            import_result.$d.Receiver.note_event)
     });
+
+    it("broadcast syscall works", () => {
+        var import_result = import_from_local_file("py/project/broadcast.py");
+        var project = import_result.$d.project.js_project;
+        var receiver = (project
+                        .sprite_by_class_name("Receiver")
+                        .py_instances[0]);
+
+        project.on_green_flag_clicked();
+        project.one_frame();
+    });
 });
