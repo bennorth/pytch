@@ -20,4 +20,14 @@ describe("pytch.project module", function() {
         var import_result = import_from_local_file("py/project/launch_empty_Project.py");
         assert.ok(import_result.$isSuspension);
     });
+
+    it("can register a Sprite class", () => {
+        var import_result = import_from_local_file("py/project/single_sprite.py");
+        var project = import_result.$d.project.js_project;
+        assert.equal(project.handlers.green_flag.length, 1);
+        assert.strictEqual(project.handlers.green_flag[0].pytch_sprite.py_cls,
+                           import_result.$d.FlagClickCounter)
+        assert.strictEqual(project.handlers.green_flag[0].py_func,
+                           import_result.$d.FlagClickCounter.count_the_click)
+    });
 });
