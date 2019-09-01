@@ -133,6 +133,22 @@ var $builtinmodule = function (name) {
         };
     };
 
+    Project.prototype.one_frame = function() {
+        var new_thread_groups = [];
+        this.thread_groups.forEach(existing_tg => {
+            existing_tg.one_frame().forEach(new_tg => {
+                new_thread_groups.push(new_tg);
+            });
+        });
+
+        // TODO: How to handle implicit join()s on thread groups?
+        // Previous incarnation had completion function but maybe
+        // that's overcomplicated.  Do we ever have a completion
+        // function which does anything other than re-enable the
+        // launching thread?
+        this.thread_groups = new_thread_groups;
+    };
+
     Project.prototype.on_green_flag_clicked = function() {
         var threads = [];
         this.handlers.green_flag.forEach(event_handler => {
