@@ -112,15 +112,14 @@ describe("pytch.project module", () => {
             assert.strictEqual(js_getattr(receiver, "n_events"), exp_n_recv);
         }
 
-        assert.strictEqual(js_getattr(sender, "n_events"), 0);
-        assert.strictEqual(js_getattr(receiver, "n_events"), 0);
+        // Before we start, nothing should have happened.
+        assert_n_events(0, 0);
 
         // Clicking green flag only launches the threads and puts them
         // in the runnable queue.  Nothing has actually run yet.
         //
         project.on_green_flag_clicked();
-        assert.strictEqual(js_getattr(sender, "n_events"), 0);
-        assert.strictEqual(js_getattr(receiver, "n_events"), 0);
+        assert_n_events(0, 0);
 
         // First pass through scheduler causes an event in the sender,
         // but only broadcasts the message and places a newly-created
@@ -128,8 +127,7 @@ describe("pytch.project module", () => {
         // thread has not yet run.
         //
         project.one_frame();
-        assert.strictEqual(js_getattr(sender, "n_events"), 1);
-        assert.strictEqual(js_getattr(receiver, "n_events"), 0);
+        assert_n_events(1, 0);
 
         // Next pass through does give the receiver thread a go.  It
         // bumps its n-events counter then yields until next frame.
@@ -137,8 +135,7 @@ describe("pytch.project module", () => {
         // not make any progress.
         //
         project.one_frame();
-        assert.strictEqual(js_getattr(sender, "n_events"), 1);
-        assert.strictEqual(js_getattr(receiver, "n_events"), 1);
+        assert_n_events(1, 1);
 
         // The receiver resumes, increments its n-events counter, and
         // finishes.  The sender is part of the first-launched
@@ -147,8 +144,7 @@ describe("pytch.project module", () => {
         // and runs to completion.
         //
         project.one_frame();
-        assert.strictEqual(js_getattr(sender, "n_events"), 2);
-        assert.strictEqual(js_getattr(receiver, "n_events"), 2);
+        assert_n_events(2, 2);
 
         // Everything should have now finished.
         assert.strictEqual(project.thread_groups.length, 0);
