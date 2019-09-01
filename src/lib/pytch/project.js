@@ -75,6 +75,12 @@ var $builtinmodule = function (name) {
         ZOMBIE: "zombie",
     };
 
+    Thread.prototype.is_running = function()
+    { return (this.state === Thread.State.RUNNING); }
+
+    Thread.prototype.is_zombie = function()
+    { return (this.state === Thread.State.ZOMBIE); }
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
