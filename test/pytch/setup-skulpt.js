@@ -23,7 +23,7 @@ before(() => {
 
     global.import_from_local_file = function(fname) {
         var code_text = fs.readFileSync(fname, { encoding: "utf8" });
-        return Sk.importMainWithBody(fname, false, code_text, true);
+        return Sk.importMainWithBody("<stdin>", false, code_text, true);
     };
 
     global.assert = require("assert");
