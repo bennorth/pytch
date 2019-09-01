@@ -114,6 +114,7 @@ var $builtinmodule = function (name) {
                 // Python-land code ran to completion; thread is done but
                 // not yet dealt with.
                 thread.state = Thread.State.ZOMBIE;
+                thread.skulpt_susp = null;
             } else {
                 // Python-land code invoked a syscall.
 
