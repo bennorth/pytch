@@ -96,4 +96,56 @@ describe("pytch.project module", function() {
         assert.strictEqual(js_getattr(sender, "n_events"), 2);
         assert.strictEqual(js_getattr(receiver, "n_events"), 1);
     });
+
+    it("broadcast-and-wait syscall works", () => {
+        var import_result = import_from_local_file("py/project/broadcast_and_wait.py");
+        var project = import_result.$d.project.js_project;
+        var receiver = (project
+                        .sprite_by_class_name("Receiver")
+                        .py_instances[0]);
+        var sender = (project
+                      .sprite_by_class_name("Sender")
+                      .py_instances[0]);
+
+        assert.strictEqual(js_getattr(sender, "n_events"), 0);
+        assert.strictEqual(js_getattr(receiver, "n_events"), 0);
+
+        // Clicking green flag only launches the threads and puts them
+        // in the runnable queue.  Nothing has actually run yet.
+        //
+        project.on_green_flag_clicked();
+        assert.strictEqual(js_getattr(sender, "n_events"), 0);
+        assert.strictEqual(js_getattr(receiver, "n_events"), 0);
+
+        // First pass through scheduler causes an event in the sender,
+        // but only broadcasts the message and places a newly-created
+        // thread on the receiver in the run queue.  The receiver
+        // thread has not yet run.
+        //
+        project.one_frame();
+        assert.strictEqual(js_getattr(sender, "n_events"), 1);
+        assert.strictEqual(js_getattr(receiver, "n_events"), 0);
+
+        // Next pass through does give the receiver thread a go.  It
+        // bumps its n-events counter then yields until next frame.
+        // The sender is waiting for all receivers to finish, so does
+        // not make any progress.
+        //
+        project.one_frame();
+        assert.strictEqual(js_getattr(sender, "n_events"), 1);
+        assert.strictEqual(js_getattr(receiver, "n_events"), 1);
+
+        // The receiver resumes, increments its n-events counter, and
+        // finishes.  The sender is part of the first-launched
+        // thread-group, so runs next, notices the sleeping-on thread
+        // group has finished, and resumes.  It counts another event
+        // and runs to completion.
+        //
+        project.one_frame();
+        assert.strictEqual(js_getattr(sender, "n_events"), 2);
+        assert.strictEqual(js_getattr(receiver, "n_events"), 2);
+
+        // Everything should have now finished.
+        assert.strictEqual(project.thread_groups.length, 0);
+    });
 });
