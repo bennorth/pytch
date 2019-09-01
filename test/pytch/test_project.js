@@ -66,8 +66,33 @@ describe("pytch.project module", function() {
         var receiver = (project
                         .sprite_by_class_name("Receiver")
                         .py_instances[0]);
+        var sender = (project
+                      .sprite_by_class_name("Sender")
+                      .py_instances[0]);
 
+        assert.strictEqual(js_getattr(sender, "n_events"), 0);
+        assert.strictEqual(js_getattr(receiver, "n_events"), 0);
+
+        // Clicking green flag only launches the threads and puts them
+        // in the runnable queue.  Nothing has actually run yet.
+        //
         project.on_green_flag_clicked();
+        assert.strictEqual(js_getattr(sender, "n_events"), 0);
+        assert.strictEqual(js_getattr(receiver, "n_events"), 0);
+
+        // First pass through scheduler causes an event in the sender,
+        // but only broadcasts the message and places a newly-created
+        // thread on the receiver in the run queue.  The receiver
+        // thread has not yet run.
+        //
         project.one_frame();
+        assert.strictEqual(js_getattr(sender, "n_events"), 1);
+        assert.strictEqual(js_getattr(receiver, "n_events"), 0);
+
+        // Next pass through does give the receiver thread a go.
+        //
+        project.one_frame();
+        assert.strictEqual(js_getattr(sender, "n_events"), 1);
+        assert.strictEqual(js_getattr(receiver, "n_events"), 1);
     });
 });
