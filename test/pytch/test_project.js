@@ -30,4 +30,19 @@ describe("pytch.project module", function() {
         assert.strictEqual(project.handlers.green_flag[0].py_func,
                            import_result.$d.FlagClickCounter.count_the_click)
     });
+
+    it("Sprite responds to green-flag", () => {
+        var import_result = import_from_local_file("py/project/single_sprite.py");
+        var project = import_result.$d.project.js_project;
+        var flag_click_counter = (project
+                                  .sprite_by_class_name("FlagClickCounter")
+                                  .py_instances[0]);
+
+        assert.strictEqual(js_getattr(flag_click_counter, "n_clicks"), 0);
+
+        project.on_green_flag_clicked();
+        project.one_frame();
+
+        assert.strictEqual(js_getattr(flag_click_counter, "n_clicks"), 1);
+    });
 });
