@@ -144,8 +144,9 @@ var $builtinmodule = function (name) {
             }
         });
 
-        // TODO:
         // Reap zombies.
+        this.runnable_threads
+            = this.runnable_threads.filter(th => ( ! th.is_zombie()));
 
         // TODO: Return new list of live ThreadGroups; this can
         // include 'this' if at least one thread suspended; it also
