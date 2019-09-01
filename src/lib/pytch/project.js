@@ -102,8 +102,23 @@ var $builtinmodule = function (name) {
     ThreadGroup.prototype.one_frame = function() {
         var new_thread_groups = [];
 
-        // TODO
         // Wake any threads meeting their condition-to-wake.
+        this.runnable_threads.forEach(thread => {
+            switch (thread.state) {
+            case Thread.State.RUNNING:
+                // Leave it run.
+                break;
+            case Thread.State.AWAITING_THREAD_GROUP_COMPLETION:
+                if (thread.sleeping_on.is_all_finished()) {
+                    thread.state = Thread.State.RUNNING;
+                    thread.sleeping_on = null;
+                }
+                break;
+            default:
+                throw new Error("unknown thread state \""
+                                + thread.state + "\"");
+            }
+        });
 
         this.runnable_threads
             .filter(th => th.is_running())
