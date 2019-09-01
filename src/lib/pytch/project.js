@@ -74,6 +74,8 @@ var $builtinmodule = function (name) {
     };
 
     ThreadGroup.prototype.one_frame = function() {
+        var new_runnable_threads = [];
+
         this.runnable_threads.forEach(thread => {
             var susp_or_retval = thread.skulpt_susp.resume();
 
@@ -92,6 +94,8 @@ var $builtinmodule = function (name) {
                 }
             }
         });
+
+        this.runnable_threads = new_runnable_threads;
 
         // TODO: Return new list of live ThreadGroups; this can
         // include 'this' if at least one thread suspended; it also
