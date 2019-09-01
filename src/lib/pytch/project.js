@@ -75,6 +75,7 @@ var $builtinmodule = function (name) {
 
     ThreadGroup.prototype.one_frame = function() {
         var new_runnable_threads = [];
+        var new_thread_groups = [];
 
         this.runnable_threads.forEach(thread => {
             var susp_or_retval = thread.skulpt_susp.resume();
@@ -102,7 +103,11 @@ var $builtinmodule = function (name) {
         // include 'this' if at least one thread suspended; it also
         // includes other thread-groups launched as a result of
         // threads in this group doing, e.g., bcast/wait.
-        return [];
+
+        if ( ! this.is_all_finished())
+            new_thread_groups.push(this);
+
+        return new_thread_groups;
     };
 
 
