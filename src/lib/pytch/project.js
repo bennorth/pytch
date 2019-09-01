@@ -69,6 +69,22 @@ var $builtinmodule = function (name) {
         this.runnable_threads = threads;
     };
 
+    ThreadGroup.prototype.one_frame = function() {
+        this.runnable_threads.forEach(thread => {
+            var susp_or_retval = thread.skulpt_susp.resume();
+
+            if (susp_or_retval.$isSuspension) {
+                throw Error("cannot handle syscalls (yet)");
+            }
+        });
+
+        // TODO: Return new list of live ThreadGroups; this can
+        // include 'this' if at least one thread suspended; it also
+        // includes other thread-groups launched as a result of
+        // threads in this group doing, e.g., bcast/wait.
+        return [];
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
