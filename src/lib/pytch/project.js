@@ -56,6 +56,17 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // ThreadGroup: A collection of threads, all of which started in
+    // response to the same event, such as green-flag or a message
+    // being broadcast.
+    //
+    const ThreadGroup = function(threads) {
+        this.runnable_threads = threads;
+    };
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // JavaScript-level "Project" class
 
     const Project = function() {
