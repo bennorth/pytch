@@ -107,6 +107,11 @@ describe("pytch.project module", () => {
                       .sprite_by_class_name("Sender")
                       .py_instances[0]);
 
+        const assert_n_events = function(exp_n_send, exp_n_recv) {
+            assert.strictEqual(js_getattr(sender, "n_events"), exp_n_send);
+            assert.strictEqual(js_getattr(receiver, "n_events"), exp_n_recv);
+        }
+
         assert.strictEqual(js_getattr(sender, "n_events"), 0);
         assert.strictEqual(js_getattr(receiver, "n_events"), 0);
 
