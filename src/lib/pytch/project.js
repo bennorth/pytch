@@ -91,6 +91,17 @@ var $builtinmodule = function (name) {
                     thread.skulpt_susp = susp;
                     new_runnable_threads.push(thread);
                     break;
+                case "broadcast":
+                    var js_msg = susp.data.subtype_data;
+                    new_thread_groups.push(
+                        (this
+                         .project
+                         .broadcast_handler_thread_group(js_msg)));
+
+                    // Thread remains runnable; responses run concurrently.
+                    thread.skulpt_susp = susp;
+                    new_runnable_threads.push(thread);
+                    break;
                 default:
                     throw Error("unknown Pytch suspension subtype "
                                 + susp.data.subtype);
