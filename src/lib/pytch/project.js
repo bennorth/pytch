@@ -119,6 +119,7 @@ var $builtinmodule = function (name) {
         this.sprites = [];
         this.handlers = {
             green_flag: [],
+            message: {},
         };
         this.thread_groups = [];
     };
@@ -152,6 +153,11 @@ var $builtinmodule = function (name) {
         switch (event_type) {
         case "green-flag":
             this.handlers.green_flag.push(handler);
+            break;
+        case "message":
+            if ( ! this.handlers.message.hasOwnProperty(event_data))
+                this.handlers.message[event_data] = [];
+            this.handlers.message[event_data].push(handler);
             break;
         default:
             throw Error("unknown event-type \"" + event_type + "\"");
