@@ -192,6 +192,14 @@ var $builtinmodule = function (name) {
         this.thread_groups = new_thread_groups;
     };
 
+    Project.prototype.thread_group_from_handlers = function(handlers) {
+        var threads = [];
+        handlers.forEach(handler => {
+            handler.launch_threads().forEach(th => threads.push(th));
+        });
+        return new ThreadGroup(this, threads);
+    };
+
     Project.prototype.on_green_flag_clicked = function() {
         var threads = [];
         this.handlers.green_flag.forEach(event_handler => {
