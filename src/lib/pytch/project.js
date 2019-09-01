@@ -92,6 +92,33 @@ var $builtinmodule = function (name) {
             return (py_result === Sk.builtin.bool.true$);
         };
 
+        $loc.register_sprite_class = new Sk.builtin.func(
+            (self, sprite_cls) => {
+                self.js_project.register_sprite_class(sprite_cls);
+
+                var js_dir = Sk.ffi.remapToJs(Sk.builtin.dir(sprite_cls));
+                js_dir.forEach(x => {
+                    var attr_val = Sk.builtin.getattr(sprite_cls,
+                                                      Sk.builtin.str(x));
+
+                    if (hasattr(attr_val, s_im_func)) {
+                        var im_func = Sk.builtin.getattr(attr_val, s_im_func);
+                        if (hasattr(im_func, s_handler_attr)) {
+                            var handler_annotation
+                                = Sk.builtin.getattr(im_func, s_handler_attr);
+
+                            var js_annotation
+                                = Sk.ffi.remapToJs(handler_annotation);
+
+                            self.js_project.register_handler(js_annotation[0],
+                                                             js_annotation[1],
+                                                             sprite_cls,
+                                                             im_func);
+                        }
+                    }
+                });
+            });
+
         $loc.go_live = new Sk.builtin.func((self) => {
             Sk.pytch_current_live_project = self.js_project;
 
