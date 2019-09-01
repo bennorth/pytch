@@ -32,6 +32,10 @@ var $builtinmodule = function (name) {
         };
     };
 
+    Project.prototype.register_sprite_class = function(py_sprite_cls) {
+        this.sprites.push(new PytchSprite(py_sprite_cls));
+    };
+
     // Python-level "Project" class
 
     const project_cls = function($gbl, $loc) {
