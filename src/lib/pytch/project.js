@@ -1,6 +1,16 @@
 var $builtinmodule = function (name) {
     var mod = {};
 
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Conversion etc. utilities
+
+    const s_dunder_name = Sk.ffi.remapToPy("__name__");
+
+    const name_of_py_class = function(py_cls)
+    { return Sk.ffi.remapToJs(Sk.builtin.getattr(py_cls, s_dunder_name)); };
+
+
     // PytchSprite: A Sprite within the Project.  It holds (a
     // reference to) the Python-level class (which is normally derived
     // from pytch.sprite.Sprite), together with a list of its live
