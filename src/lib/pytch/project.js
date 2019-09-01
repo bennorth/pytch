@@ -61,6 +61,22 @@ var $builtinmodule = function (name) {
         this.sprites.push(new PytchSprite(py_sprite_cls));
     };
 
+    Project.prototype.register_handler = function(event_type, event_data,
+                                                  handler_py_sprite_cls,
+                                                  handler_py_func) {
+        var handler_cls_name = name_of_py_class(handler_py_sprite_cls);
+        var sprite = this.sprite_by_class_name(handler_cls_name);
+        var handler = new EventHandler(sprite, handler_py_func);
+
+        switch (event_type) {
+        case "green-flag":
+            this.handlers.green_flag.push(handler);
+            break;
+        default:
+            throw Error("unknown event-type \"" + event_type + "\"");
+        };
+    };
+
     // Python-level "Project" class
 
     const project_cls = function($gbl, $loc) {
