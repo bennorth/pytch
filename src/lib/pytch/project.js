@@ -189,6 +189,10 @@ var $builtinmodule = function (name) {
         this.thread_groups.push(new ThreadGroup(this, threads));
     };
 
+    Project.prototype.handlers_for_message = function(js_message) {
+        return this.handlers.message[js_message] || [];
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
