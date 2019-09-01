@@ -76,24 +76,32 @@ var $builtinmodule = function (name) {
 
     // Load an instrument. this creates an audiowait suspension that will
     // block until the instrument is fully loaded.
+    // Instruments are cached to minimise reloads.
     mod.set_instrument_to = function( py_instrument_name ){
 	var instrument_name = Sk.ffi.remapToJs( py_instrument_name );
-	
-	var susp = new Sk.misceval.Suspension();
-	susp.resume = function(){ return Sk.builtin.str("Instrument finished loading"); }
-	susp.data = { type: "Pytch", subtype: "audiowait",
-		      finishedwaiting: false };
-	
-	var p = Sk.misceval.promiseToSuspension(
-	    Soundfont.instrument( ac, instrument_name ).then( function( instr ){
-		mod._instruments[instrument_name] = instr;
-		mod._current_instrument = instrument_name;
-		susp.data.finishedwaiting = true;
-	    } )
-	);
-	
-	return susp;
 
+	if( mod._instruments.hasOwnProperty( instrument_name ) ){
+	    mod._current_instrument = instrument_name;
+	    console.log("Satisfying from cache");
+	    return true;
+	}else{
+	
+	    var susp = new Sk.misceval.Suspension();
+	    susp.resume = function(){ return Sk.builtin.str("Instrument finished loading"); }
+	    susp.data = { type: "Pytch", subtype: "audiowait",
+			  finishedwaiting: false };
+	    console.log("Loading from network");
+
+	    var p = Sk.misceval.promiseToSuspension(
+		Soundfont.instrument( ac, instrument_name ).then( function( instr ){
+		    mod._instruments[instrument_name] = instr;
+		    mod._current_instrument = instrument_name;
+		    susp.data.finishedwaiting = true;
+		} )
+	    );
+	
+	    return susp;
+	}
     };
 
     // play a note on the current instrument for
