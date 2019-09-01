@@ -15,6 +15,10 @@ var $builtinmodule = function (name) {
     // JavaScript-level "Project" class
 
     const Project = function() {
+        this.sprites = [];
+        this.handlers = {
+            green_flag: [],
+        };
     };
 
     // Python-level "Project" class
