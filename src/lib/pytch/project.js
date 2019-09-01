@@ -41,6 +41,21 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Thread: One particular thread of execution.  Creating a new
+    // Thread prepares to run the given Python callable with (just)
+    // the given argument.
+    //
+    const Thread = function(py_callable, py_arg) {
+        // Fake a skulpt-suspension-like object so we can treat it the
+        // same as any other suspension in the scheduler.
+        this.skulpt_susp = {
+            resume: () => Sk.misceval.callsimOrSuspend(py_callable, py_arg)
+        };
+    };
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // JavaScript-level "Project" class
 
     const Project = function() {
