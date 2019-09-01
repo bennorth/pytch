@@ -39,6 +39,9 @@ var $builtinmodule = function (name) {
             self.js_project = new Project();
         });
 
+        const s_im_func = Sk.builtin.str("im_func");
+        const s_handler_attr = Sk.builtin.str("_pytch_handler_for");
+
         $loc.go_live = new Sk.builtin.func((self) => {
             Sk.pytch_current_live_project = self.js_project;
 
