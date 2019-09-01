@@ -100,8 +100,10 @@ var $builtinmodule = function (name) {
     };
 
     ThreadGroup.prototype.one_frame = function() {
-        var new_runnable_threads = [];
         var new_thread_groups = [];
+
+        // TODO
+        // Wake any threads meeting their condition-to-wake.
 
         this.runnable_threads
             .filter(th => th.is_running())
@@ -121,8 +123,8 @@ var $builtinmodule = function (name) {
 
                 switch (susp.data.subtype) {
                 case "next-frame":
+                    // The thread remains RUNNING; update suspension.
                     thread.skulpt_susp = susp;
-                    new_runnable_threads.push(thread);
                     break;
                 case "broadcast":
                     var js_msg = susp.data.subtype_data;
@@ -131,9 +133,9 @@ var $builtinmodule = function (name) {
                          .project
                          .broadcast_handler_thread_group(js_msg)));
 
-                    // Thread remains runnable; responses run concurrently.
+                    // Thread remains RUNNING; update suspension;
+                    // leave response to run concurrently.
                     thread.skulpt_susp = susp;
-                    new_runnable_threads.push(thread);
                     break;
                 default:
                     throw Error("unknown Pytch suspension subtype "
@@ -142,7 +144,8 @@ var $builtinmodule = function (name) {
             }
         });
 
-        this.runnable_threads = new_runnable_threads;
+        // TODO:
+        // Reap zombies.
 
         // TODO: Return new list of live ThreadGroups; this can
         // include 'this' if at least one thread suspended; it also
