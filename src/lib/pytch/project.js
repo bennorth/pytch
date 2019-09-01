@@ -11,6 +11,8 @@ var $builtinmodule = function (name) {
     { return Sk.ffi.remapToJs(Sk.builtin.getattr(py_cls, s_dunder_name)); };
 
 
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // PytchSprite: A Sprite within the Project.  It holds (a
     // reference to) the Python-level class (which is normally derived
     // from pytch.sprite.Sprite), together with a list of its live
@@ -22,6 +24,9 @@ var $builtinmodule = function (name) {
         this.py_instances = [Sk.misceval.callsim(py_cls)];
     };
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // EventHandler: A response to a particular event, for example a
     // green flag click, or the receipt of a broadcast message.  Holds
     // (a reference to) the PytchSprite which will respond to this
@@ -33,6 +38,9 @@ var $builtinmodule = function (name) {
         this.py_func = py_func;
     };
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // JavaScript-level "Project" class
 
     const Project = function() {
@@ -77,6 +85,9 @@ var $builtinmodule = function (name) {
         };
     };
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Python-level "Project" class
 
     const project_cls = function($gbl, $loc) {
