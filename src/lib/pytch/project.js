@@ -38,6 +38,11 @@ var $builtinmodule = function (name) {
         this.py_func = py_func;
     };
 
+    EventHandler.prototype.launch_threads = function() {
+        var py_objs = this.pytch_sprite.py_instances;
+        return py_objs.map(py_obj => new Thread(this.py_func, py_obj));
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
