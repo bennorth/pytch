@@ -137,6 +137,21 @@ var $builtinmodule = function (name) {
                     // leave response to run concurrently.
                     thread.skulpt_susp = susp;
                     break;
+                case "broadcast-and-wait":
+                    var js_msg = susp.data.subtype_data;
+                    var response_thread_group
+                        = (this
+                           .project
+                           .broadcast_handler_thread_group(js_msg));
+
+                    new_thread_groups.push(response_thread_group);
+
+                    // Thread blocks until that thread-group is done; when it
+                    // wakes it will resume with the new suspension.
+                    thread.state = Thread.State.AWAITING_THREAD_GROUP_COMPLETION;
+                    thread.sleeping_on = response_thread_group;
+                    thread.skulpt_susp = susp;
+                    break;
                 default:
                     throw Error("unknown Pytch suspension subtype "
                                 + susp.data.subtype);
