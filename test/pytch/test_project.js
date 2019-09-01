@@ -49,4 +49,14 @@ describe("pytch.project module", function() {
 
         assert.strictEqual(js_getattr(flag_click_counter, "n_clicks"), 2);
     });
+
+    it("can register a when-I-receive", () => {
+        var import_result = import_from_local_file("py/project/broadcast.py");
+        var project = import_result.$d.project.js_project;
+        var msg_handler = project.handlers.message["something-happened"][0];
+        assert.strictEqual(msg_handler.pytch_sprite.py_cls,
+                           import_result.$d.Receiver)
+        assert.strictEqual(msg_handler.py_func,
+                           import_result.$d.Receiver.note_event)
+    });
 });
