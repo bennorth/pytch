@@ -42,6 +42,21 @@ var $builtinmodule = function (name) {
         };
     };
 
+    Project.prototype.sprite_by_class_name = function(cls_name) {
+        var sprites_having_name
+            = this.sprites.filter(s => name_of_py_class(s.py_cls) == cls_name);
+
+        if (sprites_having_name.length > 1)
+            throw Error("duplicate PytchSprite instances"
+                        + " with name \"" + cls_name + "\"");
+
+        if (sprites_having_name.length === 0)
+            throw Error("no PytchSprite instances"
+                        + " with name \"" + cls_name + "\"");
+
+        return sprites_having_name[0];
+    };
+
     Project.prototype.register_sprite_class = function(py_sprite_cls) {
         this.sprites.push(new PytchSprite(py_sprite_cls));
     };
