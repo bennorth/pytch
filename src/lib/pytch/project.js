@@ -90,7 +90,8 @@ var $builtinmodule = function (name) {
     // response to the same event, such as green-flag or a message
     // being broadcast.
     //
-    const ThreadGroup = function(project, threads) {
+    const ThreadGroup = function(label, project, threads) {
+        this.label = label;
         this.project = project;
         this.runnable_threads = threads;
     };
@@ -260,17 +261,17 @@ var $builtinmodule = function (name) {
         this.thread_groups = new_thread_groups;
     };
 
-    Project.prototype.thread_group_from_handlers = function(handlers) {
+    Project.prototype.thread_group_from_handlers = function(label, handlers) {
         var threads = [];
         handlers.forEach(handler => {
             handler.launch_threads().forEach(th => threads.push(th));
         });
-        return new ThreadGroup(this, threads);
+        return new ThreadGroup(label, this, threads);
     };
 
     Project.prototype.on_green_flag_clicked = function() {
         var handlers = this.handlers.green_flag;
-        var thread_group = this.thread_group_from_handlers(handlers);
+        var thread_group = this.thread_group_from_handlers("green-flag", handlers);
         this.thread_groups.push(thread_group);
     };
 
@@ -280,8 +281,9 @@ var $builtinmodule = function (name) {
 
     Project.prototype.broadcast_handler_thread_group = function(js_message) {
         var handlers = this.handlers_for_message(js_message);
-        return this.thread_group_from_handlers(handlers);
-    }
+        return this.thread_group_from_handlers("message '" + js_message + "'",
+                                               handlers);
+    };
 
 
     ////////////////////////////////////////////////////////////////////////////////
