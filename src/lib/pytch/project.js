@@ -74,7 +74,18 @@ var $builtinmodule = function (name) {
             var susp_or_retval = thread.skulpt_susp.resume();
 
             if (susp_or_retval.$isSuspension) {
-                throw Error("cannot handle syscalls (yet)");
+                var susp = susp_or_retval;
+                if (susp.data.type !== "Pytch")
+                    throw Error("cannot handle non-Pytch suspensions");
+
+                switch (susp.data.subtype) {
+                case "next-frame":
+                    // TODO
+                    break;
+                default:
+                    throw Error("unknown Pytch suspension subtype "
+                                + susp.data.subtype);
+                }
             }
         });
 
