@@ -1,6 +1,17 @@
 var $builtinmodule = function (name) {
     var mod = {};
 
+    // PytchSprite: A Sprite within the Project.  It holds (a
+    // reference to) the Python-level class (which is normally derived
+    // from pytch.sprite.Sprite), together with a list of its live
+    // instances.  There is always at least one live instance; others
+    // can be created as a result of clone() operations.
+    //
+    const PytchSprite = function(py_cls) {
+        this.py_cls = py_cls;
+        this.py_instances = [Sk.misceval.callsim(py_cls)];
+    };
+
     // JavaScript-level "Project" class
 
     const Project = function() {
