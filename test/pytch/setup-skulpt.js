@@ -36,5 +36,14 @@ before(() => {
         var py_attrval = Sk.builtin.getattr(py_obj, py_attrname)
         return Sk.ffi.remapToJs(py_attrval);
     };
+
+    global.assert_Costume_equal = function(got_costume,
+                                           exp_image,
+                                           exp_centre_x,
+                                           exp_centre_y) {
+        assert.equal(got_costume.image, exp_image);
+        assert.strictEqual(got_costume.centre_x, exp_centre_x)
+        assert.strictEqual(got_costume.centre_y, exp_centre_y);
+    };
 });
 
