@@ -13,6 +13,17 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Costume: An image together with the coordinates of the point within it to be
+    // considered the 'centre'.  Constructed from Image object, x-centre, y-centre.
+    //
+    const Costume = function(image, centre_x, centre_y) {
+        this.image = image;
+        this.centre_x = centre_x;
+        this.centre_y = centre_y;
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // PytchSprite: A Sprite within the Project.  It holds (a
     // reference to) the Python-level class (which is normally derived
     // from pytch.sprite.Sprite), together with a list of its live
