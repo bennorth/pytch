@@ -240,4 +240,34 @@ describe("pytch.project module", () => {
             assert.strictEqual(project.thread_groups.length, 0);
         });
     });
+
+    it("can run the moving-ball example (key presses)", () => {
+        var do_import = Sk.misceval.asyncToPromise(
+            () => import_from_local_file("py/project/moving_ball.py"));
+
+        do_import.then(import_result => {
+            var project = import_result.$d.project.js_project;
+            assert.equal(project.sprites.length, 1);
+
+            const ball_at = (x, y) => [["RenderImage", x, y, 1, "yellow-ball"]];
+            assert_renders_as("start", project, ball_at(92, 58));
+
+            mock_keyboard.press_key('w')
+            project.one_frame()
+            assert_renders_as("frame-1", project, ball_at(92, 68));
+
+            // Key 'w' is still down, but it is not freshly pressed, so
+            // nothing should change.
+            project.one_frame()
+            assert_renders_as("frame-2", project, ball_at(92, 68));
+
+            // If someone is quick enough to type more than one key, they all
+            // take effect.
+            mock_keyboard.press_key('w')
+            mock_keyboard.press_key('w')
+            mock_keyboard.press_key('s')
+            project.one_frame()
+            assert_renders_as("frame-1", project, ball_at(92, 68 + 10 + 10 - 100));
+        });
+    });
 });
