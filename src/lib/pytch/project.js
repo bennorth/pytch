@@ -192,6 +192,10 @@ var $builtinmodule = function (name) {
         // "sleeping_on" property.
         AWAITING_THREAD_GROUP_COMPLETION: "awaiting-thread-group-completion",
 
+        // AWAITING_PASSAGE_OF_TIME: The thread will pause execution for the
+        // number of frames stored in the "sleeping_on" property.
+        AWAITING_PASSAGE_OF_TIME: "awaiting-passage-of-time",
+
         // ZOMBIE: The thread has terminated but has not yet been
         // cleared from the list of live threads.
         ZOMBIE: "zombie",
