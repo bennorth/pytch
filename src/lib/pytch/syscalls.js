@@ -22,5 +22,10 @@ var $builtinmodule = function (name) {
         return new_pytch_suspension("broadcast-and-wait", js_message);
     });
 
+    mod._sleep = new Sk.builtin.func((py_n_seconds) => {
+        var js_n_seconds = Sk.ffi.remapToJs(py_n_seconds);
+        return new_pytch_suspension("sleep", js_n_seconds);
+    });
+
     return mod;
 };
