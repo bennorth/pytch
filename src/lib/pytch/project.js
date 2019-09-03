@@ -83,6 +83,12 @@ var $builtinmodule = function (name) {
 
     PytchSprite.s_Costumes = Sk.builtin.str("Costumes");
 
+    PytchSprite.s_shown = Sk.builtin.str("_shown");
+    PytchSprite.s_x = Sk.builtin.str("_x");
+    PytchSprite.s_y = Sk.builtin.str("_y");
+    PytchSprite.s_size = Sk.builtin.str("_size");
+    PytchSprite.s_costume = Sk.builtin.str("_costume");
+
     PytchSprite.async_load_costumes = function(py_cls) {
         var py_Costumes = Sk.builtin.getattr(py_cls, PytchSprite.s_Costumes);
         var js_Costumes = Sk.ffi.remapToJs(py_Costumes);
