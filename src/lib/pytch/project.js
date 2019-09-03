@@ -448,7 +448,10 @@ var $builtinmodule = function (name) {
     };
 
     Project.prototype.one_frame = function() {
+        this.launch_keypress_handlers();
+
         var new_thread_groups = [];
+
         this.thread_groups.forEach(existing_tg => {
             existing_tg.one_frame().forEach(new_tg => {
                 new_thread_groups.push(new_tg);
