@@ -471,6 +471,10 @@ var $builtinmodule = function (name) {
         return this.handlers.message[js_message] || [];
     };
 
+    Project.prototype.handlers_for_keypress = function(keyname) {
+        return this.handlers.keypress[keyname] || [];
+    };
+
     Project.prototype.broadcast_handler_thread_group = function(js_message) {
         var handlers = this.handlers_for_message(js_message);
         return this.thread_group_from_handlers("message '" + js_message + "'",
