@@ -47,6 +47,29 @@ var $builtinmodule = function (name) {
             new PytchSprite(py_cls, [Sk.misceval.callsim(py_cls)], {}));
     };
 
+    PytchSprite.s_Costumes = Sk.builtin.str("Costumes");
+
+    PytchSprite.async_load_costumes = function(py_cls) {
+        var py_Costumes = Sk.builtin.getattr(py_cls, PytchSprite.s_Costumes);
+        var js_Costumes = Sk.ffi.remapToJs(py_Costumes);
+
+        var costume_from_name = {};
+
+        var populate_costume_map
+            = Object.entries(js_Costumes).map(kv => {
+                var costume_name = kv[0],
+                    costume_descr = kv[1];
+
+                return (Costume.async_create(costume_descr[0],
+                                             costume_descr[1],
+                                             costume_descr[2])
+                        .then(costume =>
+                              { costume_from_name[costume_name] = costume }));
+            });
+
+        return Promise.all(populate_costume_map).then(() => costume_from_name);
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
