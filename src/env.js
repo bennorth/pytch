@@ -76,7 +76,15 @@ Sk.python3 = {
 // Create, and assign into Sk, the default Pytch environment.
 //
 (() => {
+    var nop = (() => {});
+
+    var nop_pytch_project = {
+        on_green_flag_clicked: nop,
+        one_frame: nop,
+    };
+
     Sk.default_pytch_environment = {
+        current_live_project: nop_pytch_project,
     };
 })();
 
