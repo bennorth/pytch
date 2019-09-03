@@ -8,6 +8,7 @@ class Sender(Sprite):
     Costumes = {}
 
     def __init__(self):
+        Sprite.__init__(self)
         self.n_events = 0
 
     @when_green_flag_clicked
@@ -21,6 +22,7 @@ class Receiver(Sprite):
     Costumes = {}
 
     def __init__(self):
+        Sprite.__init__(self)
         self.n_events = 0
 
     @when_I_receive('something-happened')
