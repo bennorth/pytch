@@ -220,6 +220,14 @@ var $builtinmodule = function (name) {
         return sprites_having_name[0];
     };
 
+    Project.s_im_func = Sk.builtin.str("im_func");
+    Project.s_handler_attr = Sk.builtin.str("_pytch_handler_for");
+
+    Project.hasattr = function(obj, attr) {
+        var py_result = Sk.builtin.hasattr(obj, attr);
+        return (py_result === Sk.builtin.bool.true$);
+    };
+
     Project.prototype.register_sprite_class = function(py_sprite_cls) {
         this.sprites.push(new PytchSprite(py_sprite_cls));
     };
@@ -294,14 +302,6 @@ var $builtinmodule = function (name) {
         $loc.__init__ = new Sk.builtin.func((self) => {
             self.js_project = new Project();
         });
-
-        const s_im_func = Sk.builtin.str("im_func");
-        const s_handler_attr = Sk.builtin.str("_pytch_handler_for");
-
-        const hasattr = function(obj, attr) {
-            var py_result = Sk.builtin.hasattr(obj, attr);
-            return (py_result === Sk.builtin.bool.true$);
-        };
 
         $loc.register_sprite_class = new Sk.builtin.func(
             (self, sprite_cls) => {
