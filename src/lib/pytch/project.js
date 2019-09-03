@@ -389,7 +389,7 @@ var $builtinmodule = function (name) {
                     self.js_project.async_register_sprite_class(sprite_cls))));
 
         $loc.go_live = new Sk.builtin.func((self) => {
-            Sk.pytch_current_live_project = self.js_project;
+            Sk.pytch.current_live_project = self.js_project;
 
             var forever_unresolved = new Promise((resolve, reject) => {});
             return Sk.misceval.promiseToSuspension(forever_unresolved);
