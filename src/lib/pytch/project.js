@@ -19,14 +19,15 @@ var $builtinmodule = function (name) {
     // instances.  There is always at least one live instance; others
     // can be created as a result of clone() operations.
     //
-    const PytchSprite = function(py_cls, py_instance_0) {
+    const PytchSprite = function(py_cls, py_instance_0, costume_from_name) {
         this.py_cls = py_cls;
         this.py_instances = py_instance_0;
+        this.costume_from_name = costume_from_name;
     };
 
     PytchSprite.async_create = function(py_cls) {
         return Promise.resolve(
-            new PytchSprite(py_cls, [Sk.misceval.callsim(py_cls)]));
+            new PytchSprite(py_cls, [Sk.misceval.callsim(py_cls)], {}));
     };
 
 
