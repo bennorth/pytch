@@ -5,6 +5,8 @@ from pytch.syscalls import _yield_until_next_frame
 
 
 class FlagClickCounter(Sprite):
+    Costumes = {}
+
     def __init__(self):
         self.n_clicks = 0
 

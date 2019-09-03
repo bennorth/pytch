@@ -5,6 +5,8 @@ from pytch.syscalls import _broadcast
 
 
 class Sender(Sprite):
+    Costumes = {}
+
     def __init__(self):
         self.n_events = 0
 
@@ -16,6 +18,8 @@ class Sender(Sprite):
 
 
 class Receiver(Sprite):
+    Costumes = {}
+
     def __init__(self):
         self.n_events = 0
 
