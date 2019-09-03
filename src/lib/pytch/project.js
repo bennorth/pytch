@@ -228,16 +228,41 @@ var $builtinmodule = function (name) {
         return (py_result === Sk.builtin.bool.true$);
     };
 
+    Project.prototype.register_handlers_of_sprite = function(pytch_sprite,
+                                                             py_cls) {
+        var js_dir = Sk.ffi.remapToJs(Sk.builtin.dir(py_cls));
+        js_dir.forEach(x => {
+            var attr_val = Sk.builtin.getattr(py_cls,
+                                              Sk.builtin.str(x));
+
+            if (Project.hasattr(attr_val, Project.s_im_func)) {
+                var im_func = Sk.builtin.getattr(attr_val, Project.s_im_func);
+                if (Project.hasattr(im_func, Project.s_handler_attr)) {
+                    var handler_annotation
+                        = Sk.builtin.getattr(im_func, Project.s_handler_attr);
+
+                    var js_annotation
+                        = Sk.ffi.remapToJs(handler_annotation);
+
+                    this.register_handler(js_annotation[0],
+                                          js_annotation[1],
+                                          pytch_sprite,
+                                          im_func);
+                }
+            }
+        });
+    };
+
     Project.prototype.register_sprite_class = function(py_sprite_cls) {
-        this.sprites.push(new PytchSprite(py_sprite_cls));
+        var pytch_sprite = new PytchSprite(py_sprite_cls);
+        this.sprites.push(pytch_sprite);
+        this.register_handlers_of_sprite(pytch_sprite, py_sprite_cls);
     };
 
     Project.prototype.register_handler = function(event_type, event_data,
-                                                  handler_py_sprite_cls,
+                                                  pytch_sprite,
                                                   handler_py_func) {
-        var handler_cls_name = name_of_py_class(handler_py_sprite_cls);
-        var sprite = this.sprite_by_class_name(handler_cls_name);
-        var handler = new EventHandler(sprite, handler_py_func);
+        var handler = new EventHandler(pytch_sprite, handler_py_func);
 
         switch (event_type) {
         case "green-flag":
@@ -307,27 +332,6 @@ var $builtinmodule = function (name) {
             (self, sprite_cls) => {
                 self.js_project.register_sprite_class(sprite_cls);
 
-                var js_dir = Sk.ffi.remapToJs(Sk.builtin.dir(sprite_cls));
-                js_dir.forEach(x => {
-                    var attr_val = Sk.builtin.getattr(sprite_cls,
-                                                      Sk.builtin.str(x));
-
-                    if (hasattr(attr_val, s_im_func)) {
-                        var im_func = Sk.builtin.getattr(attr_val, s_im_func);
-                        if (hasattr(im_func, s_handler_attr)) {
-                            var handler_annotation
-                                = Sk.builtin.getattr(im_func, s_handler_attr);
-
-                            var js_annotation
-                                = Sk.ffi.remapToJs(handler_annotation);
-
-                            self.js_project.register_handler(js_annotation[0],
-                                                             js_annotation[1],
-                                                             sprite_cls,
-                                                             im_func);
-                        }
-                    }
-                });
             });
 
         $loc.go_live = new Sk.builtin.func((self) => {
