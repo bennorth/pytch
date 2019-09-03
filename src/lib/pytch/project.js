@@ -13,6 +13,33 @@ var $builtinmodule = function (name) {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Rendering instructions.  To ease testing, there is no interaction here
+    // with an actual canvas.  Instead, the project can provide a list of
+    // rendering instructions.  These will in general be of various types, but
+    // for now the only one is 'render this image here'.
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // RenderImage: A request that a particular image be drawn at a particular
+    // location at a particular scale.  The 'location' is that of the top-left
+    // corner.  The 'image label' is ignored in real rendering but is useful for
+    // testing.
+    //
+    // (In due course, 'at a particular angle of rotation' will be added here.)
+    //
+    const RenderImage = function(x, y, scale, image, image_label) {
+        this.kind = "RenderImage";
+        this.x = x;
+        this.y = y;
+        this.scale = scale;
+        this.image = image;
+        this.image_label = image_label;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Costume: An image together with the coordinates of the point within it to be
     // considered the 'centre'.  Constructed from Image object, x-centre, y-centre.
     //
