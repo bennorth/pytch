@@ -22,17 +22,22 @@ describe("pytch.project module", () => {
     });
 
     it("can register a Sprite class", () => {
-        var import_result = import_from_local_file("py/project/single_sprite.py");
+        var do_import = Sk.misceval.asyncToPromise(
+            () => import_from_local_file("py/project/single_sprite.py"));
+        do_import.then(import_result => {
         var project = import_result.$d.project.js_project;
         assert.equal(project.handlers.green_flag.length, 1);
         assert.strictEqual(project.handlers.green_flag[0].pytch_sprite.py_cls,
                            import_result.$d.FlagClickCounter)
         assert.strictEqual(project.handlers.green_flag[0].py_func,
                            import_result.$d.FlagClickCounter.count_the_click)
+        });
     });
 
     it("Sprite responds to green-flag", () => {
-        var import_result = import_from_local_file("py/project/single_sprite.py");
+        var do_import = Sk.misceval.asyncToPromise(
+            () => import_from_local_file("py/project/single_sprite.py"));
+        do_import.then(import_result => {
         var project = import_result.$d.project.js_project;
         var flag_click_counter = (project
                                   .sprite_by_class_name("FlagClickCounter")
@@ -48,20 +53,26 @@ describe("pytch.project module", () => {
         project.one_frame();
 
         assert.strictEqual(js_getattr(flag_click_counter, "n_clicks"), 2);
+        });
     });
 
     it("can register a when-I-receive", () => {
-        var import_result = import_from_local_file("py/project/broadcast.py");
+        var do_import = Sk.misceval.asyncToPromise(
+            () => import_from_local_file("py/project/broadcast.py"));
+        do_import.then(import_result => {
         var project = import_result.$d.project.js_project;
         var msg_handler = project.handlers.message["something-happened"][0];
         assert.strictEqual(msg_handler.pytch_sprite.py_cls,
                            import_result.$d.Receiver)
         assert.strictEqual(msg_handler.py_func,
                            import_result.$d.Receiver.note_event)
+        });
     });
 
     it("broadcast syscall works", () => {
-        var import_result = import_from_local_file("py/project/broadcast.py");
+        var do_import = Sk.misceval.asyncToPromise(
+            () => import_from_local_file("py/project/broadcast.py"));
+        do_import.then(import_result => {
         var project = import_result.$d.project.js_project;
         var receiver = (project
                         .sprite_by_class_name("Receiver")
@@ -95,10 +106,13 @@ describe("pytch.project module", () => {
         project.one_frame();
         assert.strictEqual(js_getattr(sender, "n_events"), 2);
         assert.strictEqual(js_getattr(receiver, "n_events"), 1);
+        });
     });
 
     it("broadcast-and-wait syscall works", () => {
-        var import_result = import_from_local_file("py/project/broadcast_and_wait.py");
+        var do_import = Sk.misceval.asyncToPromise(
+            () => import_from_local_file("py/project/broadcast_and_wait.py"));
+        do_import.then(import_result => {
         var project = import_result.$d.project.js_project;
         var receiver = (project
                         .sprite_by_class_name("Receiver")
@@ -148,5 +162,6 @@ describe("pytch.project module", () => {
 
         // Everything should have now finished.
         assert.strictEqual(project.thread_groups.length, 0);
+        });
     });
 });
