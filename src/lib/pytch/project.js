@@ -348,6 +348,7 @@ var $builtinmodule = function (name) {
         this.sprites = [];
         this.handlers = {
             green_flag: [],
+            keypress: {},
             message: {},
         };
         this.thread_groups = [];
