@@ -1,6 +1,8 @@
 var $builtinmodule = function (name) {
     var mod = {};
 
+    const FRAMES_PER_SECOND = 60;
+
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Conversion etc. utilities
@@ -265,6 +267,21 @@ var $builtinmodule = function (name) {
                 switch (susp.data.subtype) {
                 case "next-frame":
                     // The thread remains RUNNING; update suspension.
+                    thread.skulpt_susp = susp;
+                    break;
+                case "sleep":
+                    var js_n_seconds = susp.data.subtype_data;
+                    var raw_n_frames = Math.ceil(js_n_seconds * FRAMES_PER_SECOND);
+                    var n_frames = (raw_n_frames < 1 ? 1 : raw_n_frames);
+
+                    // Thread blocks until that many frames have gone by; when
+                    // it wakes it will resume with the new suspension.  A sleep
+                    // for zero frames gets turned into a sleep for one frame.
+                    // A sleep for one frame will resume on the next frame ---
+                    // it's the number of frame-periods that execution pauses
+                    // for, not the number of frame refreshes paused for.
+                    thread.state = Thread.State.AWAITING_PASSAGE_OF_TIME;
+                    thread.sleeping_on = n_frames;
                     thread.skulpt_susp = susp;
                     break;
                 case "broadcast":
