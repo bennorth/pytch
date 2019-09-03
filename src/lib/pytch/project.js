@@ -25,7 +25,8 @@ var $builtinmodule = function (name) {
     };
 
     PytchSprite.async_create = function(py_cls) {
-        return new PytchSprite(py_cls, [Sk.misceval.callsim(py_cls)]);
+        return Promise.resolve(
+            new PytchSprite(py_cls, [Sk.misceval.callsim(py_cls)]));
     };
 
 
@@ -258,11 +259,14 @@ var $builtinmodule = function (name) {
     };
 
     Project.prototype.async_register_sprite_class = function(py_sprite_cls) {
-        var pytch_sprite = PytchSprite.async_create(py_sprite_cls);
-        this.sprites.push(pytch_sprite);
-        this.register_handlers_of_sprite(pytch_sprite, py_sprite_cls);
+        var create_sprite = PytchSprite.async_create(py_sprite_cls);
 
-        return Promise.resolve("registered");
+        return create_sprite.then(pytch_sprite => {
+            this.sprites.push(pytch_sprite);
+            this.register_handlers_of_sprite(pytch_sprite, py_sprite_cls)
+
+            return "registered";
+        });
     };
 
     Project.prototype.register_handler = function(event_type, event_data,
