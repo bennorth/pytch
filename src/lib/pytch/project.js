@@ -10,6 +10,9 @@ var $builtinmodule = function (name) {
     const name_of_py_class = function(py_cls)
     { return Sk.ffi.remapToJs(Sk.builtin.getattr(py_cls, s_dunder_name)); };
 
+    const map_concat = function(fun, xs)
+    { return Array.prototype.concat.apply([], xs.map(fun)); };
+
     const js_getattr = function(py_obj, py_attr)
     { return Sk.ffi.remapToJs(Sk.builtin.getattr(py_obj, py_attr)); };
 
