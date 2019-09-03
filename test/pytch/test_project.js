@@ -35,6 +35,26 @@ describe("pytch.project module", () => {
         });
     });
 
+    it("can register a sprite's Costumes", () => {
+        var do_import = Sk.misceval.asyncToPromise(
+            () => import_from_local_file("py/project/sprite_with_costumes.py"));
+
+        do_import.then(import_result => {
+            var project = import_result.$d.project.js_project;
+            assert.strictEqual(project.sprites.length, 1);
+            var balloon = project.sprites[0];
+            assert.strictEqual(Object.keys(balloon.costume_from_name).length, 2);
+            assert_Costume_equal(balloon.costume_from_name['red-balloon'],
+                                 "image-loaded-from-https://example.com/red-balloon.png",
+                                 10,
+                                 20);
+            assert_Costume_equal(balloon.costume_from_name['blue-balloon'],
+                                 "image-loaded-from-https://example.com/blue-balloon.png",
+                                 15,
+                                 25);
+        });
+    });
+
     it("Sprite responds to green-flag", () => {
         var do_import = Sk.misceval.asyncToPromise(
             () => import_from_local_file("py/project/single_sprite.py"));
