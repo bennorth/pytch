@@ -27,5 +27,12 @@ var $builtinmodule = function (name) {
         return new_pytch_suspension("sleep", js_n_seconds);
     });
 
+    mod._is_key_pressed = new Sk.builtin.func((py_keyname) => {
+        var js_keyname = Sk.ffi.remapToJs(py_keyname);
+        return (Sk.pytch.keyboard.is_key_pressed(js_keyname)
+                ? Sk.builtin.bool.true$
+                : Sk.builtin.bool.false$);
+    });
+
     return mod;
 };
