@@ -253,10 +253,12 @@ var $builtinmodule = function (name) {
         });
     };
 
-    Project.prototype.register_sprite_class = function(py_sprite_cls) {
+    Project.prototype.async_register_sprite_class = function(py_sprite_cls) {
         var pytch_sprite = new PytchSprite(py_sprite_cls);
         this.sprites.push(pytch_sprite);
         this.register_handlers_of_sprite(pytch_sprite, py_sprite_cls);
+
+        return Promise.resolve("registered");
     };
 
     Project.prototype.register_handler = function(event_type, event_data,
@@ -329,10 +331,9 @@ var $builtinmodule = function (name) {
         });
 
         $loc.register_sprite_class = new Sk.builtin.func(
-            (self, sprite_cls) => {
-                self.js_project.register_sprite_class(sprite_cls);
-
-            });
+            (self, sprite_cls) => (
+                Sk.misceval.promiseToSuspension(
+                    self.js_project.async_register_sprite_class(sprite_cls))));
 
         $loc.go_live = new Sk.builtin.func((self) => {
             Sk.pytch_current_live_project = self.js_project;
