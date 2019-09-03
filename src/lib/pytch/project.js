@@ -139,6 +139,11 @@ var $builtinmodule = function (name) {
                                 costume_name)];
     };
 
+    PytchSprite.prototype.rendering_instructions = function() {
+        return map_concat(s => this.rendering_instructions_1(s),
+                          this.py_instances);
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
