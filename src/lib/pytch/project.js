@@ -443,6 +443,10 @@ var $builtinmodule = function (name) {
                                                handlers);
     };
 
+    Project.prototype.rendering_instructions = function() {
+        return map_concat(s => s.rendering_instructions(), this.sprites);
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
