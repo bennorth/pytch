@@ -10,12 +10,42 @@ before(() => {
     // Inject 'Sk' object into global namespace.
     reqskulpt(false);
 
+    global.mock_keyboard = (() => {
+        var undrained_keydown_events = [];
+        var is_key_down = {};
+
+        const press_key = (keyname) => {
+            is_key_down[keyname] = true;
+            undrained_keydown_events.push(keyname);
+        };
+
+        const release_key = (keyname) => {
+            is_key_down[keyname] = false;
+        };
+
+        const drain_new_keydown_events = () => {
+            var evts = undrained_keydown_events;
+            undrained_keydown_events = [];
+            return evts;
+        };
+
+        const is_key_pressed = (keyname => (is_key_down[keyname] || false));
+
+        return {
+            press_key: press_key,
+            release_key: release_key,
+            is_key_pressed: is_key_pressed,
+            drain_new_keydown_events: drain_new_keydown_events,
+        };
+    })();
+
     // Connect read/write to filesystem and stdout.
     Sk.configure({
         read: (fname) => { return fs.readFileSync(fname, "utf8"); },
         output: (args) => { process.stdout.write(args); },
         pytch: {
             async_load_image: (url => Promise.resolve("image-loaded-from-" + url)),
+            keyboard: global.mock_keyboard,
         },
     });
 
