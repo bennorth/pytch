@@ -22,6 +22,12 @@ var $builtinmodule = function (name) {
         this.centre_y = centre_y;
     };
 
+    Costume.async_create = function(url, centre_x, centre_y) {
+        return (Sk.pytch.async_load_image(url)
+                .then(img => new Costume(img, centre_x, centre_y)));
+    };
+
+
     ////////////////////////////////////////////////////////////////////////////////
     //
     // PytchSprite: A Sprite within the Project.  It holds (a
