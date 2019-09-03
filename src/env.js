@@ -83,7 +83,12 @@ Sk.python3 = {
         one_frame: nop,
     };
 
+    var bad_async_load_image = function(url) {
+        throw new Error("please set async_load_image");
+    };
+
     Sk.default_pytch_environment = {
+        async_load_image: bad_async_load_image,
         current_live_project: nop_pytch_project,
     };
 })();
