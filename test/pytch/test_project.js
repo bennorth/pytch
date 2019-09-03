@@ -190,7 +190,7 @@ describe("pytch.project module", () => {
         });
     });
 
-    it("can run the moving-ball example", () => {
+    it("can run the moving-ball example (green flag)", () => {
         var do_import = Sk.misceval.asyncToPromise(
             () => import_from_local_file("py/project/moving_ball.py"));
 
