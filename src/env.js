@@ -90,6 +90,10 @@ Sk.python3 = {
 
     Sk.default_pytch_environment = {
         async_load_image: bad_async_load_image,
+        keyboard: {
+            is_key_pressed: (keyname) => false,
+            drain_new_keydown_events: () => [],
+        },
         current_live_project: nop_pytch_project,
     };
 })();
