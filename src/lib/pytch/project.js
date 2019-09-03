@@ -43,8 +43,12 @@ var $builtinmodule = function (name) {
     };
 
     PytchSprite.async_create = function(py_cls) {
-        return Promise.resolve(
-            new PytchSprite(py_cls, [Sk.misceval.callsim(py_cls)], {}));
+        var load_costumes = PytchSprite.async_load_costumes(py_cls);
+
+        return load_costumes.then(costume_from_name =>
+            new PytchSprite(py_cls,
+                            [Sk.misceval.callsim(py_cls)],
+                            costume_from_name));
     };
 
     PytchSprite.s_Costumes = Sk.builtin.str("Costumes");
