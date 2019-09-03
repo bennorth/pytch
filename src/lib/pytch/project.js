@@ -437,6 +437,16 @@ var $builtinmodule = function (name) {
         };
     };
 
+    Project.prototype.launch_keypress_handlers = function() {
+        var new_keydowns = Sk.pytch.keyboard.drain_new_keydown_events();
+        new_keydowns.forEach(keyname => {
+            this.thread_groups.push(
+                this.thread_group_from_handlers(
+                    "keypress '" + keyname + "'",
+                    this.handlers_for_keypress(keyname)))
+        });
+    };
+
     Project.prototype.one_frame = function() {
         var new_thread_groups = [];
         this.thread_groups.forEach(existing_tg => {
