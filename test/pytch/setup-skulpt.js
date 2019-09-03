@@ -14,6 +14,9 @@ before(() => {
     Sk.configure({
         read: (fname) => { return fs.readFileSync(fname, "utf8"); },
         output: (args) => { process.stdout.write(args); },
+        pytch: {
+            async_load_image: (url => Promise.resolve("image-loaded-from-" + url)),
+        },
     });
 
 
