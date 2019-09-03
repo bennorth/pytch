@@ -110,6 +110,32 @@ var $builtinmodule = function (name) {
         return Promise.all(populate_costume_map).then(() => costume_from_name);
     };
 
+    PytchSprite.prototype.rendering_instructions_1 = function(py_sprite) {
+        var shown = js_getattr(py_sprite, PytchSprite.s_shown);
+        if (! shown)
+            return [];
+
+        var x = js_getattr(py_sprite, PytchSprite.s_x);
+        var y = js_getattr(py_sprite, PytchSprite.s_y);
+        var size = js_getattr(py_sprite, PytchSprite.s_size);
+        var costume_name = js_getattr(py_sprite, PytchSprite.s_costume);
+
+        var costume = this.costume_from_name[costume_name];
+
+        // The 'centre' of the costume image must end up at Stage coords (x, y).
+        // The strange arithmetic here is because the centre-(x, y) coords of
+        // the image are most naturally expressed in the normal image frame,
+        // i.e., (0, 0) is at the top left, x increases rightwards, and y
+        // increases downwards.  We must remap this into the Stage frame, where
+        // y increases upwards.
+        //
+        return [new RenderImage(x - size * costume.centre_x,
+                                y + size * costume.centre_y,
+                                size,
+                                costume.image,
+                                costume_name)];
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
