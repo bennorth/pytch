@@ -241,6 +241,13 @@ var $builtinmodule = function (name) {
                     thread.sleeping_on = null;
                 }
                 break;
+            case Thread.State.AWAITING_PASSAGE_OF_TIME:
+                thread.sleeping_on -= 1;
+                if (thread.sleeping_on == 0) {
+                    thread.state = Thread.State.RUNNING;
+                    thread.sleeping_on = null;
+                }
+                break;
             default:
                 throw new Error("unknown thread state \""
                                 + thread.state + "\"");
