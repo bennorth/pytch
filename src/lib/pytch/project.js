@@ -422,6 +422,11 @@ var $builtinmodule = function (name) {
         case "green-flag":
             this.handlers.green_flag.push(handler);
             break;
+        case "keypress":
+            if ( ! this.handlers.keypress.hasOwnProperty(event_data))
+                this.handlers.keypress[event_data] = [];
+            this.handlers.keypress[event_data].push(handler);
+            break;
         case "message":
             if ( ! this.handlers.message.hasOwnProperty(event_data))
                 this.handlers.message[event_data] = [];
