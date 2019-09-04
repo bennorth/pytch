@@ -590,9 +590,7 @@ var $builtinmodule = function (name) {
 
         $loc.go_live = new Sk.builtin.func((self) => {
             Sk.pytch.current_live_project = self;
-
-            var forever_unresolved = new Promise((resolve, reject) => {});
-            return Sk.misceval.promiseToSuspension(forever_unresolved);
+            return Sk.builtin.none.none$;
         });
 
         $loc.is_instance_touching_any_of = new Sk.builtin.func(
