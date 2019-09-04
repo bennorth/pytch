@@ -594,6 +594,14 @@ var $builtinmodule = function (name) {
             var forever_unresolved = new Promise((resolve, reject) => {});
             return Sk.misceval.promiseToSuspension(forever_unresolved);
         });
+
+        $loc.is_instance_touching_any_of = new Sk.builtin.func(
+            (self, instance, target_cls) => {
+                return (self.js_project.is_instance_touching_any_of(instance,
+                                                                    target_cls)
+                        ? Sk.builtin.bool.true$
+                        : Sk.builtin.bool.false$);
+            });
     };
 
     mod.Project = Sk.misceval.buildClass(mod, project_cls, "Project", []);
