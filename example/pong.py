@@ -168,11 +168,11 @@ class Ball(pytch.Sprite):
             self.y_speed = 1.5
 
     def bounce_off_players(self):
-        if False: #self.touching(Player_1):   ## TODO
+        if self.touching(Player_1):
             self.x_speed = -1 * self.x_speed
             self.change_x_pos(4)
             self.start_sound('bounce')  ## TODO
-        if False: #self.touching(Player_2):   ## TODO
+        if self.touching(Player_2):
             self.x_speed = -1 * self.x_speed
             self.change_x_pos(-4)
             self.start_sound('bounce')  ## TODO
