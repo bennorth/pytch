@@ -86,10 +86,12 @@ before(() => {
     };
 
     global.assert_Costume_equal = function(got_costume,
-                                           exp_image,
+                                           exp_img_tag, exp_img_wd, exp_img_ht,
                                            exp_centre_x,
                                            exp_centre_y) {
-        assert.equal(got_costume.image, exp_image);
+        assert.equal(got_costume.image.tag, exp_img_tag);
+        assert.equal(got_costume.image.width, exp_img_wd);
+        assert.equal(got_costume.image.height, exp_img_ht);
         assert.strictEqual(got_costume.centre_x, exp_centre_x)
         assert.strictEqual(got_costume.centre_y, exp_centre_y);
     };
