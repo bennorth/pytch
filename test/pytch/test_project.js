@@ -272,5 +272,34 @@ describe("pytch.project module", () => {
                                    rectangle.py_instances[0], -40, 20, -110, -80);
             });
         });
+
+        it("can detect two touching sprites depending on their visibility", () => {
+            import_local_file("py/project/bounding_boxes.py").then(import_result => {
+                var project = import_result.$d.project.js_project;
+
+                var square_sprite = project.sprite_by_class_name("Square");
+                var rectangle_sprite = project.sprite_by_class_name("Rectangle");
+
+                var square_sprite_instance = square_sprite.py_instances[0];
+                var rectangle_sprite_instance = rectangle_sprite.py_instances[0];
+
+                [false, true].forEach(show_square => {
+                    call_method(square_sprite_instance,
+                                "set_visibility", [show_square]);
+
+                    [false, true].forEach(show_rectangle => {
+                        call_method(rectangle_sprite_instance,
+                                    "set_visibility", [show_rectangle]);
+
+                        var got_touch = project.do_sprite_instances_touch(
+                            square_sprite_instance, rectangle_sprite_instance);
+
+                        var exp_touch = (show_square && show_rectangle);
+
+                        assert.strictEqual(got_touch, exp_touch);
+                    });
+                });
+            });
+        });
     });
 });
