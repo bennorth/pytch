@@ -20,7 +20,7 @@ describe("pytch.project module", () => {
 
     it("can go-live an empty Project", () => {
         return import_local_file("py/project/launch_empty_Project.py").then(import_result => {
-            assert.ok(import_result.$isSuspension);
+            assert.strictEqual(import_result.$d.project, Sk.pytch.current_live_project);
         });
     });
 
