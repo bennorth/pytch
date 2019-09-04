@@ -10,7 +10,7 @@ class SetVis:
             self.hide()
 
 
-class Square(Sprite):
+class Square(Sprite, SetVis):
     Costumes = {'square': (('square-80x80', 80, 80), 20, 30)}
 
     def __init__(self):
@@ -20,7 +20,7 @@ class Square(Sprite):
         self.show()
 
 
-class Rectangle(Sprite):
+class Rectangle(Sprite, SetVis):
     Costumes = {'rectangle': (('rectangle-60x30', 60, 30), 50, 10)}
 
     def __init__(self):
