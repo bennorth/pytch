@@ -8,19 +8,19 @@
 describe("pytch.project module", () => {
     it("can be imported", () => {
         return import_local_file("py/project/just_import.py").then(import_result => {
-        assert.ok(import_result.$d.pytch_project);
+            assert.ok(import_result.$d.pytch_project);
         });
     });
 
     it("can create a Project", () => {
         return import_local_file("py/project/create_Project.py").then(import_result => {
-        assert.ok(import_result.$d.project);
+            assert.ok(import_result.$d.project);
         });
     });
 
     it("can go-live an empty Project", () => {
         return import_local_file("py/project/launch_empty_Project.py").then(import_result => {
-        assert.ok(import_result.$isSuspension);
+            assert.ok(import_result.$isSuspension);
         });
     });
 
