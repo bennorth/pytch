@@ -42,11 +42,11 @@ describe("pytch.project module", () => {
             var balloon = project.sprites[0];
             assert.strictEqual(Object.keys(balloon.costume_from_name).length, 2);
             assert_Costume_equal(balloon.costume_from_name['red-balloon'],
-                                 "image-loaded-from-https://example.com/red-balloon.png",
+                                 "red-balloon.png", 20, 60,
                                  10,
                                  20);
             assert_Costume_equal(balloon.costume_from_name['blue-balloon'],
-                                 "image-loaded-from-https://example.com/blue-balloon.png",
+                                 "blue-balloon.png", 25, 65,
                                  15,
                                  25);
         });
