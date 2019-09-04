@@ -21,11 +21,12 @@ describe("pytch.hat_blocks module", function() {
     };
 
     it("decorators apply attributes to functions", () => {
-        var import_result = import_from_local_file("py/hat_blocks/decorators.py");
+        import_local_file("py/hat_blocks/decorators.py").then(import_result => {
         var py_Spaceship = import_result.$d.Spaceship;
         assert_handler_for(py_Spaceship, "move_left", "keypress", "a");
         assert_handler_for(py_Spaceship, "move_right", "keypress", "d");
         assert_handler_for(py_Spaceship, "launch", "green-flag", null);
         assert_handler_for(py_Spaceship, "engage_shields", "click", null);
+        });
     });
 });

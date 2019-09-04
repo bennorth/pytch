@@ -7,25 +7,25 @@
 
 describe("pytch.project module", () => {
     it("can be imported", () => {
-        var import_result = import_from_local_file("py/project/just_import.py");
+        import_local_file("py/project/just_import.py").then(import_result => {
         assert.ok(import_result.$d.pytch_project);
+        });
     });
 
     it("can create a Project", () => {
-        var import_result = import_from_local_file("py/project/create_Project.py");
+        import_local_file("py/project/create_Project.py").then(import_result => {
         assert.ok(import_result.$d.project);
+        });
     });
 
     it("can go-live an empty Project", () => {
-        var import_result = import_from_local_file("py/project/launch_empty_Project.py");
+        import_local_file("py/project/launch_empty_Project.py").then(import_result => {
         assert.ok(import_result.$isSuspension);
+        });
     });
 
     it("can register a Sprite class", () => {
-        var do_import = Sk.misceval.asyncToPromise(
-            () => import_from_local_file("py/project/single_sprite.py"));
-
-        do_import.then(import_result => {
+        import_local_file("py/project/single_sprite.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             assert.equal(project.handlers.green_flag.length, 1);
             assert.strictEqual(project.handlers.green_flag[0].pytch_sprite.py_cls,
@@ -36,10 +36,7 @@ describe("pytch.project module", () => {
     });
 
     it("can register a sprite's Costumes", () => {
-        var do_import = Sk.misceval.asyncToPromise(
-            () => import_from_local_file("py/project/sprite_with_costumes.py"));
-
-        do_import.then(import_result => {
+        import_local_file("py/project/sprite_with_costumes.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             assert.strictEqual(project.sprites.length, 1);
             var balloon = project.sprites[0];
@@ -56,10 +53,7 @@ describe("pytch.project module", () => {
     });
 
     it("Sprite responds to green-flag", () => {
-        var do_import = Sk.misceval.asyncToPromise(
-            () => import_from_local_file("py/project/single_sprite.py"));
-
-        do_import.then(import_result => {
+        import_local_file("py/project/single_sprite.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             var flag_click_counter = (project
                                       .sprite_by_class_name("FlagClickCounter")
@@ -79,10 +73,7 @@ describe("pytch.project module", () => {
     });
 
     it("can register a when-I-receive", () => {
-        var do_import = Sk.misceval.asyncToPromise(
-            () => import_from_local_file("py/project/broadcast.py"));
-
-        do_import.then(import_result => {
+        import_local_file("py/project/broadcast.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             var msg_handler = project.handlers.message["something-happened"][0];
             assert.strictEqual(msg_handler.pytch_sprite.py_cls,
@@ -93,10 +84,7 @@ describe("pytch.project module", () => {
     });
 
     it("broadcast syscall works", () => {
-        var do_import = Sk.misceval.asyncToPromise(
-            () => import_from_local_file("py/project/broadcast.py"));
-
-        do_import.then(import_result => {
+        import_local_file("py/project/broadcast.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             var receiver = (project
                             .sprite_by_class_name("Receiver")
@@ -134,10 +122,7 @@ describe("pytch.project module", () => {
     });
 
     it("broadcast-and-wait syscall works", () => {
-        var do_import = Sk.misceval.asyncToPromise(
-            () => import_from_local_file("py/project/broadcast_and_wait.py"));
-
-        do_import.then(import_result => {
+        import_local_file("py/project/broadcast_and_wait.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             var receiver = (project
                             .sprite_by_class_name("Receiver")
@@ -191,10 +176,7 @@ describe("pytch.project module", () => {
     });
 
     it("can run the moving-ball example (green flag)", () => {
-        var do_import = Sk.misceval.asyncToPromise(
-            () => import_from_local_file("py/project/moving_ball.py"));
-
-        do_import.then(import_result => {
+        import_local_file("py/project/moving_ball.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             assert.equal(project.sprites.length, 1);
 
@@ -242,10 +224,7 @@ describe("pytch.project module", () => {
     });
 
     it("can run the moving-ball example (key presses)", () => {
-        var do_import = Sk.misceval.asyncToPromise(
-            () => import_from_local_file("py/project/moving_ball.py"));
-
-        do_import.then(import_result => {
+        import_local_file("py/project/moving_ball.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             assert.equal(project.sprites.length, 1);
 
