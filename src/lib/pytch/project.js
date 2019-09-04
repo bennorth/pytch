@@ -73,7 +73,7 @@ var $builtinmodule = function (name) {
     //
     const PytchSprite = function(py_cls, py_instance_0, costume_from_name) {
         this.py_cls = py_cls;
-        this.py_instances = py_instance_0;
+        this.py_instances = [py_instance_0];
         this.costume_from_name = costume_from_name;
     };
 
@@ -82,7 +82,7 @@ var $builtinmodule = function (name) {
 
         return load_costumes.then(costume_from_name =>
             new PytchSprite(py_cls,
-                            [Sk.misceval.callsim(py_cls)],
+                            Sk.misceval.callsim(py_cls),
                             costume_from_name));
     };
 
