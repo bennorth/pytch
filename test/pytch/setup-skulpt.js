@@ -85,6 +85,13 @@ before(() => {
         return Sk.ffi.remapToJs(py_attrval);
     };
 
+    global.call_method = function(py_obj, js_methodname, js_args) {
+        var fun = Sk.builtin.getattr(py_obj, Sk.ffi.remapToPy(js_methodname));
+        var py_args = js_args.map(Sk.ffi.remapToPy);
+        var py_result = Sk.misceval.callsimArray(fun, py_args);
+        return Sk.ffi.remapToJs(py_result);
+    };
+
     global.assert_Costume_equal = function(got_costume,
                                            exp_img_tag, exp_img_wd, exp_img_ht,
                                            exp_centre_x,
