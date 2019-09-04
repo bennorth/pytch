@@ -498,6 +498,23 @@ var $builtinmodule = function (name) {
         return map_concat(s => s.rendering_instructions(), this.sprites);
     };
 
+    Project.prototype.pytch_sprite_from_py_cls = function(target_py_cls) {
+        var candidates = this.sprites.filter(s => (s.py_cls === target_py_cls));
+
+        var n_found = candidates.length;
+        if (n_found == 0)
+            throw new Error("could not find sprite class \""
+                            + js_getattr(target_py_cls, s_dunder_name)
+                            + "\" in project");
+        if (n_found > 1)
+            throw new Error("found " + n_found + " sprite classes when"
+                            + " looking for class with name \""
+                            + js_getattr(target_py_cls, s_dunder_name)
+                            + "\" in project");
+
+        return candidates[0];
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
