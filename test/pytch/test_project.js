@@ -326,6 +326,22 @@ describe("pytch.project module", () => {
                     assert.strictEqual(got_touch, exp_touch,
                                        "for Square having x of " + sq_x);
                 }
+
+                // Keeping Square's x constant at a level where it touches
+                // Rectangle, the Square should touch the Rectangle if the
+                // Square's y is (exclusively) between -140 and -30.
+                //
+                call_method(square_sprite_instance, "set_x_pos", [0]);
+                for (var sq_y = -160; sq_y < 10; sq_y += 1) {
+                    call_method(square_sprite_instance, "set_y_pos", [sq_y]);
+
+                    var got_touch = project.do_sprite_instances_touch(
+                        square_sprite_instance, rectangle_sprite_instance);
+                    var exp_touch = (sq_y > -140) && (sq_y < -30);
+
+                    assert.strictEqual(got_touch, exp_touch,
+                                       "for Square having y of " + sq_y);
+                }
             });
         });
     });
