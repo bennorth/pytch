@@ -322,7 +322,8 @@ describe("pytch.project module", () => {
              get_arg1: (sc, si, rc, ri) => sc},
         ];
 
-        it("can detect two touching sprites depending on their locations", () => {
+        touch_test_specs.forEach(spec =>
+        it("can detect " + spec.tag + " depending on their locations", () => {
             import_local_file("py/project/bounding_boxes.py").then(import_result => {
                 var project = import_result.$d.project.js_project;
 
@@ -332,6 +333,12 @@ describe("pytch.project module", () => {
                 var square_sprite_instance = square_sprite.py_instances[0];
                 var rectangle_sprite_instance = rectangle_sprite.py_instances[0];
 
+                var is_touching_fun = project[spec.method_name].bind(project);
+                var arg0 = spec.get_arg0(square_sprite.py_cls, square_sprite_instance,
+                                         rectangle_sprite.py_cls, rectangle_sprite_instance);
+                var arg1 = spec.get_arg1(square_sprite.py_cls, square_sprite_instance,
+                                         rectangle_sprite.py_cls, rectangle_sprite_instance);
+
                 // Move the Square around and test for hits against stationary
                 // Rectangle.  Keeping Square's y constant, it should touch the
                 // Rectangle if x is (exclusively) between -100 and 40.
@@ -339,8 +346,7 @@ describe("pytch.project module", () => {
                 for (var sq_x = -120; sq_x < 60; sq_x += 1) {
                     call_method(square_sprite_instance, "set_x_pos", [sq_x]);
 
-                    var got_touch = project.do_sprite_instances_touch(
-                        square_sprite_instance, rectangle_sprite_instance);
+                    var got_touch = is_touching_fun(arg0, arg1);
                     var exp_touch = (sq_x > -100) && (sq_x < 40);
 
                     assert.strictEqual(got_touch, exp_touch,
@@ -355,15 +361,14 @@ describe("pytch.project module", () => {
                 for (var sq_y = -160; sq_y < 10; sq_y += 1) {
                     call_method(square_sprite_instance, "set_y_pos", [sq_y]);
 
-                    var got_touch = project.do_sprite_instances_touch(
-                        square_sprite_instance, rectangle_sprite_instance);
+                    var got_touch = is_touching_fun(arg0, arg1);
                     var exp_touch = (sq_y > -140) && (sq_y < -30);
 
                     assert.strictEqual(got_touch, exp_touch,
                                        "for Square having y of " + sq_y);
                 }
             });
-        });
+        }));
 
         it("can detect sprite touching any-of-class depending on their locations", () => {
             import_local_file("py/project/bounding_boxes.py").then(import_result => {
