@@ -562,15 +562,10 @@ var $builtinmodule = function (name) {
     Project.prototype.is_instance_touching_any_of = function(py_sprite_instance,
                                                              py_sprite_class) {
         var sprite = this.pytch_sprite_from_py_cls(py_sprite_class);
-        var n_sprites = sprite.py_instances.length;
-        for (var i = 0; i != n_sprites; ++i) {
-            var other_py_sprite_instance = sprite.py_instances[i];
-            if (this.do_sprite_instances_touch(py_sprite_instance,
-                                               other_py_sprite_instance))
-                return true;
-        }
-
-        return false;
+        return sprite.py_instances.some(
+            other_py_sprite_instance =>
+                this.do_sprite_instances_touch(py_sprite_instance,
+                                               other_py_sprite_instance));
     };
 
 
