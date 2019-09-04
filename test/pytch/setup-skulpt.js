@@ -54,9 +54,10 @@ before(() => {
     //
     // Test helpers
 
-    global.import_from_local_file = function(fname) {
+    global.import_local_file = function(fname) {
         var code_text = fs.readFileSync(fname, { encoding: "utf8" });
-        return Sk.importMainWithBody("<stdin>", false, code_text, true);
+        var do_import = Sk.importMainWithBody("<stdin>", false, code_text, true);
+        return Sk.misceval.asyncToPromise(() => do_import);
     };
 
     global.assert = require("assert");
