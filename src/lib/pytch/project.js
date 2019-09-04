@@ -544,6 +544,21 @@ var $builtinmodule = function (name) {
         return [min_x, max_x, min_y, max_y];
     };
 
+    Project.prototype.do_sprite_instances_touch = function(py_sprite_0,
+                                                           py_sprite_1) {
+        const both_shown = (js_getattr(py_sprite_0, PytchSprite.s_shown)
+                            && js_getattr(py_sprite_1, PytchSprite.s_shown));
+
+        if (! both_shown)
+            return false;
+
+        var bbox_0 = this.bounding_box_of_sprite_instance(py_sprite_0);
+        var bbox_1 = this.bounding_box_of_sprite_instance(py_sprite_1);
+
+        return (bbox_0[0] < bbox_1[1] && bbox_1[0] < bbox_0[1]
+                && bbox_0[2] < bbox_1[3] && bbox_1[2] < bbox_0[3]);
+    };
+
     ////////////////////////////////////////////////////////////////////////////////
     //
     // Python-level "Project" class
