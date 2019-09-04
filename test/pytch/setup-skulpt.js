@@ -147,5 +147,21 @@ before(() => {
             }
         });
     };
+
+    global.assert_has_bbox_of = function(label, project, py_sprite,
+                                         exp_xmin, exp_xmax, exp_ymin, exp_ymax) {
+        var got_bbox = project.bounding_box_of_sprite_instance(py_sprite);
+
+        const assert_prop_eq = ((slot, got_val, exp_val) => {
+            var msg = ("got " + got_val + " for " + slot + " of " + label
+                       + " but expected " + exp_val);
+            assert.equal(got_val, exp_val, msg);
+        });
+
+        assert_prop_eq("xmin", got_bbox[0], exp_xmin);
+        assert_prop_eq("xmax", got_bbox[1], exp_xmax);
+        assert_prop_eq("ymin", got_bbox[2], exp_ymin);
+        assert_prop_eq("ymax", got_bbox[3], exp_ymax);
+    };
 });
 
