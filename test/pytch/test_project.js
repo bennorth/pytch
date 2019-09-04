@@ -249,4 +249,28 @@ describe("pytch.project module", () => {
             assert_renders_as("frame-1", project, ball_at(92, 68 + 10 + 10 - 100));
         });
     });
+
+    describe("collision detection", () => {
+        it("can extract bounding boxes", () => {
+            import_local_file("py/project/bounding_boxes.py").then(import_result => {
+                var project = import_result.$d.project.js_project;
+                assert.equal(project.sprites.length, 2);
+
+                // Square's centre-x should be at -50; its costume is 80 wide
+                // and has a centre of 20.  So 20 sticks out to the left of
+                // centre and 60 to the right; so x-extent should be -70 up to
+                // 10.  Its centre-y should be at -90; costume is 80 high with
+                // 30 above the centre and 50 below; so y-extent should be -140
+                // up to -60.
+                var square = project.sprite_by_class_name("Square");
+                assert_has_bbox_of("Square", project,
+                                   square.py_instances[0], -70, 10, -140, -60);
+
+                // Likewise for Rectangle:
+                var rectangle = project.sprite_by_class_name("Rectangle");
+                assert_has_bbox_of("Rectangle", project,
+                                   rectangle.py_instances[0], -40, 20, -110, -80);
+            });
+        });
+    });
 });
