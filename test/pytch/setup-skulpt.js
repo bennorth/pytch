@@ -39,12 +39,29 @@ before(() => {
         };
     })();
 
+    // Images: For tests, what would normally be a URL for an image is instead a
+    // three-element tuple of (tag, width, height).  We need something which has
+    // 'width' and 'height' attributes for use with bounding-box and collision
+    // tests.  The tag is for identification and diagnostics.
+    //
+    const MockImage = function(tag, width, height) {
+        this.tag = tag;
+        this.width = width;
+        this.height = height;
+    };
+
+    const async_create_mock_image = (descriptor => {
+        return Promise.resolve(new MockImage(descriptor[0],
+                                             descriptor[1],
+                                             descriptor[2]));
+    });
+
     // Connect read/write to filesystem and stdout.
     Sk.configure({
         read: (fname) => { return fs.readFileSync(fname, "utf8"); },
         output: (args) => { process.stdout.write(args); },
         pytch: {
-            async_load_image: (url => Promise.resolve("image-loaded-from-" + url)),
+            async_load_image: async_create_mock_image,
             keyboard: global.mock_keyboard,
         },
     });
