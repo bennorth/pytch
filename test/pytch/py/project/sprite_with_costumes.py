@@ -4,8 +4,8 @@ from pytch.project import Project
 
 class Balloon(Sprite):
     Costumes = {
-        'red-balloon': ('https://example.com/red-balloon.png', 10, 20),
-        'blue-balloon': ('https://example.com/blue-balloon.png', 15, 25),
+        'red-balloon': (('red-balloon.png', 20, 60), 10, 20),
+        'blue-balloon': (('blue-balloon.png', 25, 65), 15, 25),
     }
 
 
