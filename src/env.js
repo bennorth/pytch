@@ -94,7 +94,9 @@ Sk.python3 = {
             is_key_pressed: (keyname) => false,
             drain_new_keydown_events: () => [],
         },
-        current_live_project: nop_pytch_project,
+        current_live_project: {
+            js_project: nop_pytch_project,
+        },
     };
 })();
 
