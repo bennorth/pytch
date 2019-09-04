@@ -7,25 +7,25 @@
 
 describe("pytch.project module", () => {
     it("can be imported", () => {
-        import_local_file("py/project/just_import.py").then(import_result => {
+        return import_local_file("py/project/just_import.py").then(import_result => {
         assert.ok(import_result.$d.pytch_project);
         });
     });
 
     it("can create a Project", () => {
-        import_local_file("py/project/create_Project.py").then(import_result => {
+        return import_local_file("py/project/create_Project.py").then(import_result => {
         assert.ok(import_result.$d.project);
         });
     });
 
     it("can go-live an empty Project", () => {
-        import_local_file("py/project/launch_empty_Project.py").then(import_result => {
+        return import_local_file("py/project/launch_empty_Project.py").then(import_result => {
         assert.ok(import_result.$isSuspension);
         });
     });
 
     it("can register a Sprite class", () => {
-        import_local_file("py/project/single_sprite.py").then(import_result => {
+        return import_local_file("py/project/single_sprite.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             assert.equal(project.handlers.green_flag.length, 1);
             assert.strictEqual(project.handlers.green_flag[0].pytch_sprite.py_cls,
@@ -36,7 +36,7 @@ describe("pytch.project module", () => {
     });
 
     it("can register a sprite's Costumes", () => {
-        import_local_file("py/project/sprite_with_costumes.py").then(import_result => {
+        return import_local_file("py/project/sprite_with_costumes.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             assert.strictEqual(project.sprites.length, 1);
             var balloon = project.sprites[0];
@@ -53,7 +53,7 @@ describe("pytch.project module", () => {
     });
 
     it("Sprite responds to green-flag", () => {
-        import_local_file("py/project/single_sprite.py").then(import_result => {
+        return import_local_file("py/project/single_sprite.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             var flag_click_counter = (project
                                       .sprite_by_class_name("FlagClickCounter")
@@ -73,7 +73,7 @@ describe("pytch.project module", () => {
     });
 
     it("can register a when-I-receive", () => {
-        import_local_file("py/project/broadcast.py").then(import_result => {
+        return import_local_file("py/project/broadcast.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             var msg_handler = project.handlers.message["something-happened"][0];
             assert.strictEqual(msg_handler.pytch_sprite.py_cls,
@@ -84,7 +84,7 @@ describe("pytch.project module", () => {
     });
 
     it("broadcast syscall works", () => {
-        import_local_file("py/project/broadcast.py").then(import_result => {
+        return import_local_file("py/project/broadcast.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             var receiver = (project
                             .sprite_by_class_name("Receiver")
@@ -122,7 +122,7 @@ describe("pytch.project module", () => {
     });
 
     it("broadcast-and-wait syscall works", () => {
-        import_local_file("py/project/broadcast_and_wait.py").then(import_result => {
+        return import_local_file("py/project/broadcast_and_wait.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             var receiver = (project
                             .sprite_by_class_name("Receiver")
@@ -176,7 +176,7 @@ describe("pytch.project module", () => {
     });
 
     it("can run the moving-ball example (green flag)", () => {
-        import_local_file("py/project/moving_ball.py").then(import_result => {
+        return import_local_file("py/project/moving_ball.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             assert.equal(project.sprites.length, 1);
 
@@ -224,7 +224,7 @@ describe("pytch.project module", () => {
     });
 
     it("can run the moving-ball example (key presses)", () => {
-        import_local_file("py/project/moving_ball.py").then(import_result => {
+        return import_local_file("py/project/moving_ball.py").then(import_result => {
             var project = import_result.$d.project.js_project;
             assert.equal(project.sprites.length, 1);
 
@@ -252,7 +252,7 @@ describe("pytch.project module", () => {
 
     describe("collision detection", () => {
         it("can extract bounding boxes", () => {
-            import_local_file("py/project/bounding_boxes.py").then(import_result => {
+            return import_local_file("py/project/bounding_boxes.py").then(import_result => {
                 var project = import_result.$d.project.js_project;
                 assert.equal(project.sprites.length, 2);
 
@@ -274,7 +274,7 @@ describe("pytch.project module", () => {
         });
 
         it("can detect two touching sprites depending on their visibility", () => {
-            import_local_file("py/project/bounding_boxes.py").then(import_result => {
+            return import_local_file("py/project/bounding_boxes.py").then(import_result => {
                 var project = import_result.$d.project.js_project;
 
                 var square_sprite = project.sprite_by_class_name("Square");
@@ -324,7 +324,7 @@ describe("pytch.project module", () => {
 
         touch_test_specs.forEach(spec =>
         it("can detect " + spec.tag + " depending on their locations", () => {
-            import_local_file("py/project/bounding_boxes.py").then(import_result => {
+            return import_local_file("py/project/bounding_boxes.py").then(import_result => {
                 var project = import_result.$d.project.js_project;
 
                 var square_sprite = project.sprite_by_class_name("Square");
