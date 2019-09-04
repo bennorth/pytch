@@ -8,6 +8,7 @@ var $builtinmodule = function (name) {
     // Conversion etc. utilities
 
     const s_dunder_name = Sk.ffi.remapToPy("__name__");
+    const s_dunder_class = Sk.ffi.remapToPy("__class__");
 
     const name_of_py_class = function(py_cls)
     { return Sk.ffi.remapToJs(Sk.builtin.getattr(py_cls, s_dunder_name)); };
@@ -515,6 +516,33 @@ var $builtinmodule = function (name) {
         return candidates[0];
     };
 
+    ////////////////////////////////////////////////////////////////
+    //
+    // Collision detection.
+
+    Project.prototype.bounding_box_of_sprite_instance = function(py_sprite) {
+        // TODO: Move constants out of PytchSprite?
+        var x = js_getattr(py_sprite, PytchSprite.s_x);
+        var y = js_getattr(py_sprite, PytchSprite.s_y);
+        var size = js_getattr(py_sprite, PytchSprite.s_size);
+        var costume_name = js_getattr(py_sprite, PytchSprite.s_costume);
+
+        // Is this too tangled?  Maybe it's OK.
+        var py_cls = Sk.builtin.getattr(py_sprite, s_dunder_class);
+        var cls_name = js_getattr(py_cls, s_dunder_name);
+        var pytch_sprite = this.sprite_by_class_name(cls_name);
+
+        var costume = pytch_sprite.costume_from_name[costume_name];
+
+        // Annoying combination of addition and subtraction to account for the
+        // different coordinate systems of costume-centre vs stage.
+        var min_x = x - size * costume.centre_x;
+        var max_y = y + size * costume.centre_y;
+        var max_x = min_x + size * costume.image.width;
+        var min_y = max_y - size * costume.image.height;
+
+        return [min_x, max_x, min_y, max_y];
+    };
 
     ////////////////////////////////////////////////////////////////////////////////
     //
