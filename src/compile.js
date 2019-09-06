@@ -2762,7 +2762,11 @@ Sk.compile = function (source, filename, mode, canSuspend) {
     // so make a temporary object that can be edited.
     var savedFlags = Sk.__future__;
     Sk.__future__ = Object.create(Sk.__future__);
-
+    // Pytch threading should be a module local option, so
+    // we make a temporary value for that too.
+    var savedPytchThreadingFlag = Sk.pytchThreading;
+    Sk.pytchThreading = false;
+    
     var parse = Sk.parse(filename, source);
     var ast = Sk.astFromParse(parse.cst, filename, parse.flags);
     // console.log(JSON.stringify(ast, undefined, 2));
@@ -2777,6 +2781,8 @@ Sk.compile = function (source, filename, mode, canSuspend) {
 
     // Restore the global __future__ flags
     Sk.__future__ = savedFlags;
+    // restore the global pytchThreading flag
+    Sk.pytchThreading = savedPytchThreadingFlag;
 
     var ret = "$compiledmod = function() {" + c.result.join("") + "\nreturn " + funcname + ";}();";
     return {
