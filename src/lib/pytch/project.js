@@ -578,10 +578,10 @@ var $builtinmodule = function (name) {
             self.js_project = new Project();
         });
 
-        $loc.register_sprite_class = new Sk.builtin.func(
-            (self, sprite_cls) => (
-                Sk.misceval.promiseToSuspension(
-                    self.js_project.async_register_sprite_class(sprite_cls))));
+        $loc.register_sprite_class = new Sk.builtin.func((self, sprite_cls) => {
+            return Sk.misceval.promiseToSuspension(
+                self.js_project.async_register_sprite_class(sprite_cls));
+        });
 
         $loc.go_live = new Sk.builtin.func((self) => {
             Sk.pytch.current_live_project = self;
