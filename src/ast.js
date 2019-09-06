@@ -789,6 +789,13 @@ function astForImportStmt (c, n) {
         for (i = 0; i < NCH(n); i += 2) {
             aliases[i / 2] = aliasForImportName(c, CHILD(n, i));
         }
+	aliases.forEach( function( a, idx ){
+	    // TODO: this does not detect aliases or qualified imports
+	    // which means only a simple "import pytch" will turn on threading
+	    if( a.name.v === "pytch" ){
+		Sk.pytchThreading = true;
+	    }
+	} );	
         return new Sk.astnodes.Import(aliases, lineno, col_offset);
     }
     else if (n.type === SYM.import_from) {
