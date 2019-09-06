@@ -34,9 +34,5 @@ var $builtinmodule = function (name) {
                 : Sk.builtin.bool.false$);
     });
 
-    mod._current_live_project = new Sk.builtin.func(() => {
-        return Sk.pytch.current_live_project;
-    });
-
     return mod;
 };

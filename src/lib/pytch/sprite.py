@@ -1,5 +1,3 @@
-from pytch.syscalls import _current_live_project
-
 class Sprite:
     def __init__(self):
         self._x = 0
