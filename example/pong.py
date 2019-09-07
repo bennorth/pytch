@@ -61,7 +61,6 @@ class Player_1(pytch.Sprite):
                 self.change_y_pos(-3)
                 if self.y_pos() < GlobalVariables.bat_min_y:
                     self.set_y_pos(GlobalVariables.bat_min_y)
-            YNF()  ## tmp
 
     @pytch.when_I_receive('Update_Score')
     def hide_at_end_of_point(self):
@@ -94,7 +93,6 @@ class Player_2(pytch.Sprite):
                 self.change_y_pos(-3)
                 if self.y_pos() < GlobalVariables.bat_min_y:
                     self.set_y_pos(GlobalVariables.bat_min_y)
-            YNF()  ## tmp
 
     @pytch.when_I_receive('Update_Score')
     def hide_at_end_of_point(self):
@@ -133,7 +131,6 @@ class Ball(pytch.Sprite):
         self.show()
         while not pytch.key_is_pressed(' '):
             pass
-            YNF()  ## tmp
         GlobalVariables.ball_is_in_play = True
         pytch.broadcast('Ball_In_Play')
         if GlobalVariables.serving_player == 1:
@@ -157,7 +154,6 @@ class Ball(pytch.Sprite):
             self.change_y_pos(self.y_speed)
             self.bounce_off_top_bottom()
             self.bounce_off_players()
-            YNF()  ## tmp
 
     def bounce_off_top_bottom(self):
         if self.y_pos() > GlobalVariables.ball_max_y:
