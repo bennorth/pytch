@@ -35,6 +35,19 @@ describe("pytch.project module", () => {
         });
     });
 
+    it("registered Sprites have containing-project slot populated correctly", () => {
+        return import_local_file("py/project/single_sprite.py").then(import_result => {
+            var flag_click_counter_cls = import_result.$d.FlagClickCounter;
+            var got_containing_project
+                = Sk.builtin.getattr(flag_click_counter_cls,
+                                     Sk.builtin.str("_pytch_containing_project"));
+
+            var exp_containing_project = import_result.$d.project;
+
+            assert.strictEqual(got_containing_project, exp_containing_project);
+        });
+    });
+
     it("can register a sprite's Costumes", () => {
         return import_local_file("py/project/sprite_with_costumes.py").then(import_result => {
             var project = import_result.$d.project.js_project;

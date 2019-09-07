@@ -1,5 +1,3 @@
-from pytch.syscalls import _current_live_project
-
 class Sprite:
     def __init__(self):
         self._x = 0
@@ -40,5 +38,5 @@ class Sprite:
         self._shown = False
 
     def touching(self, target_class):
-        project = _current_live_project()
+        project = self._pytch_containing_project
         return project.is_instance_touching_any_of(self, target_class)

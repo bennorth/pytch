@@ -9,6 +9,7 @@ var $builtinmodule = function (name) {
 
     const s_dunder_name = Sk.ffi.remapToPy("__name__");
     const s_dunder_class = Sk.ffi.remapToPy("__class__");
+    const s_pytch_containing_project = Sk.ffi.remapToPy("_pytch_containing_project");
 
     const name_of_py_class = function(py_cls)
     { return Sk.ffi.remapToJs(Sk.builtin.getattr(py_cls, s_dunder_name)); };
@@ -578,10 +579,11 @@ var $builtinmodule = function (name) {
             self.js_project = new Project();
         });
 
-        $loc.register_sprite_class = new Sk.builtin.func(
-            (self, sprite_cls) => (
-                Sk.misceval.promiseToSuspension(
-                    self.js_project.async_register_sprite_class(sprite_cls))));
+        $loc.register_sprite_class = new Sk.builtin.func((self, sprite_cls) => {
+            Sk.builtin.setattr(sprite_cls, s_pytch_containing_project, self);
+            return Sk.misceval.promiseToSuspension(
+                self.js_project.async_register_sprite_class(sprite_cls));
+        });
 
         $loc.go_live = new Sk.builtin.func((self) => {
             Sk.pytch.current_live_project = self;
