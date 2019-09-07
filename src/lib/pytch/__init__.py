@@ -14,5 +14,6 @@ from pytch.syscalls import (
     _broadcast_and_wait as broadcast_and_wait,
     _sleep as wait_seconds,
     _is_key_pressed as key_is_pressed,
-    _yield_until_next_frame as YNF,  ## Temporary until automatically inserted into loops
+    
+    _yield_until_next_frame as _yield_until_next_frame # Expected to be automatically called by compiler
 )
