@@ -2,7 +2,7 @@ import pytch
 from pytch.hat_blocks import when_green_flag_clicked
 from pytch.sprite import Sprite
 from pytch.project import Project
-from pytch.syscalls import _yield_until_next_frame
+#from pytch.syscalls import _yield_until_next_frame
 
 class T1(Sprite):
     Costumes = {}
