@@ -16,7 +16,7 @@ describe("pytch.project module", () => {
             project.on_green_flag_clicked();
             project.one_frame();
 	    // After one frame both threads should have had a chance to run
-	    assert.strictEqual(js_getattr( t1, "counter"), 
+	    assert.strictEqual(js_getattr( t1, "counter"), 1);
 	    assert.strictEqual(js_getattr( t2, "counter"), 1);
 	    
 
