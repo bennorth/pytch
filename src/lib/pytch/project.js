@@ -606,6 +606,12 @@ var $builtinmodule = function (name) {
                                                other_py_sprite_instance));
     };
 
+    // TODO: Not sure this is a good idea but let's see.
+    Project.prototype.do_synthetic_broadcast = function(js_msg) {
+        var new_thread_group = this.broadcast_handler_thread_group(js_msg);
+        this.thread_groups.push(new_thread_group);
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
