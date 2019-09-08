@@ -35,6 +35,11 @@ def when_this_sprite_clicked(fun):
     return fun
 
 
+def when_I_start_as_a_clone(fun):
+    fun._pytch_handler_for = ('clone', None)
+    return fun
+
+
 class when_I_receive:
     def __init__(self, message):
         self.message = message
