@@ -471,5 +471,39 @@ describe("pytch.project module", () => {
                 assert_all_IDs([1, 2, 3, 4, 5])
             });
         })
+
+        it("can delete clones", () => {
+            return import_local_file("py/project/launch_clones.py").then(import_result => {
+                var project = import_result.$d.project.js_project;
+                var all_aliens = () => project.sprites[0].py_instances;
+
+                // Do not want to make assumptions about which order instances
+                // get cloned, so sort the returned list of values of
+                // attributes.
+                const assert_all_attrs = ((attrname, exp_values) => {
+                    var values = all_aliens().map(a => js_getattr(a, attrname));
+                    values.sort((x, y) => (x - y));
+                    assert.deepStrictEqual(values, exp_values);
+                });
+
+                const assert_n_aliens = (n => {
+                    assert.strictEqual(all_aliens().length, n);
+                });
+
+                // TODO: What does/should happen if we do multiple clones
+                // between frames?
+                project.do_synthetic_broadcast("clone-self");
+                project.one_frame();
+                project.do_synthetic_broadcast("clone-self");
+                project.one_frame();
+                assert_n_aliens(4);
+
+                assert_all_attrs("copied_id", [42, 43, 43, 44]);
+                project.do_synthetic_broadcast("delete-id-43")
+                project.one_frame();
+                assert_n_aliens(2);
+                assert_all_attrs("copied_id", [42, 44]);
+            });
+        });
     });
 });
