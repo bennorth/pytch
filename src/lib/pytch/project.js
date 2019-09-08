@@ -598,6 +598,14 @@ var $builtinmodule = function (name) {
                         : Sk.builtin.bool.false$);
             });
 
+        // TODO: Could make this user-level functionality, like
+        //
+        //     c = pytch.the_original(Cat)
+        //
+        // and maybe also
+        //
+        //    cs = pytch.all_clones_of(Cat)
+        //
         $loc.instance_0_of_class = new Sk.builtin.func(
             (self, py_cls) => {
                 var cls_name = js_getattr(py_cls, s_dunder_name);
