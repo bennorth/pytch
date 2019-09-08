@@ -597,6 +597,13 @@ var $builtinmodule = function (name) {
                         ? Sk.builtin.bool.true$
                         : Sk.builtin.bool.false$);
             });
+
+        $loc.instance_0_of_class = new Sk.builtin.func(
+            (self, py_cls) => {
+                var cls_name = js_getattr(py_cls, s_dunder_name);
+                var pytch_sprite = self.js_project.sprite_by_class_name(cls_name);
+                return pytch_sprite.py_instances[0];
+            });
     };
 
     mod.Project = Sk.misceval.buildClass(mod, project_cls, "Project", []);
