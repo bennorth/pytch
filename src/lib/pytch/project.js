@@ -76,6 +76,7 @@ var $builtinmodule = function (name) {
     const PytchSprite = function(py_cls, py_instance_0, costume_from_name) {
         this.py_cls = py_cls;
         this.py_instances = [py_instance_0];
+        this.on_clone_handlers = [];
         this.costume_from_name = costume_from_name;
     };
 
@@ -433,6 +434,9 @@ var $builtinmodule = function (name) {
             if ( ! this.handlers.message.hasOwnProperty(event_data))
                 this.handlers.message[event_data] = [];
             this.handlers.message[event_data].push(handler);
+            break;
+        case "clone":
+            pytch_sprite.on_clone_handlers.push(handler_py_func);
             break;
         default:
             throw Error("unknown event-type \"" + event_type + "\"");
