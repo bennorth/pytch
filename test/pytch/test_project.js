@@ -437,5 +437,39 @@ describe("pytch.project module", () => {
                 assert_all_attrs("generated_id", [100, 101, 102, 103]);
             });
         });
+
+        it("can chain-clone", () => {
+            return import_local_file("py/project/launch_clones.py").then(import_result => {
+                var project = import_result.$d.project.js_project;
+                var all_brooms = () => project.sprite_by_class_name("Broom").py_instances;
+
+                // Do not want to make assumptions about which order instances
+                // get cloned, so sort the returned list of values of
+                // attributes.
+                const assert_all_IDs = (exp_values => {
+                    var values = all_brooms().map(a => js_getattr(a, "copied_id"));
+                    values.sort((x, y) => (x - y));
+                    assert.deepStrictEqual(values, exp_values);
+                });
+
+                // The synthetic broadcast just puts the handler threads in the
+                // queue; they don't run immediately.
+                project.do_synthetic_broadcast("clone-self");
+                assert_all_IDs([1])
+
+                // On the next frame the first clone is created, and the next clone
+                // operation is queued.
+                project.one_frame();
+                assert_all_IDs([1, 2])
+
+                // Repeat until five instances
+                project.one_frame();
+                assert_all_IDs([1, 2, 3])
+                project.one_frame();
+                assert_all_IDs([1, 2, 3, 4])
+                project.one_frame();
+                assert_all_IDs([1, 2, 3, 4, 5])
+            });
+        })
     });
 });
