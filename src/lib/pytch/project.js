@@ -320,6 +320,39 @@ var $builtinmodule = function (name) {
                     thread.sleeping_on = response_thread_group;
                     thread.skulpt_susp = susp;
                     break;
+                case "register-instance":
+                    var py_instance = susp.data.subtype_data;
+                    var py_cls = Sk.builtin.getattr(py_instance, s_dunder_class);
+                    var sprite = this.project.pytch_sprite_from_py_cls(py_cls);
+
+                    sprite.py_instances.push(py_instance);
+
+                    var threads = sprite.on_clone_handlers.map(
+                        py_fun => new Thread(py_fun, py_instance));
+
+                    // Give each one a chance to run once; we want the on-clone
+                    // stuff to definitely happen first.  Implementation is a
+                    // bit of a fudge; any better way?  Two different Thread
+                    // ctors?  create_ready() and create_and_schedule_once()?
+                    //
+                    threads.forEach(th => {
+                        // Building on top of earlier fudge, 'resume' here
+                        // runs the Python callable on the Python object.
+                        var susp_or_retval = th.skulpt_susp.resume();
+                        th.skulpt_susp.resume = (() => susp_or_retval);
+                    });
+
+                    var py_cls_name = js_getattr(py_cls, s_dunder_name);
+                    var response_thread_group
+                        = new ThreadGroup("new-" + py_cls_name + "-instance",
+                                          this.project,
+                                          threads);
+
+                    new_thread_groups.push(response_thread_group);
+
+                    // Thread remains running with new suspension.
+                    thread.skulpt_susp = susp;
+                    break;
                 default:
                     throw Error("unknown Pytch suspension subtype "
                                 + susp.data.subtype);
