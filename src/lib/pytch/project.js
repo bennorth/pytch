@@ -655,6 +655,32 @@ var $builtinmodule = function (name) {
                 var pytch_sprite = self.js_project.sprite_by_class_name(cls_name);
                 return pytch_sprite.py_instances[0];
             });
+
+        $loc.unregister_instance = new Sk.builtin.func(
+            (self, py_sprite_instance) => {
+                var py_cls = Sk.builtin.getattr(py_sprite_instance, s_dunder_class);
+                var cls_name = js_getattr(py_cls, s_dunder_name);
+                var pytch_sprite = self.js_project.sprite_by_class_name(cls_name);
+                var sprite_instances = pytch_sprite.py_instances;
+                var instance_idx = sprite_instances.indexOf(py_sprite_instance);
+
+                // Only allow de-registration of actual clones.  This test fails
+                // for two kinds of result from the indexOf() call:
+                //
+                // If instance_idx == 0, then we have found this instance but it is
+                // the 'original' instance of this sprite-class.  So it can't be
+                // deleted; it's not a true clone.
+                //
+                // If instance_idx == -1, then we could not find this instance at
+                // all.  This seems like an error, but can happen (under the current
+                // design) if two threads both try to unregister the same sprite in
+                // the same scheduler-time-slice.
+                //
+                if (instance_idx > 0)
+                    sprite_instances.splice(instance_idx, 1);
+
+                return Sk.builtin.none.none$;
+            });
     };
 
     mod.Project = Sk.misceval.buildClass(mod, project_cls, "Project", []);
