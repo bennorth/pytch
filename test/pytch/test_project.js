@@ -392,4 +392,50 @@ describe("pytch.project module", () => {
             });
         }));
     });
+
+    describe("cloning", () => {
+        it("can clone by instance", () => {
+            return import_local_file("py/project/launch_clones.py").then(import_result => {
+                var project = import_result.$d.project.js_project;
+                var all_aliens = () => project.sprites[0].py_instances;
+
+                // Do not want to make assumptions about which order instances
+                // get cloned, so sort the returned list of values of
+                // attributes.
+                const assert_all_attrs = ((attrname, exp_values) => {
+                    var values = all_aliens().map(a => js_getattr(a, attrname));
+                    values.sort((x, y) => (x - y));
+                    assert.deepStrictEqual(values, exp_values);
+                });
+
+                const assert_n_aliens = (n => {
+                    assert.strictEqual(all_aliens().length, n);
+                });
+
+                // The synthetic broadcast just puts the handler threads in the
+                // queue; they don't run immediately.
+                project.do_synthetic_broadcast("clone-self");
+                assert_n_aliens(1);
+
+                // On the next frame the clones are created.
+                project.one_frame();
+                assert_n_aliens(2);
+
+                // And they should have run through their when-I-start-as-a-clone
+                // for one scheduling step.
+                assert_all_attrs("copied_id", [42, 43]);
+                assert_all_attrs("generated_id", [100, 101]);
+
+                // If we trigger another clone, we should get another id-43 one,
+                // and also an id-44 one.
+                project.do_synthetic_broadcast("clone-self");
+                assert_n_aliens(2);
+                project.one_frame();
+                assert_n_aliens(4);
+
+                assert_all_attrs("copied_id", [42, 43, 43, 44]);
+                assert_all_attrs("generated_id", [100, 101, 102, 103]);
+            });
+        });
+    });
 });
