@@ -7,7 +7,10 @@ from pytch.project import Project
 from pytch.hat_blocks import (
     when_I_receive,
     when_green_flag_clicked,
+    when_I_start_as_a_clone,
 )
+
+from pytch.clone import create_clone_of
 
 from pytch.syscalls import (
     _broadcast as broadcast,
