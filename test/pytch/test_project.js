@@ -35,6 +35,15 @@ describe("pytch.project module", () => {
         });
     });
 
+    it("can provide instance-0 of a registered class", () => {
+        return import_local_file("py/project/single_sprite.py").then(import_result => {
+            var project = import_result.$d.project.js_project;
+            var sprite = project.sprites[0];
+            var instance_0 = import_result.$d.the_flag_click_counter;
+            assert.strictEqual(instance_0, sprite.py_instances[0]);
+        });
+    });
+
     it("registered Sprites have containing-project slot populated correctly", () => {
         return import_local_file("py/project/single_sprite.py").then(import_result => {
             var flag_click_counter_cls = import_result.$d.FlagClickCounter;

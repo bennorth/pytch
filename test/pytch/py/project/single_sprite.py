@@ -20,3 +20,5 @@ class FlagClickCounter(Sprite):
 
 project = Project()
 project.register_sprite_class(FlagClickCounter)
+
+the_flag_click_counter = project.instance_0_of_class(FlagClickCounter)
