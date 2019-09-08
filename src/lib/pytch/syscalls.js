@@ -34,5 +34,9 @@ var $builtinmodule = function (name) {
                 : Sk.builtin.bool.false$);
     });
 
+    mod._register_sprite_instance = new Sk.builtin.func((py_instance) => {
+        return new_pytch_suspension("register-instance", py_instance);
+    });
+
     return mod;
 };
