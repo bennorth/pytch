@@ -36,6 +36,11 @@ class Alien(Sprite):
     def clone_by_class(self):
         pytch.create_clone_of(Alien)
 
+    @when_I_receive('delete-id-43')
+    def delete_if_id_43(self):
+        if self.copied_id == 43:
+            self.delete_this_clone()
+
 
 class Broom(Sprite):
     Costumes = {}
