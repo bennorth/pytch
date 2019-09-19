@@ -262,7 +262,7 @@ $(document).ready(function() {
             $("#build-button").html("BUILD");
             return Sk.importMainWithBody("<stdin>", false, prog, true);
         });
-        // TODO: Provide feedback (OK / error) from p.
+        return p.catch(report_uncaught_exception);
     };
 
     var build_user_code = function() {
