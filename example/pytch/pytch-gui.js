@@ -13,6 +13,14 @@ $(document).ready(function() {
     ace_editor.setValue("#\n# Write your Pytch code here!\n#\n");
     ace_editor.clearSelection();
 
+    var show_code_changed_indicator = function(evt)
+    { $("#code-change-indicator").show(); };
+
+    var hide_code_changed_indicator = function(evt)
+    { $("#code-change-indicator").hide(); };
+
+    ace_editor.on("change", show_code_changed_indicator);
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -134,6 +142,7 @@ $(document).ready(function() {
     // Build user code
 
     var build_immediate_feedback = function() {
+        hide_code_changed_indicator();
         $("#build-button").html("<i>Working...</i>");
     };
 
