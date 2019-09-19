@@ -109,8 +109,9 @@ $(document).ready(function() {
             menubar.jqDropdown("hide");
 
             var evt_data = evt.target.dataset;
+            var user_project_name = "My " + evt_data.pytchLabel;
             var code_url = evt_data.pytchUrl;
-            $.ajax(code_url).then(ace_editor_set_code);
+            $.ajax(code_url).then(set_name_and_code(user_project_name));
         };
 
         examples.forEach((example) => {
