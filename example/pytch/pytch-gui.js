@@ -199,6 +199,20 @@ $(document).ready(function() {
             load_saved_project_by_name(project_name);
         };
 
+        var project_menu_entry_from_evt = function(evt) {
+            var entry_idx = evt.target.dataset.pytchEntryIdx;
+            var entry = $("#user-projects-menu-elt-" + entry_idx);
+            if (entry.length !== 1)
+                throw Error("expecting exactly one entry; got " + entry.length);
+            return entry;
+        };
+
+        var highlight_to_be_deleted_project = function(evt)
+        { project_menu_entry_from_evt(evt).addClass("cued-for-delete"); };
+
+        var unhighlight_to_be_deleted_project = function(evt)
+        { project_menu_entry_from_evt(evt).removeClass("cued-for-delete"); };
+
         var delete_saved_project = function(evt) {
             menubar.jqDropdown("hide");
             evt.stopPropagation();
@@ -225,6 +239,8 @@ $(document).ready(function() {
                 li_elt.append(label_elt);
                 var delete_elt = $("<span class=\"delete-button\">DELETE</span>");
                 delete_elt.attr("data-pytch-entry-idx", entry_idx);
+                $(delete_elt).hover(highlight_to_be_deleted_project,
+                                    unhighlight_to_be_deleted_project);
                 $(delete_elt).click(delete_saved_project);
                 li_elt.append(delete_elt);
                 $(li_elt).click(load_saved_project);
