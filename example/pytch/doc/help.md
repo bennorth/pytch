@@ -18,8 +18,7 @@ Once your program compiles successfully, you can click on the stage
 and then use your program.  Many projects will need the user to click
 the _green flag_ (currently a rectangle), but not always.  To stop all
 running scripts, hit the _red stop button_.  The green flag and stop
-button are both below the stage.
-
+button are both at the left above the stage.
 
 
 ## Sprites
