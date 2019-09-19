@@ -272,6 +272,14 @@ describe("pytch.project module", () => {
         });
     });
 
+    describe("red stop handling", () => {
+        it("halts everything", () => {
+            return import_local_file("py/project/red_stop.py").then(import_result => {
+
+            });
+        });
+    });
+
     describe("collision detection", () => {
         it("can extract bounding boxes", () => {
             return import_local_file("py/project/bounding_boxes.py").then(import_result => {
