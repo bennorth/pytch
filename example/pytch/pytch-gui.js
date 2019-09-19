@@ -193,6 +193,11 @@ $(document).ready(function() {
             }
         };
 
+        var load_saved_project = function(evt) {
+            var project_name = evt.target.dataset.pytchLabel;
+            load_saved_project_by_name(project_name);
+        };
+
         return {};
     })();
 
