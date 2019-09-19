@@ -81,6 +81,7 @@ Sk.python3 = {
 
     var nop_pytch_project = {
         on_green_flag_clicked: nop,
+        on_red_stop_clicked: nop,
         one_frame: nop,
         rendering_instructions: (() => []),
     };
