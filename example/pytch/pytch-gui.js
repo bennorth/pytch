@@ -239,6 +239,9 @@ $(document).ready(function() {
 
     var build_immediate_feedback = function() {
         hide_code_changed_indicator();
+        stdout_info_pane.reset();
+        stderr_info_pane.reset();
+        make_tab_current("stdout");
         $("#build-button").html("<i>Working...</i>");
     };
 
