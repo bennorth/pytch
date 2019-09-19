@@ -39,12 +39,23 @@ $(document).ready(function() {
             {label: 'Moving Ball', url: 'examples/moving_ball.py'},
         ];
 
+        var menubar = $("#editor-menubar");
+
+        var load_example = function(evt) {
+            menubar.jqDropdown("hide");
+
+            var evt_data = evt.target.dataset;
+            var code_url = evt_data.pytchUrl;
+            $.ajax(code_url).then(ace_editor_set_code);
+        };
+
         examples.forEach((example) => {
             var label_elt = $("<label"
                               + " data-pytch-url=\"" + example.url + "\""
                               + " data-pytch-label=\"" + example.label + "\">"
                               + example.label
                               + "</label>");
+            $(label_elt).click(load_example);
             var li_elt = $("<li></li>");
             li_elt.append(label_elt);
             examples_menu_contents.append(li_elt);
