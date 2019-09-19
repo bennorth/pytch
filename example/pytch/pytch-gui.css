@@ -89,6 +89,7 @@ h1 {
 }
 
 #editor-menubar span.nav-item {
+    margin-top: 0.75ex;
     padding-left: 0.25em;
     padding-right: 0.25em;
     float: right;
