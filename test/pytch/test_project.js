@@ -275,7 +275,51 @@ describe("pytch.project module", () => {
     describe("red stop handling", () => {
         it("halts everything", () => {
             return import_local_file("py/project/red_stop.py").then(import_result => {
+                var project = import_result.$d.project.js_project;
 
+                const assert_n_brooms = (n => {
+                    assert.equal(project.sprites.length, 1);
+                    var all_brooms = project.sprites[0].py_instances;
+                    assert.strictEqual(all_brooms.length, n);
+                });
+
+                const assert_all_brooms_at = (exp_x => {
+                    var all_brooms = project.sprites[0].py_instances;
+                    var all_xs = all_brooms.map(b => js_getattr(b, "_x"));
+                    all_xs.sort((x, y) => (x - y));
+                    assert.strictEqual(all_xs[0], exp_x);
+                    assert.strictEqual(all_xs[all_xs.length - 1], exp_x);
+                });
+
+                assert_n_brooms(1);
+
+                // Double the number of brooms; this takes effect on next frame.
+                project.do_synthetic_broadcast("make-new-brooms");
+                project.one_frame();
+                assert_n_brooms(2);
+
+                // Re-double the number of brooms; this takes effect on next
+                // frame.
+                project.do_synthetic_broadcast("make-new-brooms");
+                project.one_frame();
+                assert_n_brooms(4);
+
+                // Set them all moving and check they click along 10 per frame.
+                assert_all_brooms_at(0);
+                project.do_synthetic_broadcast("move");
+                project.one_frame();
+                assert_all_brooms_at(10);
+                project.one_frame();
+                assert_all_brooms_at(20);
+
+                // Stop!  All brooms but the original should vanish, and it
+                // should stop moving.
+                project.on_red_stop_clicked();
+                assert_n_brooms(1);
+                project.one_frame();
+                assert_all_brooms_at(20);
+                project.one_frame();
+                assert_all_brooms_at(20);
             });
         });
     });
