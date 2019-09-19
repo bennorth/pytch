@@ -176,6 +176,7 @@ $(document).ready(function() {
             }
 
             persist_saved_projects(saved_projects);
+            refresh();
         };
 
         var load_saved_project_by_name = function(target_name) {
