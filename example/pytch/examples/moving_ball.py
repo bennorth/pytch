@@ -2,6 +2,7 @@ import pytch
 from pytch import (
     when_I_receive,
     when_green_flag_clicked,
+    when_key_pressed,
     Sprite,
     Project,
     wait_seconds,
@@ -25,6 +26,11 @@ class Ball(Sprite):
         wait_seconds(0.5)
         self.change_x_pos(50)
         print('moved twice')
+
+    @when_key_pressed('w')
+    def move_up(self):
+        self.change_y_pos(25)
+        print('moved up')
 
 
 project = Project()
