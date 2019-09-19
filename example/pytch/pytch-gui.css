@@ -83,6 +83,9 @@ h1 {
     margin-left: 2.5em;
     background-color: lightgreen;
     color: black;
+    display: inline-block;
+    text-align: center;
+    width: 5em;
 }
 
 #editor-menubar span.nav-item {
