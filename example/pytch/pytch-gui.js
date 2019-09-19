@@ -24,6 +24,30 @@ $(document).ready(function() {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Populate 'Examples' drop-down menu
+
+    (function() {
+        var examples_menu_contents = $('#jq-dropdown-examples > ul');
+
+        var examples = [
+            {label: 'Moving Ball', url: 'examples/moving_ball.py'},
+        ];
+
+        examples.forEach((example) => {
+            var label_elt = $("<label"
+                              + " data-pytch-url=\"" + example.url + "\""
+                              + " data-pytch-label=\"" + example.label + "\">"
+                              + example.label
+                              + "</label>");
+            var li_elt = $("<li></li>");
+            li_elt.append(label_elt);
+            examples_menu_contents.append(li_elt);
+        });
+    })();
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Skulpt interaction
 
     function builtinRead(x) {
