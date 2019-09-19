@@ -30,6 +30,29 @@ $(document).ready(function() {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Info tabs (stdout, stderr)
+
+    var make_tab_current_via_evt = function(evt) {
+        var tab_nub = evt.target.dataset.tab;
+        make_tab_current(tab_nub);
+    }
+
+    var make_tab_current = function(tab_nub) {
+        var tab_head_id = "tab-header-" + tab_nub;
+        var tab_pane_id = "tab-pane-" + tab_nub;
+
+        $("#info-panels-container ul.tabs li").removeClass("current");
+        $("#info-panels-container div.tab-content").removeClass("current");
+
+        $("#" + tab_head_id).addClass("current");
+        $("#" + tab_pane_id).addClass("current");
+    };
+
+    $("#info-panels-container ul.tabs li").click(make_tab_current_via_evt);
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Populate 'Examples' drop-down menu
 
     (function() {
