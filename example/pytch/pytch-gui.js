@@ -124,6 +124,11 @@ $(document).ready(function() {
 
     var user_projects = (function() {
         var local_storage_key = "pytch-saved-projects";
+        var user_projects_menu_header = $("#user-projects-menu-header");
+        var user_projects_contents = $("#jq-dropdown-user-projects > ul");
+        var user_project_name_input = $("#user-chosen-project-name");
+        var save_my_project_button = $("#save-my-project-button");
+        var menubar = $("#editor-menubar");
 
         var saved_project_data = function() {
             var json_saved_projects = window.localStorage.getItem(local_storage_key);
