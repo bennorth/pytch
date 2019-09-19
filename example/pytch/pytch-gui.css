@@ -42,7 +42,7 @@ h1 {
     margin: 0ex 0.25em;
 }
 
-#editor-menubar {
+#editor-menubar, #doc-navigation-strip {
     padding-top: 0.5ex; padding-bottom: 0.5ex;
     margin-bottom: 1.5ex;
     background-color: #66a;
@@ -88,25 +88,41 @@ h1 {
     width: 5em;
 }
 
-#editor-menubar span.nav-item {
-    margin-top: 0.75ex;
+#editor-menubar span.nav-item,
+#doc-navigation-strip span.nav-item {
     padding-left: 0.25em;
     padding-right: 0.25em;
     float: right;
 }
 
-#editor-menubar span.nav-item.rightmost {
+#editor-menubar span.nav-item {
+    margin-top: 0.75ex;
+}
+
+#doc-navigation-strip p {
+    margin: 1ex 0em;
+}
+
+#doc-navigation-strip span.nav-item.leftmost {
+    float: none;
+    margin-left: 1em;
+}
+
+#editor-menubar span.nav-item.rightmost,
+#doc-navigation-strip span.nav-item.rightmost {
     padding-right: 1em;
 }
 
-#editor-menubar span.nav-item a {
+#editor-menubar span.nav-item a,
+#doc-navigation-strip span.nav-item a {
     color: white;
     text-decoration: none;
     font-size: 16px;
     padding: 0.75ex 1.0em;
 }
 
-#editor-menubar span.nav-item a:hover {
+#editor-menubar span.nav-item a:hover,
+#doc-navigation-strip span.nav-item a:hover {
     text-decoration: none;
     background-color: #336;
 }
