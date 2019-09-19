@@ -2,4 +2,10 @@
 
 $(document).ready(function() {
 
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Editor interaction
+
+    var ace_editor = ace.edit("editor");
+
 });
