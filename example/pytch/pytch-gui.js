@@ -178,6 +178,21 @@ $(document).ready(function() {
             persist_saved_projects(saved_projects);
         };
 
+        var load_saved_project_by_name = function(target_name) {
+            var maybe_project = maybe_project_by_name(saved_project_data(),
+                                                      target_name);
+
+            if (maybe_project === null) {
+                // TODO: More useful error-reporting even though this is an
+                // internal error.
+                throw new Error("couldn't find project \"" + target_name + "\"");
+            } else {
+                menubar.jqDropdown("hide");
+                var project = maybe_project;
+                ace_editor_set_code(project.code_text);
+            }
+        };
+
         return {};
     })();
 
