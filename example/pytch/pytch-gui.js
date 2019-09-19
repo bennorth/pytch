@@ -142,6 +142,20 @@ $(document).ready(function() {
                                         JSON.stringify(project_descriptors));
         };
 
+        var maybe_project_by_name = function(projects, target_name) {
+            var tgt_idx = projects.findIndex(proj => (proj.name === target_name));
+
+            var next_tgt_idx = projects.findIndex(
+                (proj, idx) => ((idx > tgt_idx) && (proj.name === target_name)));
+
+            if (next_tgt_idx !== -1)
+                // TODO: More useful error-reporting, even though this is an
+                // internal error.
+                throw new Error("found \"" + target_name + "\" more than once");
+
+            return (tgt_idx === -1) ? null : projects[tgt_idx];
+        };
+
         return {};
     })();
 
