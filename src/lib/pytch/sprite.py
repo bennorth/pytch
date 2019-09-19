@@ -31,6 +31,9 @@ class Sprite:
     def switch_costume(self, costume_name):
         self._costume = costume_name
 
+    def set_size(self, size):
+        self._size = size
+
     def show(self):
         self._shown = True
 
