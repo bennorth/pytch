@@ -21,6 +21,12 @@ $(document).ready(function() {
 
     ace_editor.on("change", show_code_changed_indicator);
 
+    var ace_editor_set_code = function(code_text) {
+        ace_editor.setValue(code_text);
+        ace_editor.clearSelection();
+        ace_editor.moveCursorTo(0, 0);
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
