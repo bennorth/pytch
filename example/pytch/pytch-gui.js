@@ -156,6 +156,28 @@ $(document).ready(function() {
             return (tgt_idx === -1) ? null : projects[tgt_idx];
         };
 
+        var save_project = function() {
+            // TODO: Prompt for confirmation of overwriting if different name
+            // to last loaded/saved.
+
+            var project_name = user_project_name_input.val();
+            var saved_projects = saved_project_data();
+            var project_code_text = ace_editor.getValue();
+
+            var maybe_existing_project
+                = maybe_project_by_name(saved_projects, project_name);
+
+            if (maybe_existing_project !== null) {
+                var existing_project = maybe_existing_project;
+                existing_project.code_text = project_code_text;
+            } else {
+                saved_projects.push({ name: project_name,
+                                      code_text: project_code_text });
+            }
+
+            persist_saved_projects(saved_projects);
+        };
+
         return {};
     })();
 
