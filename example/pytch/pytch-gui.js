@@ -198,6 +198,28 @@ $(document).ready(function() {
             load_saved_project_by_name(project_name);
         };
 
+        var refresh = function() {
+            user_projects_contents.empty();
+
+            var saved_projects = saved_project_data();
+            saved_projects.forEach((project_descriptor, entry_idx) => {
+                var name = project_descriptor.name;
+                var label_elt = $("<label></label>");
+                label_elt.attr("id", "user-projects-menu-elt-" + entry_idx);
+                label_elt.attr("data-pytch-label", name);
+                label_elt.text(name);
+                var li_elt = $("<li></li>");
+                li_elt.append(label_elt);
+                $(li_elt).click(load_saved_project);
+                user_projects_contents.append(li_elt);
+            });
+
+            if (saved_projects.length == 0)
+                user_projects_menu_header.addClass("greyed-out");
+            else
+                user_projects_menu_header.removeClass("greyed-out");
+        };
+
         return {};
     })();
 
