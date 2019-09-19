@@ -96,6 +96,15 @@ $(document).ready(function() {
 
         var menubar = $("#editor-menubar");
 
+        // Curried for ease of using in $.ajax() call.  Refers to
+        // "user projects local storage" object defined below.
+        var set_name_and_code = function(name) {
+            return function(code) {
+                user_projects.set_project_name(name);
+                ace_editor_set_code(code);
+            };
+        };
+
         var load_example = function(evt) {
             menubar.jqDropdown("hide");
 
