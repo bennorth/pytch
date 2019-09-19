@@ -7,6 +7,7 @@ from pytch.project import Project
 from pytch.hat_blocks import (
     when_I_receive,
     when_green_flag_clicked,
+    when_key_pressed,
     when_I_start_as_a_clone,
 )
 
