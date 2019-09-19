@@ -120,6 +120,29 @@ $(document).ready(function() {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Local storage for projects
+
+    var user_projects = (function() {
+        var local_storage_key = "pytch-saved-projects";
+
+        var saved_project_data = function() {
+            var json_saved_projects = window.localStorage.getItem(local_storage_key);
+            return ((json_saved_projects === null)
+                    ? []
+                    : JSON.parse(json_saved_projects));
+        };
+
+        var persist_saved_projects = function(project_descriptors) {
+            window.localStorage.setItem(local_storage_key,
+                                        JSON.stringify(project_descriptors));
+        };
+
+        return {};
+    })();
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Skulpt interaction
 
     function builtinRead(x) {
