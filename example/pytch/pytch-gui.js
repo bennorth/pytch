@@ -222,6 +222,7 @@ $(document).ready(function() {
         };
 
         refresh();
+        save_my_project_button.click(save_project);
     })();
 
 
