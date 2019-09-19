@@ -199,6 +199,18 @@ $(document).ready(function() {
             load_saved_project_by_name(project_name);
         };
 
+        var delete_saved_project = function(evt) {
+            menubar.jqDropdown("hide");
+            evt.stopPropagation();
+
+            var projects = saved_project_data();
+            var project_idx = +(evt.target.dataset.pytchEntryIdx);
+            projects.splice(project_idx, 1);
+            persist_saved_projects(projects);
+
+            refresh();
+        };
+
         var refresh = function() {
             user_projects_contents.empty();
 
