@@ -253,8 +253,16 @@ $(document).ready(function() {
                 user_projects_menu_header.removeClass("greyed-out");
         };
 
+        var set_project_name = function(name) {
+            user_project_name_input.val(name);
+        };
+
         refresh();
         save_my_project_button.click(save_project);
+
+        return {
+            set_project_name: set_project_name,
+        };
     })();
 
 
