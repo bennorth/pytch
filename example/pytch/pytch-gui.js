@@ -122,4 +122,16 @@ $(document).ready(function() {
             img.src = url;
         });
     };
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Connect Skulpt to our various interfaces
+
+    Sk.configure({ read: builtinRead,
+                   pytch: {
+                       async_load_image: async_load_image,
+                       keyboard: browser_keyboard,
+                   },
+                 });
 });
