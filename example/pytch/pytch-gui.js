@@ -223,6 +223,10 @@ $(document).ready(function() {
                 label_elt.text(name);
                 var li_elt = $("<li></li>");
                 li_elt.append(label_elt);
+                var delete_elt = $("<span class=\"delete-button\">DELETE</span>");
+                delete_elt.attr("data-pytch-entry-idx", entry_idx);
+                $(delete_elt).click(delete_saved_project);
+                li_elt.append(delete_elt);
                 $(li_elt).click(load_saved_project);
                 user_projects_contents.append(li_elt);
             });
