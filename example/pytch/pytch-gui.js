@@ -235,6 +235,17 @@ $(document).ready(function() {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Report errors
+
+    var report_uncaught_exception = function(e) {
+        var msg = Sk.builtin.str(e).v;
+        stderr_info_pane.append_text(msg + "\n");
+        make_tab_current("stderr");
+    };
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Build user code
 
     var build_immediate_feedback = function() {
