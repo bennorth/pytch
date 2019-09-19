@@ -221,7 +221,7 @@ $(document).ready(function() {
                 user_projects_menu_header.removeClass("greyed-out");
         };
 
-        return {};
+        refresh();
     })();
 
 
