@@ -264,6 +264,7 @@ $(document).ready(function() {
     // Connect Skulpt to our various interfaces
 
     Sk.configure({ read: builtinRead,
+                   output: (txt => stdout_info_pane.append_text(txt)),
                    pytch: {
                        async_load_image: async_load_image,
                        keyboard: browser_keyboard,
