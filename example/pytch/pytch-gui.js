@@ -109,4 +109,17 @@ $(document).ready(function() {
             drain_new_keydown_events: drain_new_keydown_events,
         };
     })();
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Provide 'asynchronous load image' interface
+
+    const async_load_image = function(url) {
+        return new Promise(function(resolve, reject) {
+            var img = new Image();
+            img.onload = function() { resolve(img); };
+            img.src = url;
+        });
+    };
 });
