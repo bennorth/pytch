@@ -50,6 +50,38 @@ $(document).ready(function() {
 
     $("#info-panels-container ul.tabs li").click(make_tab_current_via_evt);
 
+    ////////////////////////////////////////////////////////////////////////
+    //
+    // Contents of individual panes
+
+    function TextPane(initial_html, tab_nub) {
+        this.initial_html = initial_html;
+        this.content_elt = document.getElementById("tab-content-" + tab_nub);
+        this.reset();
+    }
+
+    TextPane.prototype.reset = function() {
+        this.content_elt.innerHTML = this.initial_html;
+        this.is_placeholder = true;
+    };
+
+    TextPane.prototype.append_text = function(txt) {
+        if (this.is_placeholder) {
+            this.content_elt.innerHTML = txt;
+            this.is_placeholder = false;
+        } else {
+            this.content_elt.innerHTML += txt;
+        }
+    };
+
+    var stdout_info_pane = new TextPane(
+        "<span class=\"info\">Any output from your script will appear here.</span>",
+        "stdout");
+
+    var stderr_info_pane = new TextPane(
+        "<span class=\"info\">Any errors from your script will appear here.</span>",
+        "stderr");
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
