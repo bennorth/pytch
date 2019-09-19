@@ -126,6 +126,31 @@ $(document).ready(function() {
 
     ////////////////////////////////////////////////////////////////////////////////
     //
+    // Build user code
+
+    var build_immediate_feedback = function() {
+        $("#build-button").html("<i>Working...</i>");
+    };
+
+    var build_do_real_work = function() {
+        var prog = ace_editor.getValue();
+        var p = Sk.misceval.asyncToPromise(function() {
+            $("#build-button").html("BUILD");
+            return Sk.importMainWithBody("<stdin>", false, prog, true);
+        });
+        // TODO: Provide feedback (OK / error) from p.
+    };
+
+    var build_user_code = function() {
+        build_immediate_feedback();
+        window.setTimeout(build_do_real_work, 125);
+    };
+
+    $("#build-button").click(build_user_code);
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    //
     // Connect Skulpt to our various interfaces
 
     Sk.configure({ read: builtinRead,
