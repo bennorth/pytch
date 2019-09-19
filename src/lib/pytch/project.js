@@ -519,6 +519,14 @@ var $builtinmodule = function (name) {
         this.thread_groups.push(thread_group);
     };
 
+    // Red Stop handling: All threads stop running; all clones get
+    // deleted; in due course all sounds will stop.
+    //
+    Project.prototype.on_red_stop_clicked = function() {
+        this.thread_groups = [];
+        this.sprites.forEach(sprite => sprite.py_instances.splice(1));
+    };
+
     Project.prototype.handlers_for_message = function(js_message) {
         return this.handlers.message[js_message] || [];
     };
