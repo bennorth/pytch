@@ -390,6 +390,26 @@ $(document).ready(function() {
         });
     };
 
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Provide 'asynchronous load sound' interface
+
+    const async_load_sound = function(url) {
+        return new Promise(function(resolve, reject) {
+	    var audioDataBlob;
+	    fetch(url)
+		.then( function(response){return response.blob()})
+		.then( function(blob) {
+		    audioDataBlob = URL.createObjectURL(blob);
+		    var snd = new Audio(audioDataBlob); // Force request for blob
+		    snd.addEventListener('error', function failed(e){ console.log("Audio load failure"); console.log(e); });
+		    snd.addEventListener('canplaythrough', function(){
+			resolve(snd);
+		    }
+		}
+        });
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //

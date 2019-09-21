@@ -90,8 +90,13 @@ Sk.python3 = {
         throw new Error("please set async_load_image");
     };
 
+    var bad_async_load_sound = function(url) {
+        throw new Error("please set async_load_sound");
+    };
+
     Sk.default_pytch_environment = {
         async_load_image: bad_async_load_image,
+	async_load_sound: bad_asunc_load_sound,
         keyboard: {
             is_key_pressed: (keyname) => false,
             drain_new_keydown_events: () => [],

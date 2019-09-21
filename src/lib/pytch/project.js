@@ -64,8 +64,19 @@ var $builtinmodule = function (name) {
                 .then(img => new Costume(img, centre_x, centre_y)));
     };
 
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // Sounds: An Audio object and the URL that was used to build it.
+    //
+    const Sound = function(snd, src){
+	this.sound = snd;
+	this.url = src;
+    }
 
-    
+    Sound.async_create = function(url){
+	return (Sk.pytch.async_load_sound(url)
+		.then(snd => new Sound(snd, url)));
+    }
     
     ////////////////////////////////////////////////////////////////////////////////
     //
