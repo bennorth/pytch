@@ -12,6 +12,7 @@ var $builtinmodule = function (name) {
 
     const s_dunder_name = Sk.ffi.remapToPy("__name__");
     const s_dunder_class = Sk.ffi.remapToPy("__class__");
+    const s_dunder_bases = Sk.ffi.remapToPy("__bases__");
     const s_pytch_containing_project = Sk.ffi.remapToPy("_pytch_containing_project");
 
     const name_of_py_class = function(py_cls)
