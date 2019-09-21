@@ -166,7 +166,10 @@ var $builtinmodule = function (name) {
         var populate_costume_map
             = Object.entries(js_Costumes).map(kv => {
                 var costume_name = kv[0],
-                    costume_descr = kv[1];
+                    descr_or_url = kv[1];
+
+                var costume_descr
+                    = cls_kind.expand_costume_descriptor(descr_or_url);
 
                 return (Costume.async_create(costume_descr[0],
                                              costume_descr[1],
