@@ -273,6 +273,30 @@ var $builtinmodule = function (name) {
     Thread.prototype.is_zombie = function()
     { return (this.state === Thread.State.ZOMBIE); };
 
+    Thread.prototype.maybe_wake = function() {
+        switch (this.state) {
+        case Thread.State.RUNNING:
+            // Leave running.
+            break;
+        case Thread.State.AWAITING_THREAD_GROUP_COMPLETION:
+            if (this.sleeping_on.is_all_finished()) {
+                this.state = Thread.State.RUNNING;
+                this.sleeping_on = null;
+            }
+            break;
+        case Thread.State.AWAITING_PASSAGE_OF_TIME:
+            this.sleeping_on -= 1;
+            if (this.sleeping_on == 0) {
+                this.state = Thread.State.RUNNING;
+                this.sleeping_on = null;
+            }
+            break;
+        default:
+            throw new Error("unknown thread state \""
+                            + this.state + "\"");
+        }
+    };
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -294,29 +318,7 @@ var $builtinmodule = function (name) {
         var new_thread_groups = [];
 
         // Wake any threads meeting their condition-to-wake.
-        this.runnable_threads.forEach(thread => {
-            switch (thread.state) {
-            case Thread.State.RUNNING:
-                // Leave it run.
-                break;
-            case Thread.State.AWAITING_THREAD_GROUP_COMPLETION:
-                if (thread.sleeping_on.is_all_finished()) {
-                    thread.state = Thread.State.RUNNING;
-                    thread.sleeping_on = null;
-                }
-                break;
-            case Thread.State.AWAITING_PASSAGE_OF_TIME:
-                thread.sleeping_on -= 1;
-                if (thread.sleeping_on == 0) {
-                    thread.state = Thread.State.RUNNING;
-                    thread.sleeping_on = null;
-                }
-                break;
-            default:
-                throw new Error("unknown thread state \""
-                                + thread.state + "\"");
-            }
-        });
+        this.runnable_threads.forEach(thread => thread.maybe_wake());
 
         this.runnable_threads
             .filter(th => th.is_running())
