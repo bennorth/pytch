@@ -65,6 +65,20 @@ var $builtinmodule = function (name) {
     };
 
 
+    
+    
+    ////////////////////////////////////////////////////////////////////////////////
+    //
+    // PytchObject: Abstract base class for Pytch-related objects (Sprites and the Stage).
+    // Holds a reference to the Python-level class and a list of its live instances
+    // There is always at least one live instance; for Sprites others
+    // can be created as a result of clone() operations.
+    // 
+    const PytchObject = function(py_cls, py_instance_0) {
+	this.py_cls = py_cls;
+	this.py_instances = [py_instance_0];
+    };
+
     ////////////////////////////////////////////////////////////////////////////////
     //
     // PytchSprite: A Sprite within the Project.  It holds (a
@@ -74,11 +88,12 @@ var $builtinmodule = function (name) {
     // can be created as a result of clone() operations.
     //
     const PytchSprite = function(py_cls, py_instance_0, costume_from_name) {
-        this.py_cls = py_cls;
-        this.py_instances = [py_instance_0];
+	PytchObject.call(this, py_cls, py_instance_0);
         this.on_clone_handlers = [];
         this.costume_from_name = costume_from_name;
     };
+
+    PytchSprite.prototype = Object.create(PytchObject.prototype);
 
     PytchSprite.async_create = function(py_cls) {
         var load_costumes = PytchSprite.async_load_costumes(py_cls);
