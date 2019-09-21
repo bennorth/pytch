@@ -590,6 +590,9 @@ var $builtinmodule = function (name) {
     };
 
     Project.prototype.on_green_flag_clicked = function() {
+        // Stop the world before re-launching anything.
+        this.on_red_stop_clicked();
+
         var handlers = this.handlers.green_flag;
         var thread_group = this.thread_group_from_handlers("green-flag", handlers);
         this.thread_groups.push(thread_group);
