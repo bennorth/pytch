@@ -111,6 +111,44 @@ var $builtinmodule = function (name) {
         },
     };
 
+    PytchSprite.kind_of_py_class = function(py_cls) {
+        var py_cls_name = js_getattr(py_cls, s_dunder_name);
+
+        var bases = py_cls.$d.mp$subscript(s_dunder_bases);
+
+        // This check by name should be temporary, as should the fact
+        // that we only check direct bases.  If the user does "from
+        // pytch import Sprite as Banana" and derives from Banana,
+        // their code would ideally work.  I could not get
+        // issubclass() to work correctly with the Sprite and Stage
+        // classes imported into the JS side.  See below comment also.
+        var has_name = (target_name =>
+                        (cls =>
+                         js_getattr(cls, s_dunder_name) == target_name));
+        var is_sprite = bases.v.some(has_name("Sprite"));
+        var is_stage = bases.v.some(has_name("Stage"));
+
+        // Want to do something like
+        //
+        //     var py_classes = sprite_stage_py_classes();
+        //     var is_sprite = Sk.builtin.issubclass(py_cls, py_classes.Sprite);
+        //     var is_stage = Sk.builtin.issubclass(py_cls, py_classes.Stage);
+        //
+        // instead really.
+
+        if ((! is_sprite) && (! is_stage))
+            throw new Error("class \"" + py_cls_name
+                            + "\" neither Sprite nor Stage");
+
+        if (is_sprite && is_stage)
+            throw new Error("class \"" + py_cls_name
+                            + "\" both Sprite and Stage");
+
+        return (is_sprite
+                ? PytchSprite.Kind.SPRITE
+                : PytchSprite.Kind.STAGE);
+    };
+
     PytchSprite.s_shown = Sk.builtin.str("_shown");
     PytchSprite.s_x = Sk.builtin.str("_x");
     PytchSprite.s_y = Sk.builtin.str("_y");
