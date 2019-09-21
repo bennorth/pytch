@@ -22,6 +22,10 @@ done
 mkdir $DIST_DIR/library $DIST_DIR/library/images
 cp example/pytch/library/images/*.png $DIST_DIR/library/images
 
+mkdir $DIST_DIR/library/sounds
+cp example/pytch/library/sounds/*.mp3 $DIST_DIR/library/sounds
+
+
 mkdir $DIST_DIR/examples
 cp example/pytch/examples/*.py $DIST_DIR/examples
 

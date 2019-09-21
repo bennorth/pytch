@@ -459,6 +459,7 @@ $(document).ready(function() {
                    output: (txt => stdout_info_pane.append_text(txt)),
                    pytch: {
                        async_load_image: async_load_image,
+		       async_load_sound: async_load_sound,
                        keyboard: browser_keyboard,
                    },
                  });

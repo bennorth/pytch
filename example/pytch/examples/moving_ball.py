@@ -11,7 +11,8 @@ from pytch import (
 
 class Ball(Sprite):
     Costumes = {'ball': ('library/images/ball.png', 8, 8)}
-
+    Sounds = {'pop' : 'library/sounds/pop.mp3'}
+    
     def __init__(self):
         Sprite.__init__(self)
         self.go_to_xy(100, 50)
