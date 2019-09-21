@@ -1,4 +1,6 @@
-class Sprite:
+from pytchobject import PytchObject
+
+class Sprite(PytchObject):
     def __init__(self):
         self._x = 0
         self._y = 0
