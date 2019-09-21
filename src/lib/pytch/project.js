@@ -712,6 +712,12 @@ var $builtinmodule = function (name) {
                 self.js_project.async_register_sprite_class(sprite_cls));
         });
 
+        $loc.register_stage_class = new Sk.builtin.func((self, sprite_cls) => {
+            Sk.builtin.setattr(sprite_cls, s_pytch_containing_project, self);
+            return Sk.misceval.promiseToSuspension(
+                self.js_project.async_register_stage_class(sprite_cls));
+        });
+
         $loc.go_live = new Sk.builtin.func((self) => {
             Sk.pytch.current_live_project = self;
             return Sk.builtin.none.none$;
