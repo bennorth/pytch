@@ -425,11 +425,6 @@ var $builtinmodule = function (name) {
         this.runnable_threads
             = this.runnable_threads.filter(th => ( ! th.is_zombie()));
 
-        // TODO: Return new list of live ThreadGroups; this can
-        // include 'this' if at least one thread suspended; it also
-        // includes other thread-groups launched as a result of
-        // threads in this group doing, e.g., bcast/wait.
-
         if ( ! this.is_all_finished())
             new_thread_groups.push(this);
 
@@ -574,11 +569,6 @@ var $builtinmodule = function (name) {
             });
         });
 
-        // TODO: How to handle implicit join()s on thread groups?
-        // Previous incarnation had completion function but maybe
-        // that's overcomplicated.  Do we ever have a completion
-        // function which does anything other than re-enable the
-        // launching thread?
         this.thread_groups = new_thread_groups;
     };
 
