@@ -405,8 +405,8 @@ $(document).ready(function() {
 		    snd.addEventListener('error', function failed(e){ console.log("Audio load failure"); console.log(e); });
 		    snd.addEventListener('canplaythrough', function(){
 			resolve(snd);
-		    }
-		}
+		    });
+		});
         });
     };
 
