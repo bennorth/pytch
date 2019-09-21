@@ -44,6 +44,9 @@ class Sprite:
         project = self._pytch_containing_project
         return project.is_instance_touching_any_of(self, target_class)
 
+    def start_sound(self, sound_name):
+        pass  # TODO
+
     def delete_this_clone(self):
         project = self._pytch_containing_project
         return project.unregister_instance(self)
