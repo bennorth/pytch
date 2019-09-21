@@ -85,11 +85,30 @@ var $builtinmodule = function (name) {
     // There is always at least one live instance; for Sprites others
     // can be created as a result of clone() operations.
     // 
-    const PytchObject = function(py_cls, py_instance_0) {
+    const PytchObject = function(py_cls, py_instance_0, sound_from_name) {
 	this.py_cls = py_cls;
 	this.py_instances = [py_instance_0];
+	this.sound_from_name = sound_from_name;
     };
 
+    PytchObject.s_Sounds = Sk.builtin.str("Sounds");
+    
+    PytchObject.async_load_sounds = function(py_cls){
+	var py_Sounds = Sk.builtin.getattr(py_cls, PytchObject.s_Sounds);
+	var js_Sounds = Sk.ffi.remapToJs(py_Sounds);
+
+	var sound_from_name = {};
+
+	var populate_sound_map
+	    = Object.entries(js_Sounds).map(kv => {
+		var sound_name = kv[0],
+		    sound_url = kv[1];
+		return (Sound.async_create(sound_url).then(sound =>
+							   { sound_from_name[sound_name] = sound }));
+	    });
+	return Promise.all(populate_sound_map).then(() => sound_from_name);
+    };
+    
     ////////////////////////////////////////////////////////////////////////////////
     //
     // PytchSprite: A Sprite within the Project.  It holds (a
@@ -98,8 +117,8 @@ var $builtinmodule = function (name) {
     // instances.  There is always at least one live instance; others
     // can be created as a result of clone() operations.
     //
-    const PytchSprite = function(py_cls, py_instance_0, costume_from_name) {
-	PytchObject.call(this, py_cls, py_instance_0);
+    const PytchSprite = function(py_cls, py_instance_0, costume_from_name, sound_from_name) {
+	PytchObject.call(this, py_cls, py_instance_0, sound_from_name);
         this.on_clone_handlers = [];
         this.costume_from_name = costume_from_name;
     };
@@ -108,11 +127,13 @@ var $builtinmodule = function (name) {
 
     PytchSprite.async_create = function(py_cls) {
         var load_costumes = PytchSprite.async_load_costumes(py_cls);
+	var load_sounds = PytchObject.async_load_sounds(py_cls);
 
-        return load_costumes.then(costume_from_name =>
-            new PytchSprite(py_cls,
-                            Sk.misceval.callsim(py_cls),
-                            costume_from_name));
+	return Promise.all([load_costumes, load_sounds]).then( vals =>
+	   new PytchSprite(py_cls,
+			   Sk.misceval.callsim(py_cls),
+			   vals[0], vals[1]));
+	
     };
 
     PytchSprite.s_Costumes = Sk.builtin.str("Costumes");
@@ -122,6 +143,7 @@ var $builtinmodule = function (name) {
     PytchSprite.s_y = Sk.builtin.str("_y");
     PytchSprite.s_size = Sk.builtin.str("_size");
     PytchSprite.s_costume = Sk.builtin.str("_costume");
+
 
     PytchSprite.async_load_costumes = function(py_cls) {
         var py_Costumes = Sk.builtin.getattr(py_cls, PytchSprite.s_Costumes);
