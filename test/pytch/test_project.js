@@ -35,6 +35,25 @@ describe("pytch.project module", () => {
         });
     });
 
+    it("can register Sprite and Stage", () => {
+        return import_local_file("py/project/sprite_on_stage.py").then(import_result => {
+            var project = import_result.$d.project.js_project;
+
+            // Even though we registered Table after Banana, Table should
+            // end up in the first slot.
+            var table = project.sprite_by_class_name("Table");
+            assert.strictEqual(table, project.sprites[0]);
+
+            // And Banana in the second.
+            var banana = project.sprite_by_class_name("Banana");
+            assert.strictEqual(banana, project.sprites[1]);
+
+            // Their Costume and Backdrop should have been picked out OK.
+            assert.strictEqual(banana.costume_from_name["yellow"].centre_x, 50);
+            assert.strictEqual(table.costume_from_name["wooden"].centre_x, 240);
+        });
+    });
+
     it("can provide instance-0 of a registered class", () => {
         return import_local_file("py/project/single_sprite.py").then(import_result => {
             var project = import_result.$d.project.js_project;
