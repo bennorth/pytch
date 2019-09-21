@@ -85,7 +85,8 @@ var $builtinmodule = function (name) {
     };
 
     PytchSprite.async_create = function(py_cls) {
-        var load_costumes = PytchSprite.async_load_costumes(py_cls);
+        var cls_kind = PytchSprite.kind_of_py_class(py_cls);
+        var load_costumes = PytchSprite.async_load_costumes(cls_kind, py_cls);
 
         return load_costumes.then(costume_from_name =>
             new PytchSprite(py_cls,
