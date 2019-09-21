@@ -96,7 +96,7 @@ Sk.python3 = {
 
     Sk.default_pytch_environment = {
         async_load_image: bad_async_load_image,
-	async_load_sound: bad_asunc_load_sound,
+        async_load_sound: bad_async_load_sound,
         keyboard: {
             is_key_pressed: (keyname) => false,
             drain_new_keydown_events: () => [],
