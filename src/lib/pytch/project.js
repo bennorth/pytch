@@ -157,9 +157,7 @@ var $builtinmodule = function (name) {
     PytchSprite.s_costume = Sk.builtin.str("_costume");
 
     PytchSprite.async_load_costumes = function(cls_kind, py_cls) {
-        var py_Costumes = Sk.builtin.getattr(py_cls,
-                                             cls_kind.costumes_attr_name);
-        var js_Costumes = Sk.ffi.remapToJs(py_Costumes);
+        var js_Costumes = js_getattr(py_cls, cls_kind.costumes_attr_name);
 
         var costume_from_name = {};
 
