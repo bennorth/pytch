@@ -90,6 +90,7 @@ var $builtinmodule = function (name) {
     };
 
     PytchSprite.s_Costumes = Sk.builtin.str("Costumes");
+    PytchSprite.s_Backdrops = Sk.builtin.str("Backdrops");
 
     PytchSprite.s_shown = Sk.builtin.str("_shown");
     PytchSprite.s_x = Sk.builtin.str("_x");
