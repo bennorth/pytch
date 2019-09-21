@@ -513,6 +513,8 @@ var $builtinmodule = function (name) {
     };
 
     Project.prototype.async_register_stage_class = function(py_stage_cls) {
+        // TODO: Ensure at most one Stage registered.
+
         var create_sprite = PytchSprite.async_create(py_stage_cls);
 
         return create_sprite.then(pytch_sprite => {
