@@ -2,6 +2,9 @@ var $builtinmodule = function (name) {
     var mod = {};
 
     const FRAMES_PER_SECOND = 60;
+    const STAGE_HALF_WIDTH = 240;
+    const STAGE_HALF_HEIGHT = 180;
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
