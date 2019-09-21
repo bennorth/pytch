@@ -92,6 +92,7 @@ $(document).ready(function() {
 
         var examples = [
             {label: 'Moving Ball', url: 'examples/moving_ball.py'},
+            {label: 'Pong', url: 'examples/pong.py'},
         ];
 
         var menubar = $("#editor-menubar");
