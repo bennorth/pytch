@@ -95,6 +95,21 @@ var $builtinmodule = function (name) {
     PytchSprite.s_Costumes = Sk.builtin.str("Costumes");
     PytchSprite.s_Backdrops = Sk.builtin.str("Backdrops");
 
+    // Some aspects of behaviour are different for true Sprites vs the Stage.
+    //
+    PytchSprite.Kind = {
+        SPRITE: {
+            expand_costume_descriptor: (descr_or_url => descr_or_url),
+            costumes_attr_name: PytchSprite.s_Costumes,
+        },
+        STAGE: {
+            expand_costume_descriptor: (descr_or_url => [descr_or_url,
+                                                         STAGE_HALF_WIDTH,
+                                                         STAGE_HALF_HEIGHT]),
+            costumes_attr_name: PytchSprite.s_Backdrops,
+        },
+    };
+
     PytchSprite.s_shown = Sk.builtin.str("_shown");
     PytchSprite.s_x = Sk.builtin.str("_x");
     PytchSprite.s_y = Sk.builtin.str("_y");
