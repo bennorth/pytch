@@ -512,6 +512,19 @@ var $builtinmodule = function (name) {
         });
     };
 
+    Project.prototype.async_register_stage_class = function(py_stage_cls) {
+        var create_sprite = PytchSprite.async_create(py_stage_cls);
+
+        return create_sprite.then(pytch_sprite => {
+            // Ensure stage is first to render.  This will be handled
+            // differently once z-order is implemented.
+            this.sprites.unshift(pytch_sprite);
+            this.register_handlers_of_sprite(pytch_sprite, py_stage_cls)
+
+            return "registered";
+        });
+    };
+
     Project.prototype.register_handler = function(event_type, event_data,
                                                   pytch_sprite,
                                                   handler_py_func) {
