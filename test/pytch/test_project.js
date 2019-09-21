@@ -292,7 +292,12 @@ describe("pytch.project module", () => {
     });
 
     describe("red stop handling", () => {
-        it("halts everything", () => {
+        const red_stop_specs = [
+            {tag: "green flag", method_name: "on_green_flag_clicked"},
+            {tag: "red stop", method_name: "on_red_stop_clicked"},
+        ];
+        red_stop_specs.forEach(spec =>
+        it(spec.tag + " halts everything", () => {
             return import_local_file("py/project/red_stop.py").then(import_result => {
                 var project = import_result.$d.project.js_project;
 
@@ -333,14 +338,14 @@ describe("pytch.project module", () => {
 
                 // Stop!  All brooms but the original should vanish, and it
                 // should stop moving.
-                project.on_red_stop_clicked();
+                project[spec.method_name]();
                 assert_n_brooms(1);
                 project.one_frame();
                 assert_all_brooms_at(20);
                 project.one_frame();
                 assert_all_brooms_at(20);
             });
-        });
+        }));
     });
 
     describe("collision detection", () => {
