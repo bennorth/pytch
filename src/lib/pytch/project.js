@@ -545,6 +545,7 @@ var $builtinmodule = function (name) {
             this.handlers.message[event_data].push(handler);
             break;
         case "clone":
+            // TODO: Forbid cloning stage.
             pytch_sprite.on_clone_handlers.push(handler_py_func);
             break;
         default:
