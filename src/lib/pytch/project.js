@@ -324,7 +324,20 @@ var $builtinmodule = function (name) {
             .filter(th => th.is_running())
             .forEach(thread =>
         {
-            var susp_or_retval = thread.skulpt_susp.resume();
+            var susp_or_retval = null;
+
+            try {
+                susp_or_retval = thread.skulpt_susp.resume();
+            } catch (err) {
+                // TODO: Richer information as to error context.  E.g., our
+                // 'label', and if possible what was the entry point for this
+                // thread (class and method names).
+                Sk.pytch.on_exception(err);
+
+                // Fudge susp_or_retval to look like the thread ran to
+                // completion; it will then be dealt with correctly below.
+                susp_or_retval = { "$isSuspension": false };
+            }
 
             if ( ! susp_or_retval.$isSuspension) {
                 // Python-land code ran to completion; thread is done but
