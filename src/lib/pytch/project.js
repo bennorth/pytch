@@ -77,6 +77,10 @@ var $builtinmodule = function (name) {
 	return (Sk.pytch.async_load_sound(url)
 		.then(snd => new Sound(snd, url)));
     }
+
+    Sound.prototype.play = function(){
+	this.sound.play();
+    }
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -662,6 +666,12 @@ var $builtinmodule = function (name) {
                                                other_py_sprite_instance));
     };
 
+    Project.prototype.start_sound = function(py_sprite_class,  
+					     py_sound_name) {
+	var sprite = this.pytch_sprite_from_py_cls(py_sprite_class); 
+	sprite.sound_from_name[  Sk.ffi.remapToJs(py_sound_name) ].play();
+    };
+
     // TODO: Not sure this is a good idea but let's see.
     Project.prototype.do_synthetic_broadcast = function(js_msg) {
         var new_thread_group = this.broadcast_handler_thread_group(js_msg);
@@ -696,6 +706,11 @@ var $builtinmodule = function (name) {
                         ? Sk.builtin.bool.true$
                         : Sk.builtin.bool.false$);
             });
+
+	$loc.start_sound = new Sk.builtin.func(
+	    (self, instance, sound_name) => {
+		self.js_project.start_sound(instance, sound_name);
+	    });
 
         // TODO: Could make this user-level functionality, like
         //

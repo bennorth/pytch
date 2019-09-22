@@ -32,6 +32,7 @@ class Ball(Sprite):
     def move_up(self):
         self.change_y_pos(25)
         print('moved up')
+        self.start_sound('pop')
 
 
 project = Project()
