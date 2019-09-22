@@ -56,13 +56,30 @@ before(() => {
                                              descriptor[2]));
     });
 
-    // Connect read/write to filesystem and stdout.
+    global.pytch_errors = (function() {
+        var uncollected_errors = [];
+
+        const append_error = function(err)
+        { uncollected_errors.push(err); };
+
+        const drain_errors = function() {
+            const errors = uncollected_errors;
+            uncollected_errors = [];
+            return errors;
+        };
+
+        return { append_error: append_error,
+                 drain_errors: drain_errors };
+    })();
+
+    // Connect read/write to filesystem, stdout, error capture.
     Sk.configure({
         read: (fname) => { return fs.readFileSync(fname, "utf8"); },
         output: (args) => { process.stdout.write(args); },
         pytch: {
             async_load_image: async_create_mock_image,
             keyboard: global.mock_keyboard,
+            on_exception: pytch_errors.append_error,
         },
     });
 
