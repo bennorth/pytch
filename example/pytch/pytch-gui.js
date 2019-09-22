@@ -92,6 +92,7 @@ $(document).ready(function() {
 
         var examples = [
             {label: 'Moving Ball', url: 'examples/moving_ball.py'},
+            {label: 'Pong', url: 'examples/pong.py'},
         ];
 
         var menubar = $("#editor-menubar");
@@ -471,10 +472,12 @@ $(document).ready(function() {
 
     $("#green-flag").click(() => {
         Sk.pytch.current_live_project.js_project.on_green_flag_clicked();
+        stage_canvas.dom_elt.focus();
     });
 
     $("#red-stop").click(() => {
         Sk.pytch.current_live_project.js_project.on_red_stop_clicked();
+        stage_canvas.dom_elt.focus();
     });
 
     stage_canvas.dom_elt.onkeydown = browser_keyboard.on_key_down;

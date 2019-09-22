@@ -2,6 +2,9 @@ var $builtinmodule = function (name) {
     var mod = {};
 
     const FRAMES_PER_SECOND = 60;
+    const STAGE_HALF_WIDTH = 240;
+    const STAGE_HALF_HEIGHT = 180;
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -9,6 +12,7 @@ var $builtinmodule = function (name) {
 
     const s_dunder_name = Sk.ffi.remapToPy("__name__");
     const s_dunder_class = Sk.ffi.remapToPy("__class__");
+    const s_dunder_bases = Sk.ffi.remapToPy("__bases__");
     const s_pytch_containing_project = Sk.ffi.remapToPy("_pytch_containing_project");
 
     const name_of_py_class = function(py_cls)
@@ -130,7 +134,8 @@ var $builtinmodule = function (name) {
     PytchSprite.prototype = Object.create(PytchObject.prototype);
 
     PytchSprite.async_create = function(py_cls) {
-        var load_costumes = PytchSprite.async_load_costumes(py_cls);
+        var cls_kind = PytchSprite.kind_of_py_class(py_cls);
+        var load_costumes = PytchSprite.async_load_costumes(cls_kind, py_cls);
 	var load_sounds = PytchObject.async_load_sounds(py_cls);
 
 	return Promise.all([load_costumes, load_sounds]).then( vals =>
@@ -141,6 +146,60 @@ var $builtinmodule = function (name) {
     };
 
     PytchSprite.s_Costumes = Sk.builtin.str("Costumes");
+    PytchSprite.s_Backdrops = Sk.builtin.str("Backdrops");
+
+    // Some aspects of behaviour are different for true Sprites vs the Stage.
+    //
+    PytchSprite.Kind = {
+        SPRITE: {
+            expand_costume_descriptor: (descr_or_url => descr_or_url),
+            costumes_attr_name: PytchSprite.s_Costumes,
+        },
+        STAGE: {
+            expand_costume_descriptor: (descr_or_url => [descr_or_url,
+                                                         STAGE_HALF_WIDTH,
+                                                         STAGE_HALF_HEIGHT]),
+            costumes_attr_name: PytchSprite.s_Backdrops,
+        },
+    };
+
+    PytchSprite.kind_of_py_class = function(py_cls) {
+        var py_cls_name = js_getattr(py_cls, s_dunder_name);
+
+        var bases = py_cls.$d.mp$subscript(s_dunder_bases);
+
+        // This check by name should be temporary, as should the fact
+        // that we only check direct bases.  If the user does "from
+        // pytch import Sprite as Banana" and derives from Banana,
+        // their code would ideally work.  I could not get
+        // issubclass() to work correctly with the Sprite and Stage
+        // classes imported into the JS side.  See below comment also.
+        var has_name = (target_name =>
+                        (cls =>
+                         js_getattr(cls, s_dunder_name) == target_name));
+        var is_sprite = bases.v.some(has_name("Sprite"));
+        var is_stage = bases.v.some(has_name("Stage"));
+
+        // Want to do something like
+        //
+        //     var py_classes = sprite_stage_py_classes();
+        //     var is_sprite = Sk.builtin.issubclass(py_cls, py_classes.Sprite);
+        //     var is_stage = Sk.builtin.issubclass(py_cls, py_classes.Stage);
+        //
+        // instead really.
+
+        if ((! is_sprite) && (! is_stage))
+            throw new Error("class \"" + py_cls_name
+                            + "\" neither Sprite nor Stage");
+
+        if (is_sprite && is_stage)
+            throw new Error("class \"" + py_cls_name
+                            + "\" both Sprite and Stage");
+
+        return (is_sprite
+                ? PytchSprite.Kind.SPRITE
+                : PytchSprite.Kind.STAGE);
+    };
 
     PytchSprite.s_shown = Sk.builtin.str("_shown");
     PytchSprite.s_x = Sk.builtin.str("_x");
@@ -148,17 +207,17 @@ var $builtinmodule = function (name) {
     PytchSprite.s_size = Sk.builtin.str("_size");
     PytchSprite.s_costume = Sk.builtin.str("_costume");
 
-
-    PytchSprite.async_load_costumes = function(py_cls) {
-        var py_Costumes = Sk.builtin.getattr(py_cls, PytchSprite.s_Costumes);
-        var js_Costumes = Sk.ffi.remapToJs(py_Costumes);
-
+    PytchSprite.async_load_costumes = function(cls_kind, py_cls) {
+        var js_Costumes = js_getattr(py_cls, cls_kind.costumes_attr_name);
         var costume_from_name = {};
 
         var populate_costume_map
             = Object.entries(js_Costumes).map(kv => {
                 var costume_name = kv[0],
-                    costume_descr = kv[1];
+                    descr_or_url = kv[1];
+
+                var costume_descr
+                    = cls_kind.expand_costume_descriptor(descr_or_url);
 
                 return (Costume.async_create(costume_descr[0],
                                              costume_descr[1],
@@ -259,10 +318,34 @@ var $builtinmodule = function (name) {
     };
 
     Thread.prototype.is_running = function()
-    { return (this.state === Thread.State.RUNNING); }
+    { return (this.state === Thread.State.RUNNING); };
 
     Thread.prototype.is_zombie = function()
-    { return (this.state === Thread.State.ZOMBIE); }
+    { return (this.state === Thread.State.ZOMBIE); };
+
+    Thread.prototype.maybe_wake = function() {
+        switch (this.state) {
+        case Thread.State.RUNNING:
+            // Leave running.
+            break;
+        case Thread.State.AWAITING_THREAD_GROUP_COMPLETION:
+            if (this.sleeping_on.is_all_finished()) {
+                this.state = Thread.State.RUNNING;
+                this.sleeping_on = null;
+            }
+            break;
+        case Thread.State.AWAITING_PASSAGE_OF_TIME:
+            this.sleeping_on -= 1;
+            if (this.sleeping_on == 0) {
+                this.state = Thread.State.RUNNING;
+                this.sleeping_on = null;
+            }
+            break;
+        default:
+            throw new Error("unknown thread state \""
+                            + this.state + "\"");
+        }
+    };
 
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -285,36 +368,14 @@ var $builtinmodule = function (name) {
         var new_thread_groups = [];
 
         // Wake any threads meeting their condition-to-wake.
-        this.runnable_threads.forEach(thread => {
-            switch (thread.state) {
-            case Thread.State.RUNNING:
-                // Leave it run.
-                break;
-            case Thread.State.AWAITING_THREAD_GROUP_COMPLETION:
-                if (thread.sleeping_on.is_all_finished()) {
-                    thread.state = Thread.State.RUNNING;
-                    thread.sleeping_on = null;
-                }
-                break;
-            case Thread.State.AWAITING_PASSAGE_OF_TIME:
-                thread.sleeping_on -= 1;
-                if (thread.sleeping_on == 0) {
-                    thread.state = Thread.State.RUNNING;
-                    thread.sleeping_on = null;
-                }
-                break;
-            default:
-                throw new Error("unknown thread state \""
-                                + thread.state + "\"");
-            }
-        });
+        this.runnable_threads.forEach(thread => thread.maybe_wake());
 
         this.runnable_threads
             .filter(th => th.is_running())
             .forEach(thread => {
             var susp_or_retval = thread.skulpt_susp.resume();
 
-            if ( ! susp_or_retval.$isSuspension)  {
+            if ( ! susp_or_retval.$isSuspension) {
                 // Python-land code ran to completion; thread is done but
                 // not yet dealt with.
                 thread.state = Thread.State.ZOMBIE;
@@ -416,11 +477,6 @@ var $builtinmodule = function (name) {
         this.runnable_threads
             = this.runnable_threads.filter(th => ( ! th.is_zombie()));
 
-        // TODO: Return new list of live ThreadGroups; this can
-        // include 'this' if at least one thread suspended; it also
-        // includes other thread-groups launched as a result of
-        // threads in this group doing, e.g., bcast/wait.
-
         if ( ! this.is_all_finished())
             new_thread_groups.push(this);
 
@@ -501,6 +557,21 @@ var $builtinmodule = function (name) {
         });
     };
 
+    Project.prototype.async_register_stage_class = function(py_stage_cls) {
+        // TODO: Ensure at most one Stage registered.
+
+        var create_sprite = PytchSprite.async_create(py_stage_cls);
+
+        return create_sprite.then(pytch_sprite => {
+            // Ensure stage is first to render.  This will be handled
+            // differently once z-order is implemented.
+            this.sprites.unshift(pytch_sprite);
+            this.register_handlers_of_sprite(pytch_sprite, py_stage_cls)
+
+            return "registered";
+        });
+    };
+
     Project.prototype.register_handler = function(event_type, event_data,
                                                   pytch_sprite,
                                                   handler_py_func) {
@@ -521,6 +592,7 @@ var $builtinmodule = function (name) {
             this.handlers.message[event_data].push(handler);
             break;
         case "clone":
+            // TODO: Forbid cloning stage.
             pytch_sprite.on_clone_handlers.push(handler_py_func);
             break;
         default:
@@ -549,11 +621,6 @@ var $builtinmodule = function (name) {
             });
         });
 
-        // TODO: How to handle implicit join()s on thread groups?
-        // Previous incarnation had completion function but maybe
-        // that's overcomplicated.  Do we ever have a completion
-        // function which does anything other than re-enable the
-        // launching thread?
         this.thread_groups = new_thread_groups;
     };
 
@@ -566,6 +633,9 @@ var $builtinmodule = function (name) {
     };
 
     Project.prototype.on_green_flag_clicked = function() {
+        // Stop the world before re-launching anything.
+        this.on_red_stop_clicked();
+
         var handlers = this.handlers.green_flag;
         var thread_group = this.thread_group_from_handlers("green-flag", handlers);
         this.thread_groups.push(thread_group);
@@ -692,6 +762,12 @@ var $builtinmodule = function (name) {
             Sk.builtin.setattr(sprite_cls, s_pytch_containing_project, self);
             return Sk.misceval.promiseToSuspension(
                 self.js_project.async_register_sprite_class(sprite_cls));
+        });
+
+        $loc.register_stage_class = new Sk.builtin.func((self, sprite_cls) => {
+            Sk.builtin.setattr(sprite_cls, s_pytch_containing_project, self);
+            return Sk.misceval.promiseToSuspension(
+                self.js_project.async_register_stage_class(sprite_cls));
         });
 
         $loc.go_live = new Sk.builtin.func((self) => {

@@ -20,6 +20,7 @@ for fname in skulpt.min.js skulpt-stdlib.js; do
 done
 
 mkdir $DIST_DIR/library $DIST_DIR/library/images
+cp -r example/pytch/library/images/stage $DIST_DIR/library/images
 cp example/pytch/library/images/*.png $DIST_DIR/library/images
 
 mkdir $DIST_DIR/library/sounds

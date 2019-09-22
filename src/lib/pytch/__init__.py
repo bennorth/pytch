@@ -1,6 +1,7 @@
 # Bring user-visible things in to top level with Scratch-friendly names.
 
 from pytch.sprite import Sprite
+from pytch.stage import Stage
 
 from pytch.project import Project
 
