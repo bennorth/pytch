@@ -99,6 +99,7 @@ Sk.python3 = {
         current_live_project: {
             js_project: nop_pytch_project,
         },
+        on_exception: nop,
     };
 })();
 
