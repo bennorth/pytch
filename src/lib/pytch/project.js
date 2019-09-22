@@ -322,7 +322,8 @@ var $builtinmodule = function (name) {
 
         this.runnable_threads
             .filter(th => th.is_running())
-            .forEach(thread => {
+            .forEach(thread =>
+        {
             var susp_or_retval = thread.skulpt_susp.resume();
 
             if ( ! susp_or_retval.$isSuspension) {
