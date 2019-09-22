@@ -8,13 +8,14 @@ class PytchObject:
         pass
     # Map of sound-name to Sound objects.
     # Load a sound in an instance by declaring an entry here, e.g.
-    # Sounds = { ('bounce' : 'pytch-sounds/Pint Pong Hit.mp3') }
+    # Sounds = { ('bounce' : 'pytch-sounds/Ping Pong Hit.mp3') }
     Sounds = {} 
 
         
     def start_sound(self, sound_name):
             """Begin playing a previously loaded sound. Returns immediately and leaves the sound playing in the background."""
-            pass
+            project = self._pytch_containing_project
+            project.start_sound( self.__class__, sound_name )
 
     def play_sound_until_finished(self, sound_name):
             """Begin playing a previously loaded sound, and block the thread until the sound is finished."""
