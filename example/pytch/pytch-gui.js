@@ -439,6 +439,7 @@ $(document).ready(function() {
     Sk.configure({ read: builtinRead,
                    output: (txt => stdout_info_pane.append_text(txt)),
                    pytch: {
+                       on_exception: report_uncaught_exception,
                        async_load_image: async_load_image,
                        keyboard: browser_keyboard,
                    },
