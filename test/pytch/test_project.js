@@ -582,4 +582,20 @@ describe("pytch.project module", () => {
             });
         });
     });
+
+    describe("error handling", () => {
+        it("collects error from handler", () => {
+            return import_local_file("py/project/error_in_handler.py").then(import_result => {
+                var project = import_result.$d.project.js_project;
+                project.do_synthetic_broadcast("launch-invasion");
+                var errs = pytch_errors.drain_errors();
+                assert.strictEqual(errs.length, 0);
+                project.one_frame();
+                var errs = pytch_errors.drain_errors();
+                assert.strictEqual(errs.length, 1);
+                var err_str = errs[0].toString();
+                assert.ok(/Alien.*has no attribute.*boost_shield_power/.test(err_str));
+            });
+        });
+    });
 });
