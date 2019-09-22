@@ -6,6 +6,11 @@
 // Module 'pytch.project'
 
 describe("pytch.project module", () => {
+    afterEach(() => {
+        assert.strictEqual(pytch_errors.drain_errors().length, 0,
+                           "undrained errors at end of test");
+    });
+
     it("can be imported", () => {
         return import_local_file("py/project/just_import.py").then(import_result => {
             assert.ok(import_result.$d.pytch_project);
