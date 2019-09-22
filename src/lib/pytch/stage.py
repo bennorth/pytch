@@ -1,4 +1,6 @@
-class Stage:
+from pytchobject import PytchObject
+
+class Stage(PytchObject):
     Backdrops = {'solid-white': 'library/images/stage/solid-white.png'}
     _x = 0
     _y = 0
