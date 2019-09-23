@@ -312,6 +312,11 @@ var $builtinmodule = function (name) {
         // number of frames stored in the "sleeping_on" property.
         AWAITING_PASSAGE_OF_TIME: "awaiting-passage-of-time",
 
+	// AWAITING_EXTERNAL_COMPLETION: The thread will is paused waiting
+	// for some external action to complete. The "sleeping_on" property
+	// will be false when the action has completed and the thread should resume.
+	AWAITING_EXTERNAL_COMPLETION: "awaiting-external-completion",
+	
         // ZOMBIE: The thread has terminated but has not yet been
         // cleared from the list of live threads.
         ZOMBIE: "zombie",
@@ -341,6 +346,12 @@ var $builtinmodule = function (name) {
                 this.sleeping_on = null;
             }
             break;
+	case Thread.State.AWAITING_EXTERNAL_COMPLETION:
+	    if(!this.sleeping_on){
+		this.state.Thread.State.RUNNING:
+		this.sleeping_on = null;
+	    }
+	    break;
         default:
             throw new Error("unknown thread state \""
                             + this.state + "\"");
