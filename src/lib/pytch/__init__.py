@@ -17,6 +17,7 @@ from pytch.clone import create_clone_of
 from pytch.syscalls import (
     _broadcast as broadcast,
     _broadcast_and_wait as broadcast_and_wait,
+    _play_sound_until_finished as _play_sound_until_finished,
     _sleep as wait_seconds,
     _is_key_pressed as key_is_pressed,
     

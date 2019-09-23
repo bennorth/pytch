@@ -1,3 +1,4 @@
+from pytch.syscalls import _play_sound_until_finished
 """
 PytchObject is the common ancestor of both Stage and Sprite.
 
@@ -19,4 +20,7 @@ class PytchObject:
 
     def play_sound_until_finished(self, sound_name):
             """Begin playing a previously loaded sound, and block the thread until the sound is finished."""
-            pass
+            project = self._pytch_containing_project
+            snd = project.retrieve_JSsound_by_name(self.__class__, sound_name)
+            _play_sound_until_finished(snd)
+
