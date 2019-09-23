@@ -85,6 +85,15 @@ var $builtinmodule = function (name) {
     Sound.prototype.play = function(){
 	this.sound.play();
     }
+
+    // Sounds support the 'external-event' API whereby a suspension blocks immediately
+    // until the containing object
+    Sound.prototype.start = function( thread ){
+	this.sound.onended = function(){
+	    thread.sleeping_on = false; // Once the audio has ended the thread should wake up.
+	}
+	this.play();
+    }
     
     ////////////////////////////////////////////////////////////////////////////////
     //
@@ -315,6 +324,8 @@ var $builtinmodule = function (name) {
 	// AWAITING_EXTERNAL_COMPLETION: The thread will is paused waiting
 	// for some external action to complete. The "sleeping_on" property
 	// will be false when the action has completed and the thread should resume.
+	// TODO: instead of checking/flipping the sleeping_on we could just directly
+	//       change the thread state back to RUNNING?
 	AWAITING_EXTERNAL_COMPLETION: "awaiting-external-completion",
 	
         // ZOMBIE: The thread has terminated but has not yet been
@@ -348,7 +359,7 @@ var $builtinmodule = function (name) {
             break;
 	case Thread.State.AWAITING_EXTERNAL_COMPLETION:
 	    if(!this.sleeping_on){
-		this.state.Thread.State.RUNNING:
+		this.state = Thread.State.RUNNING;
 		this.sleeping_on = null;
 	    }
 	    break;
@@ -444,6 +455,16 @@ var $builtinmodule = function (name) {
                     thread.sleeping_on = response_thread_group;
                     thread.skulpt_susp = susp;
                     break;
+		case "external-event":
+		    var js_event_trigger = susp.data.subtype_data;
+		    thread.state = Thread.State.AWAITING_EXTERNAL_COMPLETION;
+		    thread.sleeping_on = true;
+		    thread.skulpt_susp = susp;
+		    // Thread is all set, start the event trigger
+		    // The event trigger is responsible for flipping the sleeping_on flag
+		    // when it is time to resume this thread.
+		    js_event_trigger.start(thread);
+		    break;
                 case "register-instance":
                     var py_instance = susp.data.subtype_data;
                     var py_cls = Sk.builtin.getattr(py_instance, s_dunder_class);
@@ -753,6 +774,19 @@ var $builtinmodule = function (name) {
 	sprite.sound_from_name[  Sk.ffi.remapToJs(py_sound_name) ].play();
     };
 
+    Project.prototype.retrieve_JSsound_by_name = function(py_sprite_class,  
+							py_sound_name) {
+	var sprite = this.pytch_sprite_from_py_cls(py_sprite_class);
+	return sprite.sound_from_name[  Sk.ffi.remapToJs(py_sound_name) ];
+    };
+
+    Project.prototype.play_sound_until_finished = function(py_sprite_class,
+							   py_sound_name) {
+	var sprite = this.pytch_sprite_from_py_cls(py_sprite_class); 
+	var snd = sprite.sound_from_name[  Sk.ffi.remapToJs(py_sound_name) ];
+	
+    };
+    
     // TODO: Not sure this is a good idea but let's see.
     Project.prototype.do_synthetic_broadcast = function(js_msg) {
         var new_thread_group = this.broadcast_handler_thread_group(js_msg);
@@ -797,6 +831,13 @@ var $builtinmodule = function (name) {
 	$loc.start_sound = new Sk.builtin.func(
 	    (self, instance, sound_name) => {
 		self.js_project.start_sound(instance, sound_name);
+	    });
+
+	// TODO: passing back the JS object feels shonky... is there a better way?
+	// This object is used to create the suspnsion that waits for the sound to stop playing.
+	$loc.retrieve_JSsound_by_name = new Sk.builtin.func(
+	    (self, instance, sound_name) => {
+		return self.js_project.retrieve_JSsound_by_name(instance, sound_name); 
 	    });
 
         // TODO: Could make this user-level functionality, like
