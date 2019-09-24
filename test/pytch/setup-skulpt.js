@@ -56,12 +56,29 @@ before(() => {
                                              descriptor[2]));
     });
 
+    // Sounds: For tests we create an object that will respond
+    // to play requests. The tag is for identification and diagnostics.
+    const MockSound = function(tag) {
+	this.tag = tag;
+	this.play = function() {
+	    return Promise.resolve( true );
+	};
+	this.onended = function() {
+	    return;
+	}
+    };
+
+    const async_create_mock_sound = (url => {
+	return Promise.resolve(new MockSound(url));
+    });
+    
     // Connect read/write to filesystem and stdout.
     Sk.configure({
         read: (fname) => { return fs.readFileSync(fname, "utf8"); },
         output: (args) => { process.stdout.write(args); },
         pytch: {
             async_load_image: async_create_mock_image,
+	    async_load_sound: async_create_mock_sound,
             keyboard: global.mock_keyboard,
         },
     });
